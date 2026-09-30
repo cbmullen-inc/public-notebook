@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My board game shelf</title>
+  <link rel="stylesheet" href="board-games.css">
+</head>
+
+<body>
+  <main>
+    <a class="back" href="index.html">Back to notes</a>
+    <h1>My board game shelf</h1>
+    <p class="sub">Grouped by how you play, shortest games first. Click a column heading to re-sort a group; click again
+      to reverse. Titles link to BoardGameGeek.</p>
+    <div id="out"></div>
+    <p class="note note--flush">Times, player counts and complexity (BGG's 1–5 weight scale) are approximate. Titles
+      without a fixed game ID link to a BGG search instead.</p>
+  </main>
+  <script>
+    const B = "https://boardgamegeek.com/boardgame/", S = "https://boardgamegeek.com/geeksearch.php?action=search&objecttype=boardgame&q=";
+    // [name, id or null, players, tmin, tmax, weight, description]
+    const groups = [
+      {
+        t: "Cooperative", n: "Everyone wins or loses together.", g: [
+          ["Forbidden Island", 65244, "2–4", 30, 30, 1.3, "Grab four treasures and escape before the island sinks."],
+          ["Forbidden Desert", 136063, "2–5", 45, 45, 1.7, "Rebuild a flying machine while a sandstorm buries the ruins."],
+          ["Pandemic", 30549, "2–4", 45, 45, 2.4, "Race to cure four diseases before outbreaks overrun the world."],
+          ["Legendary Encounters: Buffy / Firefly", null, "1–5", 45, 60, 2.5, "Deck-building co-op where you fight a villain's scheme, once in Sunnydale and once in the 'verse."],
+          ["Sherlock Holmes Consulting Detective", null, "1–8", 60, 120, 1.8, "Solve cases by reading period newspapers and directories, then answer questions Holmes-style."],
+          ["Leviathan Wilds", null, "1–4", 90, 90, 2.5, "Climb colossal creatures on a spiral-bound storybook board, managing a deck that doubles as your grip."],
+          ["Arkham Horror: The Card Game", 205637, "1–4", 60, 120, 3.5, "Build an investigator deck and unravel Lovecraftian mysteries over a campaign."],
+          ["Gloomhaven: Jaws of the Lion", 291457, "1–4", 60, 120, 3.6, "Tactical card-driven dungeon crawling, trimmed down from the original Gloomhaven."],
+          ["Sleeping Gods (+ Tides of Ruin)", 255984, "1–4", 60, 120, 2.9, "Storybook exploration across an uncharted archipelago as a stranded 1920s crew."],
+          ["Eldritch Horror", 146021, "1–8", 120, 240, 2.9, "Globe-trotting co-op against an Ancient One that is waking up."]]
+      },
+      {
+        t: "Semi-cooperative / traitor", n: "Work together, but someone (or your own goals) may get in the way.", g: [
+          ["Scooby-Doo: Betrayal at Mystery Mansion", null, "3–5", 45, 60, 1.8, "Explore a haunted mansion as the gang until one player is secretly the culprit."],
+          ["Nemesis", 167355, "1–5", 90, 180, 3.2, "Survive a sci-fi spaceship while aliens, and possibly your crewmates, try to finish you."]]
+      },
+      {
+        t: "Competitive", n: "Every player for themselves.", g: [
+          ["Love Letter: Bridgerton", null, "2–6", 20, 20, 1.2, "Quick deduction card game of getting your letter to the right person."],
+          ["Sushi Go Party!", 192291, "2–8", 20, 20, 1.2, "Draft sushi cards, passing your hand around the table, to score the best combos."],
+          ["Parks", 266524, "1–5", 30, 60, 1.5, "Hike trails and collect national park cards as the seasons change."],
+          ["Clank!", 201808, "2–4", 30, 60, 2.2, "Deck-building dungeon heist where every noise may wake the dragon."],
+          ["The Quacks of Quedlinburg", 244521, "2–4", 45, 45, 1.9, "Push-your-luck potion brewing: pull ingredients from a bag and hope nothing explodes."],
+          ["The Quest for El Dorado", 217372, "2–4", 45, 60, 2.3, "Deck-building race through the jungle to the lost city."],
+          ["Small World", 40692, "2–5", 40, 80, 2.3, "Fantasy races fight over a cramped map, and decline when they run out of steam."],
+          ["Arcadia Quest", 155987, "2–4", 60, 90, 2.3, "Competitive dungeon brawler where guilds race to slay monsters and each other."],
+          ["Freelancers: A Crossroads Game", null, "1–4", 45, 90, 2.5, "Fantasy mercenaries take jobs and build their reputation, with story choices along the way."],
+          ["Bloody Inn", null, "2–4", 60, 90, 2.4, "Run a rural inn and quietly dispose of guests in this dark worker-placement game."],
+          ["Inis", 155426, "2–4", 90, 90, 2.9, "Celtic clans draft cards and battle for control of the isles."]]
+      }
+    ];
+    const cx = w => w < 2 ? ["L", "Light"] : w < 3 ? ["M", "Medium"] : ["H", "Heavy"];
+    const fmt = (a, b) => a === b ? a + " min" : a + "–" + b + " min";
+    const esc = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+    const cols = [
+      { k: "name", l: "Game", f: (x, y) => x[0].localeCompare(y[0]) },
+      { k: "players", l: "Players", f: (x, y) => parseInt(x[2]) - parseInt(y[2]) || parseInt(x[2].slice(-1)) - parseInt(y[2].slice(-1)) },
+      { k: "time", l: "Time", f: (x, y) => (x[3] + x[4]) - (y[3] + y[4]) },
+      { k: "cx", l: "Complexity", f: (x, y) => x[5] - y[5] },
+      { k: "about", l: "About" }];
+    const state = groups.map(() => ({ k: "time", d: 1 }));
+    function render() {
+      document.getElementById("out").innerHTML = groups.map((gr, gi) => {
+        const st = state[gi], col = cols.find(c => c.k === st.k);
+        const rows = gr.g.slice().sort((x, y) => st.d * col.f(x, y) || x[0].localeCompare(y[0])).map(r => {
+          const url = r[1] ? B + r[1] : S + encodeURIComponent(r[0].replace(/[:!]/g, ""));
+          const [c, l] = cx(r[5]);
+          return `<tr><td><a href="${url}" target="_blank" rel="noopener">${esc(r[0])}</a></td><td class="nw">${r[2]}</td><td class="nw">${fmt(r[3], r[4])}</td><td class="nw"><span class="pill ${c}">${l} ${r[5].toFixed(1)}</span></td><td>${esc(r[6])}</td></tr>`;
+        }).join("");
+        const head = cols.map(c => c.f ? `<th aria-sort="${st.k === c.k ? (st.d > 0 ? "ascending" : "descending") : "none"}"><button data-g="${gi}" data-k="${c.k}">${c.l}<span class="arr">${st.k === c.k ? (st.d > 0 ? " ▲" : " ▼") : ""}</span></button></th>` : `<th>${c.l}</th>`).join("");
+        return `<section><h2>${gr.t}</h2><p class="note">${gr.n}</p><div class="wrap"><table><thead><tr>${head}</tr></thead><tbody>${rows}</tbody></table></div></section>`;
+      }).join("");
+    }
+    document.getElementById("out").addEventListener("click", e => {
+      const b = e.target.closest("button[data-k]"); if (!b) return;
+      const st = state[+b.dataset.g], k = b.dataset.k;
+      if (st.k === k) st.d = -st.d; else { st.k = k; st.d = 1; }
+      render();
+      const nb = document.querySelector(`button[data-g="${b.dataset.g}"][data-k="${k}"]`); if (nb) nb.focus();
+    });
+    render();
+  </script>
+</body>
+
+</html>
