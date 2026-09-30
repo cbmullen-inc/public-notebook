@@ -1,0 +1,154 @@
+:root {
+  --bg: #eef2f4;
+  --card: #fff;
+  --ink: #17222b;
+  --mute: #5b6b76;
+  --line: #d3dde3;
+  --acc: #0b6b73;
+  --l: #dff1e4;
+  --m: #fdf0cf;
+  --h: #f8dcd6
+}
+
+@media(prefers-color-scheme:dark) {
+  :root:not([data-theme=light]) {
+    --bg: #10181d;
+    --card: #182229;
+    --ink: #e6eef2;
+    --mute: #93a5b0;
+    --line: #2b3a43;
+    --acc: #5cc6cf;
+    --l: #1f3a2a;
+    --m: #3f3617;
+    --h: #472421
+  }
+}
+
+* {
+  box-sizing: border-box
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+  padding: 1.5rem 1rem 3rem
+}
+
+main {
+  max-width: 64rem;
+  margin: 0 auto
+}
+
+h1 {
+  font: 700 2rem/1.15 Georgia, "Times New Roman", serif;
+  margin: 0 0 .25rem
+}
+
+.sub {
+  color: var(--mute);
+  margin: 0 0 2rem;
+  max-width: 60ch
+}
+
+section {
+  margin-bottom: 2.25rem
+}
+
+h2 {
+  font: 700 1.3rem Georgia, serif;
+  margin: 0 0 .15rem;
+  border-left: 5px solid var(--acc);
+  padding-left: .6rem
+}
+
+.note {
+  color: var(--mute);
+  font-size: .9rem;
+  margin: 0 0 .6rem .9rem
+}
+
+.note--flush {
+  margin-left: 0
+}
+
+.wrap {
+  overflow-x: auto;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 6px
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 42rem
+}
+
+th,
+td {
+  padding: .6rem .75rem;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--line)
+}
+
+th {
+  font-size: .85rem;
+  color: var(--mute);
+  font-weight: 600;
+  background: var(--bg)
+}
+
+tr:last-child td {
+  border-bottom: 0
+}
+
+td a {
+  color: var(--acc);
+  font-weight: 600;
+  text-decoration: none
+}
+
+td a:hover,
+td a:focus-visible {
+  text-decoration: underline
+}
+
+.pill {
+  display: inline-block;
+  padding: .05rem .5rem;
+  border-radius: 99px;
+  font-size: .85rem;
+  white-space: nowrap
+}
+
+.L {
+  background: var(--l)
+}
+
+.M {
+  background: var(--m)
+}
+
+.H {
+  background: var(--h)
+}
+
+.nw {
+  white-space: nowrap
+}
+
+th button {
+  all: unset;
+  cursor: pointer;
+  font: inherit;
+  color: inherit
+}
+
+th button:hover,
+th button:focus-visible {
+  color: var(--acc);
+  text-decoration: underline
+}

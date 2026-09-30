@@ -1,0 +1,34 @@
+name: Deploy Board Games
+ 
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'board-games.html'
+      - 'board-games.css'
+  workflow_dispatch:
+ 
+permissions:
+  contents: write
+ 
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+ 
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+ 
+      - name: Build site files
+        run: |
+          mkdir -p _site
+          cp board-games/board-games.html _site/board-games.html
+          cp board-games/board-games.css _site/board-games.css
+ 
+      - name: Deploy to gh-pages subfolder
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./_site
+          destination_dir: .
+          keep_files: true
