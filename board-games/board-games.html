@@ -22,12 +22,24 @@
       </div>
     </header>
 
-    <div class="controls">
-      <div class="fgroup fgroup--first" role="group" aria-label="Number of players"><span class="flabel">Players</span><span id="pcount"></span></div>
-      <input id="q" type="search" placeholder="Search games, descriptions, tags…" aria-label="Search games" autocomplete="off">
-      <div id="filters"></div>
-      <p class="status"><span id="count" aria-live="polite"></span> <button id="clear" type="button" hidden>Clear all</button></p>
+    <div class="mobile-actions">
+      <button type="button" class="mobile-filter-toggle" aria-expanded="false" aria-controls="filter-drawer">Filters</button>
     </div>
+
+    <div class="filter-overlay" aria-hidden="true"></div>
+
+    <aside id="filter-drawer" class="filter-drawer" aria-label="Game filters">
+      <div class="filter-drawer__header">
+        <h2>Filters</h2>
+        <button type="button" class="close-drawer" aria-label="Close filters">Close</button>
+      </div>
+      <div class="controls">
+        <div class="fgroup fgroup--first" role="group" aria-label="Number of players"><span class="flabel">Players</span><span id="pcount"></span></div>
+        <input id="q" type="search" placeholder="Search games, descriptions, tags…" aria-label="Search games" autocomplete="off">
+        <div id="filters"></div>
+        <p class="status"><span id="count" aria-live="polite"></span> <button id="clear" type="button" hidden>Clear all</button></p>
+      </div>
+    </aside>
 
     <div id="out"></div>
     <p class="note note--flush">Times, player counts and complexity (BGG's 1–5 weight scale) are approximate. Tags and
@@ -130,6 +142,37 @@
         const nb = document.querySelector(`th button[data-k="${sort.k}"]`); if (nb) nb.focus();
       }
     });
+    const filterDrawer = document.getElementById("filter-drawer");
+    const filterOverlay = document.querySelector(".filter-overlay");
+    const filterToggle = document.querySelector(".mobile-filter-toggle");
+    const closeDrawer = document.querySelector(".close-drawer");
+
+    function setFilterDrawer(open) {
+      const mobile = window.matchMedia("(max-width: 760px)").matches;
+      if (!mobile) {
+        filterDrawer.classList.remove("open");
+        filterOverlay.classList.remove("is-visible");
+        filterToggle.setAttribute("aria-expanded", "false");
+        document.body.style.overflow = "";
+        return;
+      }
+
+      filterDrawer.classList.toggle("open", open);
+      filterOverlay.classList.toggle("is-visible", open);
+      filterToggle.setAttribute("aria-expanded", String(open));
+      document.body.style.overflow = open ? "hidden" : "";
+    }
+
+    filterToggle.addEventListener("click", () => setFilterDrawer(!filterDrawer.classList.contains("open")));
+    closeDrawer.addEventListener("click", () => setFilterDrawer(false));
+    filterOverlay.addEventListener("click", () => setFilterDrawer(false));
+    window.addEventListener("resize", () => {
+      if (!window.matchMedia("(max-width: 760px)").matches) setFilterDrawer(false);
+    });
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape" && filterDrawer.classList.contains("open")) setFilterDrawer(false);
+    });
+
     $("q").addEventListener("input", renderTable);
     $("clear").addEventListener("click", () => { sel.clear(); players = null; owner = null; $("q").value = ""; syncChips(); syncPlayers(); syncOwner(); renderTable(); $("q").focus(); });
 
