@@ -180,6 +180,22 @@
           },
           "weight": 2.9,
           "description": "Globe-trotting co-op against an Ancient One that is waking up."
+        },
+        {
+          "name": "Freelancers: A Crossroads Game",
+          "link": {
+            "type": "search",
+            "bggId": 383206,
+            "url": "https://boardgamegeek.com/boardgasme/383206",
+            "verified": true
+          },
+          "players": "1–4",
+          "minutes": {
+            "min": 45,
+            "max": 90
+          },
+          "weight": 2.5,
+          "description": "Fantasy mercenaries take jobs and build their reputation, with story choices along the way."
         }
       ]
     },
@@ -218,22 +234,6 @@
           },
           "weight": 3.2,
           "description": "Survive a sci-fi spaceship while aliens, and possibly your crewmates, try to finish you."
-        },
-        {
-          "name": "Freelancers: A Crossroads Game",
-          "link": {
-            "type": "search",
-            "bggId": 383206,
-            "url": "https://boardgamegeek.com/boardgame/383206",
-            "verified": true
-          },
-          "players": "1–4",
-          "minutes": {
-            "min": 45,
-            "max": 90
-          },
-          "weight": 2.5,
-          "description": "Fantasy mercenaries take jobs and build their reputation, with story choices along the way."
         }
       ]
     },
