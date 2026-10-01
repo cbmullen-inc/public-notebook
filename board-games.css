@@ -250,3 +250,11 @@ th button:focus-visible {
   text-align: center;
   padding: 2rem 0
 }
+
+.fgroup--first {
+  margin: 0 0 .6rem
+}
+
+#pcount {
+  display: contents
+}
