@@ -728,6 +728,1495 @@
         "fantasy"
       ],
       "description": "Celtic clans draft cards and battle for control of the isles."
+    },
+    {
+      "name": "Mage Wars Arena",
+      "link": {
+        "type": "game",
+        "bggId": 101721,
+        "url": "https://boardgamegeek.com/boardgame/101721",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 2,
+      "minutes": {
+        "min": 90,
+        "max": 90
+      },
+      "weight": 3.68,
+      "tags": [
+        "competitive",
+        "long",
+        "heavy",
+        "area-control",
+        "fantasy"
+      ],
+      "description": "Tactical magical combat on a shared arena, with customizable spellbooks."
+    },
+    {
+      "name": "Clank! Legacy: Acquisitions Incorporated",
+      "link": {
+        "type": "game",
+        "bggId": 266507,
+        "url": "https://boardgamegeek.com/boardgame/266507",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 4,
+      "minutes": {
+        "min": 90,
+        "max": 120
+      },
+      "weight": 2.74,
+      "tags": [
+        "competitive",
+        "long",
+        "medium",
+        "deck-building",
+        "campaign",
+        "fantasy",
+        "adventure"
+      ],
+      "description": "A legacy campaign that turns Clank! into an evolving adventuring-company story."
+    },
+    {
+      "name": "Codenames",
+      "link": {
+        "type": "game",
+        "bggId": 178900,
+        "url": "https://boardgamegeek.com/boardgame/178900",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 8,
+      "minutes": {
+        "min": 15,
+        "max": 30
+      },
+      "weight": 1.31,
+      "tags": [
+        "competitive",
+        "short",
+        "light",
+        "deduction",
+        "family"
+      ],
+      "description": "Teams give one-word clues to identify their agents while avoiding the assassin."
+    },
+    {
+      "name": "Undaunted: Normandy",
+      "link": {
+        "type": "game",
+        "bggId": 268864,
+        "url": "https://boardgamegeek.com/boardgame/268864",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 2,
+      "minutes": {
+        "min": 45,
+        "max": 60
+      },
+      "weight": 2.27,
+      "tags": [
+        "competitive",
+        "medium-length",
+        "medium",
+        "deck-building",
+        "campaign"
+      ],
+      "description": "A two-player WWII tactical campaign combining deck-building with battlefield control."
+    },
+    {
+      "name": "Undaunted: North Africa",
+      "link": {
+        "type": "game",
+        "bggId": 290359,
+        "url": "https://boardgamegeek.com/boardgame/290359",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 2,
+      "minutes": {
+        "min": 45,
+        "max": 60
+      },
+      "weight": 2.32,
+      "tags": [
+        "competitive",
+        "medium-length",
+        "medium",
+        "deck-building",
+        "campaign"
+      ],
+      "description": "A WWII desert campaign featuring infantry, vehicles and tactical deck-building."
+    },
+    {
+      "name": "Undaunted: Stalingrad",
+      "link": {
+        "type": "game",
+        "bggId": 354570,
+        "url": "https://boardgamegeek.com/boardgame/354570",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 2,
+      "minutes": {
+        "min": 45,
+        "max": 60
+      },
+      "weight": 3.0,
+      "tags": [
+        "competitive",
+        "medium-length",
+        "heavy",
+        "deck-building",
+        "campaign"
+      ],
+      "description": "A linked WWII campaign in which casualties and battlefield choices carry forward."
+    },
+    {
+      "name": "Under Falling Skies",
+      "link": {
+        "type": "game",
+        "bggId": 306735,
+        "url": "https://boardgamegeek.com/boardgame/306735",
+        "verified": true
+      },
+      "playersMin": 1,
+      "playersMax": 1,
+      "minutes": {
+        "min": 20,
+        "max": 40
+      },
+      "weight": 2.84,
+      "tags": [
+        "coop",
+        "medium-length",
+        "medium",
+        "campaign",
+        "sci-fi"
+      ],
+      "description": "A solo dice-placement defence game about stopping an alien invasion."
+    },
+    {
+      "name": "Don't Mess with Cthulhu",
+      "link": {
+        "type": "game",
+        "bggId": 170587,
+        "url": "https://boardgamegeek.com/boardgame/170587",
+        "verified": true
+      },
+      "playersMin": 4,
+      "playersMax": 6,
+      "minutes": {
+        "min": 1,
+        "max": 30
+      },
+      "weight": 1.15,
+      "tags": [
+        "competitive",
+        "short",
+        "light",
+        "deduction",
+        "horror"
+      ],
+      "description": "A hidden-role deduction game where investigators and cultists struggle over Cthulhu."
+    },
+    {
+      "name": "Ashes Reborn: Rise of the Phoenixborn",
+      "link": {
+        "type": "game",
+        "bggId": 167400,
+        "url": "https://boardgamegeek.com/boardgame/167400",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 2,
+      "minutes": {
+        "min": 30,
+        "max": 60
+      },
+      "weight": 3.0,
+      "tags": [
+        "competitive",
+        "medium-length",
+        "heavy",
+        "deck-building",
+        "fantasy"
+      ],
+      "description": "A head-to-head card-and-dice battle between powerful Phoenixborn."
+    },
+    {
+      "name": "One Deck Dungeon",
+      "link": {
+        "type": "game",
+        "bggId": 179275,
+        "url": "https://boardgamegeek.com/boardgame/179275",
+        "verified": true
+      },
+      "playersMin": 1,
+      "playersMax": 2,
+      "minutes": {
+        "min": 30,
+        "max": 45
+      },
+      "weight": 2.09,
+      "tags": [
+        "coop",
+        "medium-length",
+        "medium",
+        "fantasy",
+        "adventure"
+      ],
+      "description": "A compact dice-driven dungeon crawl with roguelike progression."
+    },
+    {
+      "name": "Fog of Love",
+      "link": {
+        "type": "game",
+        "bggId": 175324,
+        "url": "https://boardgamegeek.com/boardgame/175324",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 2,
+      "minutes": {
+        "min": 60,
+        "max": 120
+      },
+      "weight": 2.0,
+      "tags": [
+        "competitive",
+        "long",
+        "medium"
+      ],
+      "description": "A story-driven two-player game about creating and navigating a romantic relationship."
+    },
+    {
+      "name": "Mage Wars Academy",
+      "link": {
+        "type": "game",
+        "bggId": 146473,
+        "url": "https://boardgamegeek.com/boardgame/146473",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 2,
+      "minutes": {
+        "min": 30,
+        "max": 60
+      },
+      "weight": 2.7,
+      "tags": [
+        "competitive",
+        "medium-length",
+        "medium",
+        "fantasy"
+      ],
+      "description": "Tactical magical duelling between apprentice mages."
+    },
+    {
+      "name": "Tides of Madness",
+      "link": {
+        "type": "game",
+        "bggId": 195544,
+        "url": "https://boardgamegeek.com/boardgame/195544",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 2,
+      "minutes": {
+        "min": 20,
+        "max": 30
+      },
+      "weight": 1.85,
+      "tags": [
+        "competitive",
+        "short",
+        "light",
+        "drafting",
+        "horror"
+      ],
+      "description": "A two-player drafting game where powerful cards bring the risk of accumulating madness."
+    },
+    {
+      "name": "Nine Men's Morris",
+      "link": {
+        "type": "game",
+        "bggId": 3886,
+        "url": "https://boardgamegeek.com/boardgame/3886",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 2,
+      "minutes": {
+        "min": 20,
+        "max": 30
+      },
+      "weight": 1.5,
+      "tags": [
+        "competitive",
+        "short",
+        "light"
+      ],
+      "description": "An ancient abstract strategy game of forming mills and capturing opposing pieces."
+    },
+    {
+      "name": "Crokinole",
+      "link": {
+        "type": "game",
+        "bggId": 521,
+        "url": "https://boardgamegeek.com/boardgame/521",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 4,
+      "minutes": {
+        "min": 30,
+        "max": 30
+      },
+      "weight": 1.23,
+      "tags": [
+        "competitive",
+        "short",
+        "light"
+      ],
+      "description": "A dexterity game of flicking wooden discs into scoring areas on a circular board."
+    },
+    {
+      "name": "Fluxx: Firefly",
+      "link": {
+        "type": "game",
+        "bggId": 183896,
+        "url": "https://boardgamegeek.com/boardgame/183896",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 6,
+      "minutes": {
+        "min": 10,
+        "max": 30
+      },
+      "weight": 1.4,
+      "tags": [
+        "competitive",
+        "short",
+        "light",
+        "licensed",
+        "sci-fi"
+      ],
+      "description": "A Firefly-themed Fluxx game where changing goals and rules keep the table in flux."
+    },
+    {
+      "name": "Fluxx: Fairy Tale",
+      "link": {
+        "type": "game",
+        "bggId": 255013,
+        "url": "https://boardgamegeek.com/boardgame/255013",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 6,
+      "minutes": {
+        "min": 10,
+        "max": 30
+      },
+      "weight": 1.4,
+      "tags": [
+        "competitive",
+        "short",
+        "light",
+        "fantasy"
+      ],
+      "description": "A fairy-tale Fluxx game built around changing goals and rules."
+    },
+    {
+      "name": "Fluxx: Olympus",
+      "link": {
+        "type": "game",
+        "bggId": 356084,
+        "url": "https://boardgamegeek.com/boardgame/356084",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 6,
+      "minutes": {
+        "min": 10,
+        "max": 30
+      },
+      "weight": 1.4,
+      "tags": [
+        "competitive",
+        "short",
+        "light",
+        "fantasy"
+      ],
+      "description": "A Greek-mythology Fluxx game with constantly changing rules and goals."
+    },
+    {
+      "name": "Imperium: Classics",
+      "link": {
+        "type": "game",
+        "bggId": 318184,
+        "url": "https://boardgamegeek.com/boardgame/318184",
+        "verified": true
+      },
+      "playersMin": 1,
+      "playersMax": 4,
+      "minutes": {
+        "min": 40,
+        "max": 160
+      },
+      "weight": 3.63,
+      "tags": [
+        "competitive",
+        "long",
+        "heavy",
+        "deck-building"
+      ],
+      "description": "An asymmetric civilization deck-building game spanning eight ancient peoples."
+    },
+    {
+      "name": "Imperium: Legends",
+      "link": {
+        "type": "game",
+        "bggId": 318182,
+        "url": "https://boardgamegeek.com/boardgame/318182",
+        "verified": true
+      },
+      "playersMin": 1,
+      "playersMax": 4,
+      "minutes": {
+        "min": 40,
+        "max": 160
+      },
+      "weight": 3.76,
+      "tags": [
+        "competitive",
+        "long",
+        "heavy",
+        "deck-building"
+      ],
+      "description": "A deeper asymmetric civilization deck-builder featuring legendary civilizations."
+    },
+    {
+      "name": "War of the Ring: Second Edition",
+      "link": {
+        "type": "game",
+        "bggId": 115746,
+        "url": "https://boardgamegeek.com/boardgame/115746",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 4,
+      "minutes": {
+        "min": 150,
+        "max": 180
+      },
+      "weight": 4.21,
+      "tags": [
+        "competitive",
+        "long",
+        "heavy",
+        "area-control",
+        "fantasy",
+        "licensed"
+      ],
+      "description": "An epic strategic struggle for Middle-earth combining armies, characters and the Ring quest."
+    },
+    {
+      "name": "Lords of Waterdeep",
+      "link": {
+        "type": "game",
+        "bggId": 110327,
+        "url": "https://boardgamegeek.com/boardgame/110327",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 5,
+      "minutes": {
+        "min": 60,
+        "max": 120
+      },
+      "weight": 2.45,
+      "tags": [
+        "competitive",
+        "long",
+        "medium",
+        "worker-placement",
+        "fantasy"
+      ],
+      "description": "Place agents around Waterdeep to recruit adventurers, complete quests and score points."
+    },
+    {
+      "name": "Pandemic Legacy: Season 1",
+      "link": {
+        "type": "game",
+        "bggId": 161936,
+        "url": "https://boardgamegeek.com/boardgame/161936",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 4,
+      "minutes": {
+        "min": 60,
+        "max": 60
+      },
+      "weight": 2.83,
+      "tags": [
+        "coop",
+        "medium-length",
+        "medium",
+        "campaign"
+      ],
+      "description": "A campaign version of Pandemic in which the world and rules evolve permanently."
+    },
+    {
+      "name": "A Game of Thrones: The Living Card Game",
+      "link": {
+        "type": "game",
+        "bggId": 39953,
+        "url": "https://boardgamegeek.com/boardgame/39953",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 4,
+      "minutes": {
+        "min": 60,
+        "max": 120
+      },
+      "weight": 3.0,
+      "tags": [
+        "competitive",
+        "long",
+        "heavy",
+        "deck-building",
+        "fantasy",
+        "licensed"
+      ],
+      "description": "A competitive living card game of intrigue, warfare and competing Westerosi houses."
+    },
+    {
+      "name": "A Game of Thrones: Hand of the King",
+      "link": {
+        "type": "game",
+        "bggId": 205610,
+        "url": "https://boardgamegeek.com/boardgame/205610",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 4,
+      "minutes": {
+        "min": 15,
+        "max": 30
+      },
+      "weight": 1.25,
+      "tags": [
+        "competitive",
+        "short",
+        "light",
+        "licensed",
+        "fantasy"
+      ],
+      "description": "A fast court-intrigue game where players use Varys to gather allies and claim house banners."
+    },
+    {
+      "name": "Star Realms",
+      "link": {
+        "type": "game",
+        "bggId": 147020,
+        "url": "https://boardgamegeek.com/boardgame/147020",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 2,
+      "minutes": {
+        "min": 20,
+        "max": 20
+      },
+      "weight": 1.91,
+      "tags": [
+        "competitive",
+        "short",
+        "light",
+        "deck-building",
+        "sci-fi"
+      ],
+      "description": "A fast two-player space deck-builder in which ships and bases generate trade and combat."
+    },
+    {
+      "name": "Bag of Dungeon: A Fantasy Adventure Game",
+      "link": {
+        "type": "game",
+        "bggId": 265202,
+        "url": "https://boardgamegeek.com/boardgame/265202",
+        "verified": true
+      },
+      "playersMin": 1,
+      "playersMax": 4,
+      "minutes": {
+        "min": 20,
+        "max": 60
+      },
+      "weight": 1.75,
+      "tags": [
+        "coop",
+        "medium-length",
+        "light",
+        "fantasy",
+        "adventure"
+      ],
+      "description": "A simple dungeon adventure using a bag-drawn dungeon and character upgrades."
+    },
+    {
+      "name": "Exploding Kittens",
+      "link": {
+        "type": "game",
+        "bggId": 172225,
+        "url": "https://boardgamegeek.com/boardgame/172225",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 5,
+      "minutes": {
+        "min": 15,
+        "max": 15
+      },
+      "weight": 1.08,
+      "tags": [
+        "competitive",
+        "short",
+        "light",
+        "family"
+      ],
+      "description": "A quick card game of avoiding exploding kittens while using attacks and tricks."
+    },
+    {
+      "name": "Exploding Minions",
+      "link": {
+        "type": "game",
+        "bggId": 341164,
+        "url": "https://boardgamegeek.com/boardgame/341164",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 5,
+      "minutes": {
+        "min": 15,
+        "max": 15
+      },
+      "weight": 1.0,
+      "tags": [
+        "competitive",
+        "short",
+        "light",
+        "licensed",
+        "family"
+      ],
+      "description": "A Minions-themed version of the explosive Russian-roulette card game."
+    },
+    {
+      "name": "Stop Thief!",
+      "link": {
+        "type": "game",
+        "bggId": 215312,
+        "url": "https://boardgamegeek.com/boardgame/215312",
+        "verified": true
+      },
+      "playersMin": 1,
+      "playersMax": 5,
+      "minutes": {
+        "min": 30,
+        "max": 60
+      },
+      "weight": 1.48,
+      "tags": [
+        "competitive",
+        "medium-length",
+        "light",
+        "deduction",
+        "mystery",
+        "family"
+      ],
+      "description": "Track an invisible thief from audio clues and race to make the arrest."
+    },
+    {
+      "name": "Disney Villainous",
+      "link": {
+        "type": "game",
+        "bggId": 218208,
+        "url": "https://boardgamegeek.com/boardgame/218208",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 6,
+      "minutes": {
+        "min": 40,
+        "max": 120
+      },
+      "weight": 2.07,
+      "tags": [
+        "competitive",
+        "long",
+        "medium",
+        "area-control",
+        "licensed",
+        "family"
+      ],
+      "description": "Each player controls a Disney villain with a unique objective, deck and powers."
+    },
+    {
+      "name": "Final Girl",
+      "link": {
+        "type": "game",
+        "bggId": 277659,
+        "url": "https://boardgamegeek.com/boardgame/277659",
+        "verified": true
+      },
+      "playersMin": 1,
+      "playersMax": 1,
+      "minutes": {
+        "min": 20,
+        "max": 60
+      },
+      "weight": 2.76,
+      "tags": [
+        "competitive",
+        "medium-length",
+        "medium",
+        "push-your-luck",
+        "horror"
+      ],
+      "description": "A solo survival game recreating the structure of a slasher movie."
+    },
+    {
+      "name": "Star Wars: Rebellion",
+      "link": {
+        "type": "game",
+        "bggId": 187645,
+        "url": "https://boardgamegeek.com/boardgame/187645",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 4,
+      "minutes": {
+        "min": 180,
+        "max": 240
+      },
+      "weight": 3.75,
+      "tags": [
+        "competitive",
+        "long",
+        "heavy",
+        "area-control",
+        "sci-fi",
+        "licensed"
+      ],
+      "description": "The Empire hunts for the hidden Rebel base while the Rebellion fights to survive."
+    },
+    {
+      "name": "Shadows in Kyoto",
+      "link": {
+        "type": "game",
+        "bggId": 229741,
+        "url": "https://boardgamegeek.com/boardgame/229741",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 2,
+      "minutes": {
+        "min": 15,
+        "max": 30
+      },
+      "weight": 1.8,
+      "tags": [
+        "competitive",
+        "short",
+        "light",
+        "deduction"
+      ],
+      "description": "A two-player bluffing and deduction game about rival intelligence agents in Kyoto."
+    },
+    {
+      "name": "Hanamikoji",
+      "link": {
+        "type": "game",
+        "bggId": 158600,
+        "url": "https://boardgamegeek.com/boardgame/158600",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 2,
+      "minutes": {
+        "min": 15,
+        "max": 15
+      },
+      "weight": 1.68,
+      "tags": [
+        "competitive",
+        "short",
+        "light"
+      ],
+      "description": "A tense two-player game of clever card distribution and competing for geishas' favour."
+    },
+    {
+      "name": "One Night Ultimate Super Villains",
+      "link": {
+        "type": "game",
+        "bggId": 183266,
+        "url": "https://boardgamegeek.com/boardgame/183266",
+        "verified": true
+      },
+      "playersMin": 3,
+      "playersMax": 10,
+      "minutes": {
+        "min": 10,
+        "max": 10
+      },
+      "weight": 1.5,
+      "tags": [
+        "competitive",
+        "short",
+        "light",
+        "deduction",
+        "licensed"
+      ],
+      "description": "A fast hidden-role game where players use special powers to identify the super villain."
+    },
+    {
+      "name": "Hero Slam",
+      "link": {
+        "type": "game",
+        "bggId": 433378,
+        "url": "https://boardgamegeek.com/boardgame/433378",
+        "verified": true
+      },
+      "playersMin": 1,
+      "playersMax": 4,
+      "minutes": {
+        "min": 20,
+        "max": 40
+      },
+      "weight": 1.0,
+      "tags": [
+        "competitive",
+        "short",
+        "light",
+        "push-your-luck",
+        "fantasy",
+        "family"
+      ],
+      "description": "A fast family card game about gathering heroes, taking quests and fighting opponents."
+    },
+    {
+      "name": "Red Rising",
+      "link": {
+        "type": "game",
+        "bggId": 299384,
+        "url": "https://boardgamegeek.com/boardgame/299384",
+        "verified": true
+      },
+      "playersMin": 1,
+      "playersMax": 6,
+      "minutes": {
+        "min": 45,
+        "max": 60
+      },
+      "weight": 2.4,
+      "tags": [
+        "competitive",
+        "medium-length",
+        "medium"
+      ],
+      "description": "A hand-management and drafting game based on Pierce Brown's Red Rising universe."
+    },
+    {
+      "name": "Tiny Epic Defenders",
+      "link": {
+        "type": "game",
+        "bggId": 155337,
+        "url": "https://boardgamegeek.com/boardgame/155337",
+        "verified": true
+      },
+      "playersMin": 1,
+      "playersMax": 4,
+      "minutes": {
+        "min": 30,
+        "max": 45
+      },
+      "weight": 2.12,
+      "tags": [
+        "coop",
+        "medium-length",
+        "medium",
+        "fantasy",
+        "adventure"
+      ],
+      "description": "A cooperative defence game in the Tiny Epic series."
+    },
+    {
+      "name": "Tiny Epic Zombies",
+      "link": {
+        "type": "game",
+        "bggId": 285789,
+        "url": "https://boardgamegeek.com/boardgame/285789",
+        "verified": true
+      },
+      "playersMin": 1,
+      "playersMax": 5,
+      "minutes": {
+        "min": 30,
+        "max": 60
+      },
+      "weight": 2.63,
+      "tags": [
+        "coop",
+        "medium-length",
+        "medium",
+        "horror",
+        "adventure"
+      ],
+      "description": "A compact cooperative zombie survival game with multiple modes."
+    },
+    {
+      "name": "Tiny Epic Galaxies",
+      "link": {
+        "type": "game",
+        "bggId": 163967,
+        "url": "https://boardgamegeek.com/boardgame/163967",
+        "verified": true
+      },
+      "playersMin": 1,
+      "playersMax": 5,
+      "minutes": {
+        "min": 30,
+        "max": 45
+      },
+      "weight": 2.14,
+      "tags": [
+        "competitive",
+        "medium-length",
+        "medium",
+        "sci-fi"
+      ],
+      "description": "A compact space game of dice-driven exploration, colonisation and influence."
+    },
+    {
+      "name": "Tiny Epic Tactics",
+      "link": {
+        "type": "game",
+        "bggId": 288169,
+        "url": "https://boardgamegeek.com/boardgame/288169",
+        "verified": true
+      },
+      "playersMin": 1,
+      "playersMax": 4,
+      "minutes": {
+        "min": 30,
+        "max": 60
+      },
+      "weight": 2.83,
+      "tags": [
+        "competitive",
+        "medium-length",
+        "medium",
+        "fantasy",
+        "adventure"
+      ],
+      "description": "A tactical skirmish game combining tiny miniatures with card-driven abilities."
+    },
+    {
+      "name": "Tiny Epic Dinosaurs",
+      "link": {
+        "type": "game",
+        "bggId": 291508,
+        "url": "https://boardgamegeek.com/boardgame/291508",
+        "verified": true
+      },
+      "playersMin": 1,
+      "playersMax": 4,
+      "minutes": {
+        "min": 30,
+        "max": 60
+      },
+      "weight": 2.29,
+      "tags": [
+        "competitive",
+        "medium-length",
+        "medium",
+        "worker-placement",
+        "family"
+      ],
+      "description": "Breed, manage and research dinosaurs in a compact worker-placement game."
+    },
+    {
+      "name": "Dice Throne",
+      "link": {
+        "type": "game",
+        "bggId": 216734,
+        "url": "https://boardgamegeek.com/boardgame/216734",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 6,
+      "minutes": {
+        "min": 20,
+        "max": 40
+      },
+      "weight": 2.2,
+      "tags": [
+        "competitive",
+        "medium-length",
+        "medium",
+        "fantasy"
+      ],
+      "description": "A dice-driven head-to-head battle game with asymmetric heroes and tactical abilities."
+    },
+    {
+      "name": "Dice Throne: Adventures",
+      "link": {
+        "type": "game",
+        "bggId": 281332,
+        "url": "https://boardgamegeek.com/boardgame/281332",
+        "verified": true
+      },
+      "playersMin": 1,
+      "playersMax": 4,
+      "minutes": {
+        "min": 90,
+        "max": 120
+      },
+      "weight": 2.62,
+      "tags": [
+        "coop",
+        "long",
+        "medium",
+        "campaign",
+        "fantasy",
+        "adventure"
+      ],
+      "description": "A cooperative campaign that uses Dice Throne heroes to explore, fight and upgrade."
+    },
+    {
+      "name": "Skulls of Sedlec",
+      "link": {
+        "type": "game",
+        "bggId": 274078,
+        "url": "https://boardgamegeek.com/boardgame/274078",
+        "verified": true
+      },
+      "playersMin": 1,
+      "playersMax": 4,
+      "minutes": {
+        "min": 20,
+        "max": 30
+      },
+      "weight": 1.5,
+      "tags": [
+        "competitive",
+        "short",
+        "light"
+      ],
+      "description": "A compact card game about arranging a cemetery into scoring skull patterns."
+    },
+    {
+      "name": "Liberation",
+      "link": {
+        "type": "game",
+        "bggId": 251442,
+        "url": "https://boardgamegeek.com/boardgame/251442",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 2,
+      "minutes": {
+        "min": 30,
+        "max": 30
+      },
+      "weight": 2.32,
+      "tags": [
+        "competitive",
+        "short",
+        "medium",
+        "deduction",
+        "sci-fi"
+      ],
+      "description": "An asymmetric 18-card cat-and-mouse game between a galactic dynasty and a hidden rebellion."
+    },
+    {
+      "name": "Coup",
+      "link": {
+        "type": "game",
+        "bggId": 131357,
+        "url": "https://boardgamegeek.com/boardgame/131357",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 6,
+      "minutes": {
+        "min": 15,
+        "max": 15
+      },
+      "weight": 1.42,
+      "tags": [
+        "competitive",
+        "short",
+        "light",
+        "deduction"
+      ],
+      "description": "A bluffing game of hidden roles, influence and calculated challenges."
+    },
+    {
+      "name": "Star Wars: Destiny",
+      "link": {
+        "type": "game",
+        "bggId": 205359,
+        "url": "https://boardgamegeek.com/boardgame/205359",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 2,
+      "minutes": {
+        "min": 30,
+        "max": 30
+      },
+      "weight": 2.45,
+      "tags": [
+        "competitive",
+        "short",
+        "medium",
+        "deck-building",
+        "sci-fi",
+        "licensed"
+      ],
+      "description": "A collectible dice-and-card duel between teams of Star Wars heroes and villains."
+    },
+    {
+      "name": "The King Is Dead",
+      "link": {
+        "type": "game",
+        "bggId": 172996,
+        "url": "https://boardgamegeek.com/boardgame/172996",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 4,
+      "minutes": {
+        "min": 30,
+        "max": 50
+      },
+      "weight": 2.59,
+      "tags": [
+        "competitive",
+        "medium-length",
+        "medium",
+        "area-control"
+      ],
+      "description": "A compact political strategy game about influencing rival factions in medieval Britain."
+    },
+    {
+      "name": "Dead of Winter: The Long Night",
+      "link": {
+        "type": "game",
+        "bggId": 193037,
+        "url": "https://boardgamegeek.com/boardgame/193037",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 5,
+      "minutes": {
+        "min": 60,
+        "max": 120
+      },
+      "weight": 3.33,
+      "tags": [
+        "semi-coop",
+        "long",
+        "heavy",
+        "horror",
+        "sci-fi"
+      ],
+      "description": "Survivors struggle against zombies, bandits and Raxxon experiments, with competing secret objectives."
+    },
+    {
+      "name": "The Lord of the Rings: Duel for Middle-earth",
+      "link": {
+        "type": "game",
+        "bggId": 421006,
+        "url": "https://boardgamegeek.com/boardgame/421006",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 2,
+      "minutes": {
+        "min": 30,
+        "max": 45
+      },
+      "weight": 2.17,
+      "tags": [
+        "competitive",
+        "medium-length",
+        "medium",
+        "area-control",
+        "fantasy",
+        "licensed"
+      ],
+      "description": "A two-player duel between the Fellowship and Sauron over the fate of Middle-earth."
+    },
+    {
+      "name": "Obsession",
+      "link": {
+        "type": "game",
+        "bggId": 231733,
+        "url": "https://boardgamegeek.com/boardgame/231733",
+        "verified": true
+      },
+      "playersMin": 1,
+      "playersMax": 4,
+      "minutes": {
+        "min": 30,
+        "max": 90
+      },
+      "weight": 3.12,
+      "tags": [
+        "competitive",
+        "long",
+        "heavy",
+        "worker-placement"
+      ],
+      "description": "Build a Victorian estate, manage servants and host prestigious social events."
+    },
+    {
+      "name": "Everdell",
+      "link": {
+        "type": "game",
+        "bggId": 199792,
+        "url": "https://boardgamegeek.com/boardgame/199792",
+        "verified": true
+      },
+      "playersMin": 1,
+      "playersMax": 4,
+      "minutes": {
+        "min": 40,
+        "max": 80
+      },
+      "weight": 2.83,
+      "tags": [
+        "competitive",
+        "long",
+        "medium",
+        "worker-placement",
+        "fantasy",
+        "family"
+      ],
+      "description": "Build a woodland city by combining critters, constructions and seasonal worker placement."
+    },
+    {
+      "name": "Inuit",
+      "link": {
+        "type": "game",
+        "bggId": 261009,
+        "url": "https://boardgamegeek.com/boardgame/261009",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 4,
+      "minutes": {
+        "min": 30,
+        "max": 60
+      },
+      "weight": 1.9,
+      "tags": [
+        "competitive",
+        "medium-length",
+        "light"
+      ],
+      "description": "A tile-based strategy game set among Inuit communities and Arctic waters."
+    },
+    {
+      "name": "Welcome to the Dungeon",
+      "link": {
+        "type": "game",
+        "bggId": 150312,
+        "url": "https://boardgamegeek.com/boardgame/150312",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 4,
+      "minutes": {
+        "min": 30,
+        "max": 30
+      },
+      "weight": 1.45,
+      "tags": [
+        "competitive",
+        "short",
+        "light",
+        "push-your-luck",
+        "fantasy"
+      ],
+      "description": "Players bluff about a dungeon's dangers while progressively removing equipment and monsters."
+    },
+    {
+      "name": "Ascension Tactics: Miniatures Deckbuilding Game",
+      "link": {
+        "type": "game",
+        "bggId": 304531,
+        "url": "https://boardgamegeek.com/boardgame/304531",
+        "verified": true
+      },
+      "playersMin": 1,
+      "playersMax": 4,
+      "minutes": {
+        "min": 60,
+        "max": 90
+      },
+      "weight": 2.8,
+      "tags": [
+        "competitive",
+        "long",
+        "medium",
+        "deck-building",
+        "area-control",
+        "fantasy"
+      ],
+      "description": "A tactical miniatures game combining Ascension-style deck-building with battlefield combat."
+    },
+    {
+      "name": "Arctic Scavengers",
+      "link": {
+        "type": "game",
+        "bggId": 65532,
+        "url": "https://boardgamegeek.com/boardgame/65532",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 5,
+      "minutes": {
+        "min": 30,
+        "max": 60
+      },
+      "weight": 2.26,
+      "tags": [
+        "competitive",
+        "medium-length",
+        "medium",
+        "deck-building"
+      ],
+      "description": "Build a tribe's deck and compete for scarce resources in a frozen post-apocalyptic world."
+    },
+    {
+      "name": "Aeon's End: War Eternal",
+      "link": {
+        "type": "game",
+        "bggId": 160316,
+        "url": "https://boardgamegeek.com/boardgame/160316",
+        "verified": true
+      },
+      "playersMin": 1,
+      "playersMax": 4,
+      "minutes": {
+        "min": 60,
+        "max": 60
+      },
+      "weight": 3.1,
+      "tags": [
+        "coop",
+        "medium-length",
+        "heavy",
+        "deck-building",
+        "fantasy"
+      ],
+      "description": "A cooperative deck-building battle against Nemeses where the deck is never shuffled."
+    },
+    {
+      "name": "1815, Scum of the Earth: The Battle of Waterloo Card Game",
+      "link": {
+        "type": "game",
+        "bggId": 312748,
+        "url": "https://boardgamegeek.com/boardgame/312748",
+        "verified": true
+      },
+      "playersMin": 1,
+      "playersMax": 2,
+      "minutes": {
+        "min": 30,
+        "max": 60
+      },
+      "weight": 2.33,
+      "tags": [
+        "competitive",
+        "medium-length",
+        "medium"
+      ],
+      "description": "An asymmetric tactical card game recreating the Battle of Waterloo."
+    },
+    {
+      "name": "1066, Tears to Many Mothers: The Battle of Hastings",
+      "link": {
+        "type": "game",
+        "bggId": 155122,
+        "url": "https://boardgamegeek.com/boardgame/155122",
+        "verified": true
+      },
+      "playersMin": 1,
+      "playersMax": 2,
+      "minutes": {
+        "min": 30,
+        "max": 60
+      },
+      "weight": 2.3,
+      "tags": [
+        "competitive",
+        "medium-length",
+        "medium"
+      ],
+      "description": "An asymmetric tactical card game depicting the Battle of Hastings."
+    },
+    {
+      "name": "Radlands",
+      "link": {
+        "type": "game",
+        "bggId": 329082,
+        "url": "https://boardgamegeek.com/boardgame/329082",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 2,
+      "minutes": {
+        "min": 20,
+        "max": 40
+      },
+      "weight": 2.27,
+      "tags": [
+        "competitive",
+        "medium-length",
+        "medium"
+      ],
+      "description": "A two-player post-apocalyptic duel where rival camps battle over scarce water."
+    },
+    {
+      "name": "Fantasy Realms",
+      "link": {
+        "type": "game",
+        "bggId": 224323,
+        "url": "https://boardgamegeek.com/boardgame/224323",
+        "verified": true
+      },
+      "playersMin": 3,
+      "playersMax": 6,
+      "minutes": {
+        "min": 20,
+        "max": 20
+      },
+      "weight": 1.81,
+      "tags": [
+        "competitive",
+        "short",
+        "light"
+      ],
+      "description": "Build the highest-scoring fantasy hand by drawing and discarding cards for powerful combinations."
     }
   ]
 }
