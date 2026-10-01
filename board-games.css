@@ -80,27 +80,34 @@ main {
 }
 
 .filter-drawer__header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: .75rem;
-  padding-bottom: .75rem;
+  padding: .6rem .2rem .75rem;
   border-bottom: 1px solid var(--line);
-  margin-bottom: .8rem
+  margin: -.2rem -.2rem .8rem;
+  background: rgba(24, 34, 41, .96);
+  color: var(--ink, #e6eef2);
+  backdrop-filter: blur(6px)
 }
 
 .filter-drawer__header h2 {
   margin: 0;
   font-size: 1.1rem;
   border: 0;
-  padding: 0
+  padding: 0;
+  color: inherit
 }
 
 .close-drawer {
-  border: 1px solid var(--line);
-  background: var(--bg);
+  border: 1px solid rgba(255, 255, 255, .15);
+  background: rgba(255, 255, 255, .06);
   border-radius: 999px;
-  color: var(--ink);
+  color: inherit;
   padding: .35rem .7rem;
   font: inherit;
   cursor: pointer
@@ -334,11 +341,69 @@ th button:focus-visible {
     cursor: pointer
   }
 
+  .filter-drawer {
+    padding: .8rem .8rem 1.25rem;
+    background: #1d2a33;
+    color: #e6eef2;
+    border-right: 1px solid rgba(255, 255, 255, .08)
+  }
+
   .filter-drawer .controls {
     border: 0;
     border-radius: 0;
     padding: 0;
-    margin: 0
+    margin: 0;
+    background: transparent
+  }
+
+  .filter-drawer .tag {
+    background: rgba(255, 255, 255, .06);
+    border-color: rgba(255, 255, 255, .08);
+    color: #e6eef2;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08), 0 1px 2px rgba(0, 0, 0, .12);
+    transition: transform .12s ease, border-color .12s ease, background .12s ease
+  }
+
+  .filter-drawer .tag:hover {
+    border-color: rgba(92, 198, 207, .7)
+  }
+
+  .filter-drawer .tag:active {
+    transform: translateY(1px)
+  }
+
+  .filter-drawer .tag.on {
+    background: linear-gradient(180deg, #6ed8df, #38b3bf);
+    border-color: #79dfe8;
+    color: #09161b;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35), 0 2px 6px rgba(56, 179, 191, .35)
+  }
+
+  .filter-drawer .fgroup {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: .4rem;
+    margin-top: .9rem
+  }
+
+  .filter-drawer .flabel {
+    min-width: 0;
+    width: 100%;
+    display: block;
+    margin-bottom: .1rem;
+    font-size: .82rem;
+    color: rgba(230, 238, 242, .78)
+  }
+
+  .filter-drawer #pcount {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .35rem
+  }
+
+  .filter-drawer .tag {
+    min-height: 2rem;
+    padding: .28rem .7rem
   }
 
   .back-wrap {
@@ -391,7 +456,17 @@ th button:focus-visible {
   min-width: 6.5rem
 }
 
+#pcount {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .35rem;
+  align-items: center
+}
+
 .tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font: inherit;
   font-size: .85rem;
   color: var(--ink);
@@ -399,7 +474,8 @@ th button:focus-visible {
   border: 1px solid var(--line);
   border-radius: 99px;
   padding: .1rem .6rem;
-  cursor: pointer
+  cursor: pointer;
+  min-height: 1.75rem
 }
 
 .tag:hover {
