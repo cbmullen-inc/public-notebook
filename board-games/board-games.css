@@ -152,3 +152,101 @@ th button:focus-visible {
   color: var(--acc);
   text-decoration: underline
 }
+
+.controls {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: .75rem;
+  margin-bottom: 1rem
+}
+
+#q {
+  width: 100%;
+  font: inherit;
+  color: var(--ink);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: .5rem .7rem
+}
+
+#q:focus-visible {
+  outline: 2px solid var(--acc);
+  outline-offset: 1px
+}
+
+.fgroup {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .35rem;
+  margin-top: .6rem
+}
+
+.flabel {
+  font-size: .8rem;
+  font-weight: 600;
+  color: var(--mute);
+  min-width: 6.5rem
+}
+
+.tag {
+  font: inherit;
+  font-size: .85rem;
+  color: var(--ink);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  padding: .1rem .6rem;
+  cursor: pointer
+}
+
+.tag:hover {
+  border-color: var(--acc)
+}
+
+.tag:focus-visible {
+  outline: 2px solid var(--acc);
+  outline-offset: 1px
+}
+
+.tag.on {
+  background: var(--acc);
+  border-color: var(--acc);
+  color: var(--card)
+}
+
+.tag--sm {
+  font-size: .75rem;
+  padding: 0 .5rem
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .25rem;
+  margin-top: .35rem
+}
+
+.status {
+  margin: .75rem 0 0;
+  font-size: .85rem;
+  color: var(--mute)
+}
+
+#clear {
+  font: inherit;
+  color: var(--acc);
+  background: none;
+  border: 0;
+  cursor: pointer;
+  text-decoration: underline;
+  margin-left: .5rem
+}
+
+.empty {
+  color: var(--mute);
+  text-align: center;
+  padding: 2rem 0
+}
