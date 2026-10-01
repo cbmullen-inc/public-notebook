@@ -1,5 +1,5 @@
 {
-  "_comment": "Board game shelf data. Each game has an array of tag ids (defined in 'tags'). Length tag uses max play time: short <=30, medium 31-60, long >60. Complexity tag uses BGG weight: light <2, medium 2-2.9, heavy >=3. 'solo' = supports 1 player; 'big-group' = supports 6+. link.type is 'game' (direct BGG page) or 'search'.",
+  "_comment": "Board game shelf data. Each game has an array of tag ids (defined in 'tags'). Length tag uses max play time: short <=30, medium 31-60, long >60. Complexity tag uses BGG weight: light <2, medium 2-2.9, heavy >=3. Player counts are numeric (playersMin/playersMax); the page filters on 'N players' by checking playersMin <= N <= playersMax. link.type is 'game' (direct BGG page) or 'search'.",
   "tagCategories": [
     {
       "id": "mode",
@@ -14,11 +14,6 @@
     {
       "id": "complexity",
       "label": "Complexity",
-      "showInRows": false
-    },
-    {
-      "id": "players",
-      "label": "Players",
       "showInRows": false
     },
     {
@@ -77,16 +72,6 @@
       "id": "heavy",
       "label": "Heavy (3+)",
       "category": "complexity"
-    },
-    {
-      "id": "solo",
-      "label": "Solo-friendly (1 player)",
-      "category": "players"
-    },
-    {
-      "id": "big-group",
-      "label": "6+ players",
-      "category": "players"
     },
     {
       "id": "deck-building",
@@ -168,7 +153,8 @@
         "url": "https://boardgamegeek.com/boardgame/65244",
         "verified": true
       },
-      "players": "2–4",
+      "playersMin": 2,
+      "playersMax": 4,
       "minutes": {
         "min": 30,
         "max": 30
@@ -191,7 +177,8 @@
         "url": "https://boardgamegeek.com/boardgame/136063",
         "verified": true
       },
-      "players": "2–5",
+      "playersMin": 2,
+      "playersMax": 5,
       "minutes": {
         "min": 45,
         "max": 45
@@ -214,7 +201,8 @@
         "url": "https://boardgamegeek.com/boardgame/30549",
         "verified": true
       },
-      "players": "2–4",
+      "playersMin": 2,
+      "playersMax": 4,
       "minutes": {
         "min": 45,
         "max": 45
@@ -236,7 +224,8 @@
         "url": "https://boardgamegeek.com/boardgame/195571",
         "verified": true
       },
-      "players": "1–5",
+      "playersMin": 1,
+      "playersMax": 5,
       "minutes": {
         "min": 45,
         "max": 60
@@ -246,7 +235,6 @@
         "coop",
         "medium-length",
         "medium",
-        "solo",
         "deck-building",
         "fantasy",
         "sci-fi",
@@ -262,7 +250,8 @@
         "url": "https://boardgamegeek.com/boardgame/2511",
         "verified": true
       },
-      "players": "1–8",
+      "playersMin": 1,
+      "playersMax": 8,
       "minutes": {
         "min": 60,
         "max": 120
@@ -272,8 +261,6 @@
         "coop",
         "long",
         "light",
-        "solo",
-        "big-group",
         "deduction",
         "mystery"
       ],
@@ -287,7 +274,8 @@
         "url": "https://boardgamegeek.com/boardgame/358737",
         "verified": true
       },
-      "players": "1–4",
+      "playersMin": 1,
+      "playersMax": 4,
       "minutes": {
         "min": 90,
         "max": 90
@@ -297,7 +285,6 @@
         "coop",
         "long",
         "medium",
-        "solo",
         "fantasy",
         "adventure"
       ],
@@ -311,7 +298,8 @@
         "url": "https://boardgamegeek.com/boardgame/205637",
         "verified": true
       },
-      "players": "1–4",
+      "playersMin": 1,
+      "playersMax": 4,
       "minutes": {
         "min": 60,
         "max": 120
@@ -321,7 +309,6 @@
         "coop",
         "long",
         "heavy",
-        "solo",
         "deck-building",
         "campaign",
         "horror",
@@ -337,7 +324,8 @@
         "url": "https://boardgamegeek.com/boardgame/291457",
         "verified": true
       },
-      "players": "1–4",
+      "playersMin": 1,
+      "playersMax": 4,
       "minutes": {
         "min": 60,
         "max": 120
@@ -347,7 +335,6 @@
         "coop",
         "long",
         "heavy",
-        "solo",
         "campaign",
         "fantasy"
       ],
@@ -361,7 +348,8 @@
         "url": "https://boardgamegeek.com/boardgame/255984",
         "verified": true
       },
-      "players": "1–4",
+      "playersMin": 1,
+      "playersMax": 4,
       "minutes": {
         "min": 60,
         "max": 120
@@ -371,7 +359,6 @@
         "coop",
         "long",
         "medium",
-        "solo",
         "campaign",
         "adventure"
       ],
@@ -385,7 +372,8 @@
         "url": "https://boardgamegeek.com/boardgame/358320",
         "verified": true
       },
-      "players": "1–4",
+      "playersMin": 1,
+      "playersMax": 4,
       "minutes": {
         "min": 60,
         "max": 120
@@ -395,7 +383,6 @@
         "coop",
         "long",
         "medium",
-        "solo",
         "campaign",
         "adventure"
       ],
@@ -409,7 +396,8 @@
         "url": "https://boardgamegeek.com/boardgame/146021",
         "verified": true
       },
-      "players": "1–8",
+      "playersMin": 1,
+      "playersMax": 8,
       "minutes": {
         "min": 120,
         "max": 240
@@ -419,8 +407,6 @@
         "coop",
         "long",
         "medium",
-        "solo",
-        "big-group",
         "horror",
         "adventure"
       ],
@@ -434,7 +420,8 @@
         "url": "https://boardgamegeek.com/boardgame/383206",
         "verified": true
       },
-      "players": "1–4",
+      "playersMin": 1,
+      "playersMax": 4,
       "minutes": {
         "min": 45,
         "max": 90
@@ -444,7 +431,6 @@
         "coop",
         "long",
         "medium",
-        "solo",
         "fantasy"
       ],
       "description": "Fantasy mercenaries take jobs and build their reputation, with story choices along the way."
@@ -457,7 +443,8 @@
         "url": "https://boardgamegeek.com/boardgame/302809",
         "verified": true
       },
-      "players": "3–5",
+      "playersMin": 3,
+      "playersMax": 5,
       "minutes": {
         "min": 45,
         "max": 60
@@ -481,7 +468,8 @@
         "url": "https://boardgamegeek.com/boardgame/167355",
         "verified": true
       },
-      "players": "1–5",
+      "playersMin": 1,
+      "playersMax": 5,
       "minutes": {
         "min": 90,
         "max": 180
@@ -491,7 +479,6 @@
         "semi-coop",
         "long",
         "heavy",
-        "solo",
         "sci-fi",
         "horror"
       ],
@@ -505,7 +492,8 @@
         "url": "https://boardgamegeek.com/boardgame/406459",
         "verified": true
       },
-      "players": "2–6",
+      "playersMin": 2,
+      "playersMax": 6,
       "minutes": {
         "min": 20,
         "max": 20
@@ -515,7 +503,6 @@
         "competitive",
         "short",
         "light",
-        "big-group",
         "deduction",
         "licensed"
       ],
@@ -529,7 +516,8 @@
         "url": "https://boardgamegeek.com/boardgame/192291",
         "verified": true
       },
-      "players": "2–8",
+      "playersMin": 2,
+      "playersMax": 8,
       "minutes": {
         "min": 20,
         "max": 20
@@ -539,7 +527,6 @@
         "competitive",
         "short",
         "light",
-        "big-group",
         "drafting",
         "family"
       ],
@@ -553,7 +540,8 @@
         "url": "https://boardgamegeek.com/boardgame/266524",
         "verified": true
       },
-      "players": "1–5",
+      "playersMin": 1,
+      "playersMax": 5,
       "minutes": {
         "min": 30,
         "max": 60
@@ -563,7 +551,6 @@
         "competitive",
         "medium-length",
         "light",
-        "solo",
         "worker-placement",
         "adventure",
         "family"
@@ -578,7 +565,8 @@
         "url": "https://boardgamegeek.com/boardgame/201808",
         "verified": true
       },
-      "players": "2–4",
+      "playersMin": 2,
+      "playersMax": 4,
       "minutes": {
         "min": 30,
         "max": 60
@@ -603,7 +591,8 @@
         "url": "https://boardgamegeek.com/boardgame/349955",
         "verified": true
       },
-      "players": "2–5",
+      "playersMin": 2,
+      "playersMax": 5,
       "minutes": {
         "min": 45,
         "max": 60
@@ -627,7 +616,8 @@
         "url": "https://boardgamegeek.com/boardgame/217372",
         "verified": true
       },
-      "players": "2–4",
+      "playersMin": 2,
+      "playersMax": 4,
       "minutes": {
         "min": 45,
         "max": 60
@@ -651,7 +641,8 @@
         "url": "https://boardgamegeek.com/boardgame/40692",
         "verified": true
       },
-      "players": "2–5",
+      "playersMin": 2,
+      "playersMax": 5,
       "minutes": {
         "min": 40,
         "max": 80
@@ -675,7 +666,8 @@
         "url": "https://boardgamegeek.com/boardgame/155068",
         "verified": true
       },
-      "players": "2–4",
+      "playersMin": 2,
+      "playersMax": 4,
       "minutes": {
         "min": 60,
         "max": 90
@@ -697,7 +689,8 @@
         "url": "https://boardgamegeek.com/boardgame/180593",
         "verified": true
       },
-      "players": "2–4",
+      "playersMin": 2,
+      "playersMax": 4,
       "minutes": {
         "min": 60,
         "max": 90
@@ -719,7 +712,8 @@
         "url": "https://boardgamegeek.com/boardgame/155821",
         "verified": true
       },
-      "players": "2–4",
+      "playersMin": 2,
+      "playersMax": 4,
       "minutes": {
         "min": 90,
         "max": 90
