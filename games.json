@@ -167,7 +167,8 @@
         "adventure",
         "family"
       ],
-      "description": "Grab four treasures and escape before the island sinks."
+      "description": "Grab four treasures and escape before the island sinks.",
+      "owner": "Chris"
     },
     {
       "name": "Forbidden Desert",
@@ -191,7 +192,8 @@
         "adventure",
         "family"
       ],
-      "description": "Rebuild a flying machine while a sandstorm buries the ruins."
+      "description": "Rebuild a flying machine while a sandstorm buries the ruins.",
+      "owner": "Chris"
     },
     {
       "name": "Pandemic",
@@ -214,7 +216,8 @@
         "medium",
         "family"
       ],
-      "description": "Race to cure four diseases before outbreaks overrun the world."
+      "description": "Race to cure four diseases before outbreaks overrun the world.",
+      "owner": "Chris"
     },
     {
       "name": "Legendary Encounters: Buffy / Firefly",
@@ -240,7 +243,8 @@
         "sci-fi",
         "licensed"
       ],
-      "description": "Deck-building co-op where you fight a villain's scheme, once in Sunnydale and once in the 'verse."
+      "description": "Deck-building co-op where you fight a villain's scheme, once in Sunnydale and once in the 'verse.",
+      "owner": "Chris"
     },
     {
       "name": "Sherlock Holmes Consulting Detective - Thames Murders & Other Cases",
@@ -264,7 +268,8 @@
         "deduction",
         "mystery"
       ],
-      "description": "Solve cases by reading period newspapers and directories, then answer questions Holmes-style."
+      "description": "Solve cases by reading period newspapers and directories, then answer questions Holmes-style.",
+      "owner": "Chris"
     },
     {
       "name": "Leviathan Wilds",
@@ -288,7 +293,8 @@
         "fantasy",
         "adventure"
       ],
-      "description": "Climb colossal creatures on a spiral-bound storybook board, managing a deck that doubles as your grip."
+      "description": "Climb colossal creatures on a spiral-bound storybook board, managing a deck that doubles as your grip.",
+      "owner": "Chris"
     },
     {
       "name": "Arkham Horror: The Card Game",
@@ -314,7 +320,8 @@
         "horror",
         "mystery"
       ],
-      "description": "Build an investigator deck and unravel Lovecraftian mysteries over a campaign."
+      "description": "Build an investigator deck and unravel Lovecraftian mysteries over a campaign.",
+      "owner": "Chris"
     },
     {
       "name": "Gloomhaven: Jaws of the Lion",
@@ -338,7 +345,8 @@
         "campaign",
         "fantasy"
       ],
-      "description": "Tactical card-driven dungeon crawling, trimmed down from the original Gloomhaven."
+      "description": "Tactical card-driven dungeon crawling, trimmed down from the original Gloomhaven.",
+      "owner": "Chris"
     },
     {
       "name": "Sleeping Gods",
@@ -362,7 +370,8 @@
         "campaign",
         "adventure"
       ],
-      "description": "Storybook exploration across an uncharted archipelago as a stranded 1920s crew."
+      "description": "Storybook exploration across an uncharted archipelago as a stranded 1920s crew.",
+      "owner": "Chris"
     },
     {
       "name": "Sleeping Gods Distant Skies",
@@ -386,7 +395,8 @@
         "campaign",
         "adventure"
       ],
-      "description": "Journey across a rugged landscape in this sequel to Sleeping Gods."
+      "description": "Journey across a rugged landscape in this sequel to Sleeping Gods.",
+      "owner": "Chris"
     },
     {
       "name": "Eldritch Horror",
@@ -410,7 +420,8 @@
         "horror",
         "adventure"
       ],
-      "description": "Globe-trotting co-op against an Ancient One that is waking up."
+      "description": "Globe-trotting co-op against an Ancient One that is waking up.",
+      "owner": "Chris"
     },
     {
       "name": "Freelancers: A Crossroads Game",
@@ -433,7 +444,8 @@
         "medium",
         "fantasy"
       ],
-      "description": "Fantasy mercenaries take jobs and build their reputation, with story choices along the way."
+      "description": "Fantasy mercenaries take jobs and build their reputation, with story choices along the way.",
+      "owner": "Chris"
     },
     {
       "name": "Scooby-Doo: Betrayal at Mystery Mansion",
@@ -458,7 +470,8 @@
         "licensed",
         "family"
       ],
-      "description": "Explore a haunted mansion as the gang until one player is secretly the culprit."
+      "description": "Explore a haunted mansion as the gang until one player is secretly the culprit.",
+      "owner": "Chris"
     },
     {
       "name": "Nemesis",
@@ -482,7 +495,8 @@
         "sci-fi",
         "horror"
       ],
-      "description": "Survive a sci-fi spaceship while aliens, and possibly your crewmates, try to finish you."
+      "description": "Survive a sci-fi spaceship while aliens, and possibly your crewmates, try to finish you.",
+      "owner": "Chris"
     },
     {
       "name": "Love Letter: Bridgerton",
@@ -506,7 +520,8 @@
         "deduction",
         "licensed"
       ],
-      "description": "Can you discover Lady Whistledown's identity? A quick deduction game with a Bridgerton twist."
+      "description": "Can you discover Lady Whistledown's identity? A quick deduction game with a Bridgerton twist.",
+      "owner": "Chris"
     },
     {
       "name": "Sushi Go Party!",
@@ -530,7 +545,8 @@
         "drafting",
         "family"
       ],
-      "description": "Draft sushi cards, passing your hand around the table, to score the best combos."
+      "description": "Draft sushi cards, passing your hand around the table, to score the best combos.",
+      "owner": "Chris"
     },
     {
       "name": "Parks",
@@ -555,7 +571,8 @@
         "adventure",
         "family"
       ],
-      "description": "Hike trails and collect national park cards as the seasons change."
+      "description": "Hike trails and collect national park cards as the seasons change.",
+      "owner": "Chris"
     },
     {
       "name": "Clank!",
@@ -581,7 +598,8 @@
         "fantasy",
         "adventure"
       ],
-      "description": "Deck-building dungeon heist where every noise may wake the dragon."
+      "description": "Deck-building dungeon heist where every noise may wake the dragon.",
+      "owner": "Chris"
     },
     {
       "name": "The Quacks of Quedlinburg: MegaBox",
@@ -606,7 +624,8 @@
         "fantasy",
         "family"
       ],
-      "description": "Push-your-luck potion brewing: pull ingredients from a bag and hope nothing explodes."
+      "description": "Push-your-luck potion brewing: pull ingredients from a bag and hope nothing explodes.",
+      "owner": "Chris"
     },
     {
       "name": "The Quest for El Dorado",
@@ -631,7 +650,8 @@
         "adventure",
         "family"
       ],
-      "description": "Deck-building race through the jungle to the lost city."
+      "description": "Deck-building race through the jungle to the lost city.",
+      "owner": "Chris"
     },
     {
       "name": "Small World",
@@ -656,7 +676,8 @@
         "fantasy",
         "family"
       ],
-      "description": "Fantasy races fight over a cramped map, and decline when they run out of steam."
+      "description": "Fantasy races fight over a cramped map, and decline when they run out of steam.",
+      "owner": "Chris"
     },
     {
       "name": "Arcadia Quest",
@@ -679,7 +700,8 @@
         "medium",
         "fantasy"
       ],
-      "description": "Competitive dungeon brawler where guilds race to slay monsters and each other."
+      "description": "Competitive dungeon brawler where guilds race to slay monsters and each other.",
+      "owner": "Chris"
     },
     {
       "name": "Bloody Inn",
@@ -702,7 +724,8 @@
         "medium",
         "worker-placement"
       ],
-      "description": "Run a rural inn and quietly dispose of guests in this dark worker-placement game."
+      "description": "Run a rural inn and quietly dispose of guests in this dark worker-placement game.",
+      "owner": "Chris"
     },
     {
       "name": "Inis",
@@ -727,7 +750,8 @@
         "area-control",
         "fantasy"
       ],
-      "description": "Celtic clans draft cards and battle for control of the isles."
+      "description": "Celtic clans draft cards and battle for control of the isles.",
+      "owner": "Chris"
     },
     {
       "name": "Mage Wars Arena",
@@ -751,7 +775,8 @@
         "area-control",
         "fantasy"
       ],
-      "description": "Tactical magical combat on a shared arena, with customizable spellbooks."
+      "description": "Tactical magical combat on a shared arena, with customizable spellbooks.",
+      "owner": "Chris"
     },
     {
       "name": "Clank! Legacy: Acquisitions Incorporated",
@@ -777,7 +802,8 @@
         "fantasy",
         "adventure"
       ],
-      "description": "A legacy campaign that turns Clank! into an evolving adventuring-company story."
+      "description": "A legacy campaign that turns Clank! into an evolving adventuring-company story.",
+      "owner": "Chris"
     },
     {
       "name": "Codenames",
@@ -801,7 +827,8 @@
         "deduction",
         "family"
       ],
-      "description": "Teams give one-word clues to identify their agents while avoiding the assassin."
+      "description": "Teams give one-word clues to identify their agents while avoiding the assassin.",
+      "owner": "Chris"
     },
     {
       "name": "Undaunted: Normandy",
@@ -825,7 +852,8 @@
         "deck-building",
         "campaign"
       ],
-      "description": "A two-player WWII tactical campaign combining deck-building with battlefield control."
+      "description": "A two-player WWII tactical campaign combining deck-building with battlefield control.",
+      "owner": "Chris"
     },
     {
       "name": "Undaunted: North Africa",
@@ -849,7 +877,8 @@
         "deck-building",
         "campaign"
       ],
-      "description": "A WWII desert campaign featuring infantry, vehicles and tactical deck-building."
+      "description": "A WWII desert campaign featuring infantry, vehicles and tactical deck-building.",
+      "owner": "Chris"
     },
     {
       "name": "Undaunted: Stalingrad",
@@ -865,7 +894,7 @@
         "min": 45,
         "max": 60
       },
-      "weight": 3.0,
+      "weight": 3,
       "tags": [
         "competitive",
         "medium-length",
@@ -873,7 +902,8 @@
         "deck-building",
         "campaign"
       ],
-      "description": "A linked WWII campaign in which casualties and battlefield choices carry forward."
+      "description": "A linked WWII campaign in which casualties and battlefield choices carry forward.",
+      "owner": "Chris"
     },
     {
       "name": "Under Falling Skies",
@@ -897,7 +927,8 @@
         "campaign",
         "sci-fi"
       ],
-      "description": "A solo dice-placement defence game about stopping an alien invasion."
+      "description": "A solo dice-placement defence game about stopping an alien invasion.",
+      "owner": "Chris"
     },
     {
       "name": "Don't Mess with Cthulhu",
@@ -921,7 +952,8 @@
         "deduction",
         "horror"
       ],
-      "description": "A hidden-role deduction game where investigators and cultists struggle over Cthulhu."
+      "description": "A hidden-role deduction game where investigators and cultists struggle over Cthulhu.",
+      "owner": "Chris"
     },
     {
       "name": "Ashes Reborn: Rise of the Phoenixborn",
@@ -937,7 +969,7 @@
         "min": 30,
         "max": 60
       },
-      "weight": 3.0,
+      "weight": 3,
       "tags": [
         "competitive",
         "medium-length",
@@ -945,7 +977,8 @@
         "deck-building",
         "fantasy"
       ],
-      "description": "A head-to-head card-and-dice battle between powerful Phoenixborn."
+      "description": "A head-to-head card-and-dice battle between powerful Phoenixborn.",
+      "owner": "Chris"
     },
     {
       "name": "One Deck Dungeon",
@@ -969,7 +1002,8 @@
         "fantasy",
         "adventure"
       ],
-      "description": "A compact dice-driven dungeon crawl with roguelike progression."
+      "description": "A compact dice-driven dungeon crawl with roguelike progression.",
+      "owner": "Chris"
     },
     {
       "name": "Fog of Love",
@@ -985,13 +1019,14 @@
         "min": 60,
         "max": 120
       },
-      "weight": 2.0,
+      "weight": 2,
       "tags": [
         "competitive",
         "long",
         "medium"
       ],
-      "description": "A story-driven two-player game about creating and navigating a romantic relationship."
+      "description": "A story-driven two-player game about creating and navigating a romantic relationship.",
+      "owner": "Chris"
     },
     {
       "name": "Mage Wars Academy",
@@ -1014,7 +1049,8 @@
         "medium",
         "fantasy"
       ],
-      "description": "Tactical magical duelling between apprentice mages."
+      "description": "Tactical magical duelling between apprentice mages.",
+      "owner": "Chris"
     },
     {
       "name": "Tides of Madness",
@@ -1038,7 +1074,8 @@
         "drafting",
         "horror"
       ],
-      "description": "A two-player drafting game where powerful cards bring the risk of accumulating madness."
+      "description": "A two-player drafting game where powerful cards bring the risk of accumulating madness.",
+      "owner": "Chris"
     },
     {
       "name": "Nine Men's Morris",
@@ -1060,7 +1097,8 @@
         "short",
         "light"
       ],
-      "description": "An ancient abstract strategy game of forming mills and capturing opposing pieces."
+      "description": "An ancient abstract strategy game of forming mills and capturing opposing pieces.",
+      "owner": "Chris"
     },
     {
       "name": "Crokinole",
@@ -1082,7 +1120,8 @@
         "short",
         "light"
       ],
-      "description": "A dexterity game of flicking wooden discs into scoring areas on a circular board."
+      "description": "A dexterity game of flicking wooden discs into scoring areas on a circular board.",
+      "owner": "Chris"
     },
     {
       "name": "Fluxx: Firefly",
@@ -1106,7 +1145,8 @@
         "licensed",
         "sci-fi"
       ],
-      "description": "A Firefly-themed Fluxx game where changing goals and rules keep the table in flux."
+      "description": "A Firefly-themed Fluxx game where changing goals and rules keep the table in flux.",
+      "owner": "Chris"
     },
     {
       "name": "Fluxx: Fairy Tale",
@@ -1129,7 +1169,8 @@
         "light",
         "fantasy"
       ],
-      "description": "A fairy-tale Fluxx game built around changing goals and rules."
+      "description": "A fairy-tale Fluxx game built around changing goals and rules.",
+      "owner": "Chris"
     },
     {
       "name": "Fluxx: Olympus",
@@ -1152,7 +1193,8 @@
         "light",
         "fantasy"
       ],
-      "description": "A Greek-mythology Fluxx game with constantly changing rules and goals."
+      "description": "A Greek-mythology Fluxx game with constantly changing rules and goals.",
+      "owner": "Chris"
     },
     {
       "name": "Imperium: Classics",
@@ -1175,7 +1217,8 @@
         "heavy",
         "deck-building"
       ],
-      "description": "An asymmetric civilization deck-building game spanning eight ancient peoples."
+      "description": "An asymmetric civilization deck-building game spanning eight ancient peoples.",
+      "owner": "Chris"
     },
     {
       "name": "Imperium: Legends",
@@ -1198,7 +1241,8 @@
         "heavy",
         "deck-building"
       ],
-      "description": "A deeper asymmetric civilization deck-builder featuring legendary civilizations."
+      "description": "A deeper asymmetric civilization deck-builder featuring legendary civilizations.",
+      "owner": "Chris"
     },
     {
       "name": "War of the Ring: Second Edition",
@@ -1223,7 +1267,8 @@
         "fantasy",
         "licensed"
       ],
-      "description": "An epic strategic struggle for Middle-earth combining armies, characters and the Ring quest."
+      "description": "An epic strategic struggle for Middle-earth combining armies, characters and the Ring quest.",
+      "owner": "Chris"
     },
     {
       "name": "Lords of Waterdeep",
@@ -1247,7 +1292,8 @@
         "worker-placement",
         "fantasy"
       ],
-      "description": "Place agents around Waterdeep to recruit adventurers, complete quests and score points."
+      "description": "Place agents around Waterdeep to recruit adventurers, complete quests and score points.",
+      "owner": "Chris"
     },
     {
       "name": "Pandemic Legacy: Season 1",
@@ -1270,7 +1316,8 @@
         "medium",
         "campaign"
       ],
-      "description": "A campaign version of Pandemic in which the world and rules evolve permanently."
+      "description": "A campaign version of Pandemic in which the world and rules evolve permanently.",
+      "owner": "Chris"
     },
     {
       "name": "A Game of Thrones: The Living Card Game",
@@ -1286,7 +1333,7 @@
         "min": 60,
         "max": 120
       },
-      "weight": 3.0,
+      "weight": 3,
       "tags": [
         "competitive",
         "long",
@@ -1295,7 +1342,8 @@
         "fantasy",
         "licensed"
       ],
-      "description": "A competitive living card game of intrigue, warfare and competing Westerosi houses."
+      "description": "A competitive living card game of intrigue, warfare and competing Westerosi houses.",
+      "owner": "Chris"
     },
     {
       "name": "A Game of Thrones: Hand of the King",
@@ -1319,7 +1367,8 @@
         "licensed",
         "fantasy"
       ],
-      "description": "A fast court-intrigue game where players use Varys to gather allies and claim house banners."
+      "description": "A fast court-intrigue game where players use Varys to gather allies and claim house banners.",
+      "owner": "Chris"
     },
     {
       "name": "Star Realms",
@@ -1343,7 +1392,8 @@
         "deck-building",
         "sci-fi"
       ],
-      "description": "A fast two-player space deck-builder in which ships and bases generate trade and combat."
+      "description": "A fast two-player space deck-builder in which ships and bases generate trade and combat.",
+      "owner": "Chris"
     },
     {
       "name": "Bag of Dungeon: A Fantasy Adventure Game",
@@ -1367,7 +1417,8 @@
         "fantasy",
         "adventure"
       ],
-      "description": "A simple dungeon adventure using a bag-drawn dungeon and character upgrades."
+      "description": "A simple dungeon adventure using a bag-drawn dungeon and character upgrades.",
+      "owner": "Chris"
     },
     {
       "name": "Exploding Kittens",
@@ -1390,7 +1441,8 @@
         "light",
         "family"
       ],
-      "description": "A quick card game of avoiding exploding kittens while using attacks and tricks."
+      "description": "A quick card game of avoiding exploding kittens while using attacks and tricks.",
+      "owner": "Chris"
     },
     {
       "name": "Exploding Minions",
@@ -1406,7 +1458,7 @@
         "min": 15,
         "max": 15
       },
-      "weight": 1.0,
+      "weight": 1,
       "tags": [
         "competitive",
         "short",
@@ -1414,7 +1466,8 @@
         "licensed",
         "family"
       ],
-      "description": "A Minions-themed version of the explosive Russian-roulette card game."
+      "description": "A Minions-themed version of the explosive Russian-roulette card game.",
+      "owner": "Chris"
     },
     {
       "name": "Stop Thief!",
@@ -1439,7 +1492,8 @@
         "mystery",
         "family"
       ],
-      "description": "Track an invisible thief from audio clues and race to make the arrest."
+      "description": "Track an invisible thief from audio clues and race to make the arrest.",
+      "owner": "Chris"
     },
     {
       "name": "Disney Villainous",
@@ -1464,7 +1518,8 @@
         "licensed",
         "family"
       ],
-      "description": "Each player controls a Disney villain with a unique objective, deck and powers."
+      "description": "Each player controls a Disney villain with a unique objective, deck and powers.",
+      "owner": "Chris"
     },
     {
       "name": "Final Girl",
@@ -1488,7 +1543,8 @@
         "push-your-luck",
         "horror"
       ],
-      "description": "A solo survival game recreating the structure of a slasher movie."
+      "description": "A solo survival game recreating the structure of a slasher movie.",
+      "owner": "Chris"
     },
     {
       "name": "Star Wars: Rebellion",
@@ -1513,7 +1569,8 @@
         "sci-fi",
         "licensed"
       ],
-      "description": "The Empire hunts for the hidden Rebel base while the Rebellion fights to survive."
+      "description": "The Empire hunts for the hidden Rebel base while the Rebellion fights to survive.",
+      "owner": "Chris"
     },
     {
       "name": "Shadows in Kyoto",
@@ -1536,7 +1593,8 @@
         "light",
         "deduction"
       ],
-      "description": "A two-player bluffing and deduction game about rival intelligence agents in Kyoto."
+      "description": "A two-player bluffing and deduction game about rival intelligence agents in Kyoto.",
+      "owner": "Chris"
     },
     {
       "name": "Hanamikoji",
@@ -1558,7 +1616,8 @@
         "short",
         "light"
       ],
-      "description": "A tense two-player game of clever card distribution and competing for geishas' favour."
+      "description": "A tense two-player game of clever card distribution and competing for geishas' favour.",
+      "owner": "Chris"
     },
     {
       "name": "One Night Ultimate Super Villains",
@@ -1582,7 +1641,8 @@
         "deduction",
         "licensed"
       ],
-      "description": "A fast hidden-role game where players use special powers to identify the super villain."
+      "description": "A fast hidden-role game where players use special powers to identify the super villain.",
+      "owner": "Chris"
     },
     {
       "name": "Hero Slam",
@@ -1598,7 +1658,7 @@
         "min": 20,
         "max": 40
       },
-      "weight": 1.0,
+      "weight": 1,
       "tags": [
         "competitive",
         "short",
@@ -1607,7 +1667,8 @@
         "fantasy",
         "family"
       ],
-      "description": "A fast family card game about gathering heroes, taking quests and fighting opponents."
+      "description": "A fast family card game about gathering heroes, taking quests and fighting opponents.",
+      "owner": "Chris"
     },
     {
       "name": "Red Rising",
@@ -1629,7 +1690,8 @@
         "medium-length",
         "medium"
       ],
-      "description": "A hand-management and drafting game based on Pierce Brown's Red Rising universe."
+      "description": "A hand-management and drafting game based on Pierce Brown's Red Rising universe.",
+      "owner": "Chris"
     },
     {
       "name": "Tiny Epic Defenders",
@@ -1653,7 +1715,8 @@
         "fantasy",
         "adventure"
       ],
-      "description": "A cooperative defence game in the Tiny Epic series."
+      "description": "A cooperative defence game in the Tiny Epic series.",
+      "owner": "Chris"
     },
     {
       "name": "Tiny Epic Zombies",
@@ -1677,7 +1740,8 @@
         "horror",
         "adventure"
       ],
-      "description": "A compact cooperative zombie survival game with multiple modes."
+      "description": "A compact cooperative zombie survival game with multiple modes.",
+      "owner": "Chris"
     },
     {
       "name": "Tiny Epic Galaxies",
@@ -1700,7 +1764,8 @@
         "medium",
         "sci-fi"
       ],
-      "description": "A compact space game of dice-driven exploration, colonisation and influence."
+      "description": "A compact space game of dice-driven exploration, colonisation and influence.",
+      "owner": "Chris"
     },
     {
       "name": "Tiny Epic Tactics",
@@ -1724,7 +1789,8 @@
         "fantasy",
         "adventure"
       ],
-      "description": "A tactical skirmish game combining tiny miniatures with card-driven abilities."
+      "description": "A tactical skirmish game combining tiny miniatures with card-driven abilities.",
+      "owner": "Chris"
     },
     {
       "name": "Tiny Epic Dinosaurs",
@@ -1748,7 +1814,8 @@
         "worker-placement",
         "family"
       ],
-      "description": "Breed, manage and research dinosaurs in a compact worker-placement game."
+      "description": "Breed, manage and research dinosaurs in a compact worker-placement game.",
+      "owner": "Chris"
     },
     {
       "name": "Dice Throne",
@@ -1771,7 +1838,8 @@
         "medium",
         "fantasy"
       ],
-      "description": "A dice-driven head-to-head battle game with asymmetric heroes and tactical abilities."
+      "description": "A dice-driven head-to-head battle game with asymmetric heroes and tactical abilities.",
+      "owner": "Chris"
     },
     {
       "name": "Dice Throne: Adventures",
@@ -1796,7 +1864,8 @@
         "fantasy",
         "adventure"
       ],
-      "description": "A cooperative campaign that uses Dice Throne heroes to explore, fight and upgrade."
+      "description": "A cooperative campaign that uses Dice Throne heroes to explore, fight and upgrade.",
+      "owner": "Chris"
     },
     {
       "name": "Skulls of Sedlec",
@@ -1818,7 +1887,8 @@
         "short",
         "light"
       ],
-      "description": "A compact card game about arranging a cemetery into scoring skull patterns."
+      "description": "A compact card game about arranging a cemetery into scoring skull patterns.",
+      "owner": "Chris"
     },
     {
       "name": "Liberation",
@@ -1842,7 +1912,8 @@
         "deduction",
         "sci-fi"
       ],
-      "description": "An asymmetric 18-card cat-and-mouse game between a galactic dynasty and a hidden rebellion."
+      "description": "An asymmetric 18-card cat-and-mouse game between a galactic dynasty and a hidden rebellion.",
+      "owner": "Chris"
     },
     {
       "name": "Coup",
@@ -1865,7 +1936,8 @@
         "light",
         "deduction"
       ],
-      "description": "A bluffing game of hidden roles, influence and calculated challenges."
+      "description": "A bluffing game of hidden roles, influence and calculated challenges.",
+      "owner": "Chris"
     },
     {
       "name": "Star Wars: Destiny",
@@ -1890,7 +1962,8 @@
         "sci-fi",
         "licensed"
       ],
-      "description": "A collectible dice-and-card duel between teams of Star Wars heroes and villains."
+      "description": "A collectible dice-and-card duel between teams of Star Wars heroes and villains.",
+      "owner": "Chris"
     },
     {
       "name": "The King Is Dead",
@@ -1913,7 +1986,8 @@
         "medium",
         "area-control"
       ],
-      "description": "A compact political strategy game about influencing rival factions in medieval Britain."
+      "description": "A compact political strategy game about influencing rival factions in medieval Britain.",
+      "owner": "Chris"
     },
     {
       "name": "Dead of Winter: The Long Night",
@@ -1937,7 +2011,8 @@
         "horror",
         "sci-fi"
       ],
-      "description": "Survivors struggle against zombies, bandits and Raxxon experiments, with competing secret objectives."
+      "description": "Survivors struggle against zombies, bandits and Raxxon experiments, with competing secret objectives.",
+      "owner": "Chris"
     },
     {
       "name": "The Lord of the Rings: Duel for Middle-earth",
@@ -1962,7 +2037,8 @@
         "fantasy",
         "licensed"
       ],
-      "description": "A two-player duel between the Fellowship and Sauron over the fate of Middle-earth."
+      "description": "A two-player duel between the Fellowship and Sauron over the fate of Middle-earth.",
+      "owner": "Chris"
     },
     {
       "name": "Obsession",
@@ -1985,7 +2061,8 @@
         "heavy",
         "worker-placement"
       ],
-      "description": "Build a Victorian estate, manage servants and host prestigious social events."
+      "description": "Build a Victorian estate, manage servants and host prestigious social events.",
+      "owner": "Chris"
     },
     {
       "name": "Everdell",
@@ -2010,7 +2087,8 @@
         "fantasy",
         "family"
       ],
-      "description": "Build a woodland city by combining critters, constructions and seasonal worker placement."
+      "description": "Build a woodland city by combining critters, constructions and seasonal worker placement.",
+      "owner": "Chris"
     },
     {
       "name": "Inuit",
@@ -2032,7 +2110,8 @@
         "medium-length",
         "light"
       ],
-      "description": "A tile-based strategy game set among Inuit communities and Arctic waters."
+      "description": "A tile-based strategy game set among Inuit communities and Arctic waters.",
+      "owner": "Chris"
     },
     {
       "name": "Welcome to the Dungeon",
@@ -2056,7 +2135,8 @@
         "push-your-luck",
         "fantasy"
       ],
-      "description": "Players bluff about a dungeon's dangers while progressively removing equipment and monsters."
+      "description": "Players bluff about a dungeon's dangers while progressively removing equipment and monsters.",
+      "owner": "Chris"
     },
     {
       "name": "Ascension Tactics: Miniatures Deckbuilding Game",
@@ -2081,7 +2161,8 @@
         "area-control",
         "fantasy"
       ],
-      "description": "A tactical miniatures game combining Ascension-style deck-building with battlefield combat."
+      "description": "A tactical miniatures game combining Ascension-style deck-building with battlefield combat.",
+      "owner": "Chris"
     },
     {
       "name": "Arctic Scavengers",
@@ -2104,7 +2185,8 @@
         "medium",
         "deck-building"
       ],
-      "description": "Build a tribe's deck and compete for scarce resources in a frozen post-apocalyptic world."
+      "description": "Build a tribe's deck and compete for scarce resources in a frozen post-apocalyptic world.",
+      "owner": "Chris"
     },
     {
       "name": "Aeon's End: War Eternal",
@@ -2128,7 +2210,8 @@
         "deck-building",
         "fantasy"
       ],
-      "description": "A cooperative deck-building battle against Nemeses where the deck is never shuffled."
+      "description": "A cooperative deck-building battle against Nemeses where the deck is never shuffled.",
+      "owner": "Chris"
     },
     {
       "name": "1815, Scum of the Earth: The Battle of Waterloo Card Game",
@@ -2150,7 +2233,8 @@
         "medium-length",
         "medium"
       ],
-      "description": "An asymmetric tactical card game recreating the Battle of Waterloo."
+      "description": "An asymmetric tactical card game recreating the Battle of Waterloo.",
+      "owner": "Chris"
     },
     {
       "name": "1066, Tears to Many Mothers: The Battle of Hastings",
@@ -2172,7 +2256,8 @@
         "medium-length",
         "medium"
       ],
-      "description": "An asymmetric tactical card game depicting the Battle of Hastings."
+      "description": "An asymmetric tactical card game depicting the Battle of Hastings.",
+      "owner": "Chris"
     },
     {
       "name": "Radlands",
@@ -2194,7 +2279,8 @@
         "medium-length",
         "medium"
       ],
-      "description": "A two-player post-apocalyptic duel where rival camps battle over scarce water."
+      "description": "A two-player post-apocalyptic duel where rival camps battle over scarce water.",
+      "owner": "Chris"
     },
     {
       "name": "Fantasy Realms",
@@ -2216,7 +2302,8 @@
         "short",
         "light"
       ],
-      "description": "Build the highest-scoring fantasy hand by drawing and discarding cards for powerful combinations."
+      "description": "Build the highest-scoring fantasy hand by drawing and discarding cards for powerful combinations.",
+      "owner": "Chris"
     }
   ]
 }

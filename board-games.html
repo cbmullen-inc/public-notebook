@@ -39,7 +39,8 @@
       { k: "cx", l: "Complexity", f: (x, y) => x.weight - y.weight },
       { k: "about", l: "About" }];
     let games = [], cats = [], tagById = {};
-    const sel = new Set(); let players = null; // players: selected player count, or null
+    const owners = ["Chris", "Matt", "Jill", "Unknown"];
+    const sel = new Set(); let players = null, owner = null; // owner and players are optional filters
     const sort = { k: "time", d: 1 };
     const $ = id => document.getElementById(id);
 
@@ -48,6 +49,7 @@
     function visible() {
       const terms = $("q").value.toLowerCase().split(/\s+/).filter(Boolean);
       return games.filter(g => {
+        if (owner !== null && (g.owner || "Unknown") !== owner) return false;
         if (players !== null && (players < g.playersMin || players > g.playersMax)) return false;
         if (terms.length) { const h = g._h; if (!terms.every(t => h.includes(t))) return false; }
         return cats.every(c => {
@@ -61,7 +63,7 @@
       const col = cols.find(c => c.k === sort.k), rows = visible();
       rows.sort((x, y) => sort.d * col.f(x, y) || x.name.localeCompare(y.name));
       $("count").textContent = rows.length + " of " + games.length + " games";
-      $("clear").hidden = !sel.size && !$("q").value && players === null;
+      $("clear").hidden = !sel.size && !$("q").value && players === null && owner === null;
       if (!rows.length) { $("out").innerHTML = `<p class="empty">No games match. Try removing a tag or clearing the search.</p>`; return; }
       const shown = new Set(cats.filter(c => c.showInRows).map(c => c.id));
       const body = rows.map(g => {
@@ -90,13 +92,22 @@
       });
     }
 
+    function syncOwner() {
+      document.querySelectorAll("button[data-owner]").forEach(b => {
+        const on = owner === b.dataset.owner;
+        b.classList.toggle("on", on); b.setAttribute("aria-pressed", on);
+      });
+    }
+
     function buildFilters() {
       const top = Math.max(...games.map(g => g.playersMax));
       $("pcount").innerHTML = Array.from({ length: top }, (_, i) => `<button type="button" class="tag" data-p="${i + 1}" aria-pressed="false">${i + 1}</button>`).join("");
-      $("filters").innerHTML = cats.map(c => `<div class="fgroup" role="group" aria-label="${esc(c.label)}"><span class="flabel">${esc(c.label)}</span>${c.tags.map(t => `<button type="button" class="tag" data-tag="${t.id}" aria-pressed="false">${esc(t.label)}</button>`).join("")}</div>`).join("");
+      $("filters").innerHTML = `<div class="fgroup" role="group" aria-label="Current owner"><span class="flabel">Owner</span>${owners.map(name => `<button type="button" class="tag" data-owner="${name}" aria-pressed="false">${name}</button>`).join("")}</div>` + cats.map(c => `<div class="fgroup" role="group" aria-label="${esc(c.label)}"><span class="flabel">${esc(c.label)}</span>${c.tags.map(t => `<button type="button" class="tag" data-tag="${t.id}" aria-pressed="false">${esc(t.label)}</button>`).join("")}</div>`).join("");
     }
 
     document.addEventListener("click", e => {
+      const o = e.target.closest("button[data-owner]");
+      if (o) { owner = owner === o.dataset.owner ? null : o.dataset.owner; syncOwner(); renderTable(); return; }
       const p = e.target.closest("button[data-p]");
       if (p) { players = players === +p.dataset.p ? null : +p.dataset.p; syncPlayers(); renderTable(); return; }
       const t = e.target.closest("button[data-tag]");
@@ -114,7 +125,7 @@
       }
     });
     $("q").addEventListener("input", renderTable);
-    $("clear").addEventListener("click", () => { sel.clear(); players = null; $("q").value = ""; syncChips(); syncPlayers(); renderTable(); $("q").focus(); });
+    $("clear").addEventListener("click", () => { sel.clear(); players = null; owner = null; $("q").value = ""; syncChips(); syncPlayers(); syncOwner(); renderTable(); $("q").focus(); });
 
     fetch("games.json")
       .then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
