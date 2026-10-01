@@ -12,11 +12,19 @@
   <main>
     <a class="back" href="index.html">Back to notes</a>
     <h1>My board game shelf</h1>
-    <p class="sub">Grouped by how you play, shortest games first. Click a column heading to re-sort a group; click again
-      to reverse. Titles link to BoardGameGeek.</p>
+    <p class="sub">Search by name or description, or pick tags to narrow the list. Tags in the same row match any
+      (e.g. Short or Medium); different rows must all match. Click a column heading to sort; click again to reverse.
+      Titles link to BoardGameGeek.</p>
+
+    <div class="controls">
+      <input id="q" type="search" placeholder="Search games, descriptions, tags…" aria-label="Search games" autocomplete="off">
+      <div id="filters"></div>
+      <p class="status"><span id="count" aria-live="polite"></span> <button id="clear" type="button" hidden>Clear all</button></p>
+    </div>
+
     <div id="out"></div>
-    <p class="note note--flush">Times, player counts and complexity (BGG's 1–5 weight scale) are approximate. Titles
-      without a fixed game ID link to a BGG search instead.</p>
+    <p class="note note--flush">Times, player counts and complexity (BGG's 1–5 weight scale) are approximate. Tags and
+      links live in games.json.</p>
   </main>
   <script>
     const cx = w => w < 2 ? ["L", "Light"] : w < 3 ? ["M", "Medium"] : ["H", "Heavy"];
@@ -28,35 +36,82 @@
       { k: "time", l: "Time", f: (x, y) => (x.minutes.min + x.minutes.max) - (y.minutes.min + y.minutes.max) },
       { k: "cx", l: "Complexity", f: (x, y) => x.weight - y.weight },
       { k: "about", l: "About" }];
-    let groups = [], state = [];
-    const out = document.getElementById("out");
-    function render() {
-      out.innerHTML = groups.map((gr, gi) => {
-        const st = state[gi], col = cols.find(c => c.k === st.k);
-        const rows = gr.games.slice().sort((x, y) => st.d * col.f(x, y) || x.name.localeCompare(y.name)).map(g => {
-          const [c, l] = cx(g.weight);
-          return `<tr><td><a href="${esc(g.link.url)}" target="_blank" rel="noopener">${esc(g.name)}</a></td><td class="nw">${esc(g.players)}</td><td class="nw">${fmt(g.minutes)}</td><td class="nw"><span class="pill ${c}">${l} ${g.weight.toFixed(1)}</span></td><td>${esc(g.description)}</td></tr>`;
-        }).join("");
-        const head = cols.map(c => c.f ? `<th aria-sort="${st.k === c.k ? (st.d > 0 ? "ascending" : "descending") : "none"}"><button data-g="${gi}" data-k="${c.k}">${c.l}<span class="arr">${st.k === c.k ? (st.d > 0 ? " ▲" : " ▼") : ""}</span></button></th>` : `<th>${c.l}</th>`).join("");
-        return `<section><h2>${esc(gr.title)}</h2><p class="note">${esc(gr.note)}</p><div class="wrap"><table><thead><tr>${head}</tr></thead><tbody>${rows}</tbody></table></div></section>`;
-      }).join("");
+    let games = [], cats = [], tagById = {};
+    const sel = new Set(), sort = { k: "time", d: 1 };
+    const $ = id => document.getElementById(id);
+
+    const hay = g => (g.name + " " + g.description + " " + g.tags.map(t => tagById[t].label).join(" ")).toLowerCase();
+
+    function visible() {
+      const terms = $("q").value.toLowerCase().split(/\s+/).filter(Boolean);
+      return games.filter(g => {
+        if (terms.length) { const h = g._h; if (!terms.every(t => h.includes(t))) return false; }
+        return cats.every(c => {
+          const picked = c.tags.filter(t => sel.has(t.id));
+          return !picked.length || picked.some(t => g.tags.includes(t.id));
+        });
+      });
     }
-    out.addEventListener("click", e => {
-      const b = e.target.closest("button[data-k]"); if (!b) return;
-      const st = state[+b.dataset.g], k = b.dataset.k;
-      if (st.k === k) st.d = -st.d; else { st.k = k; st.d = 1; }
-      render();
-      const nb = document.querySelector(`button[data-g="${b.dataset.g}"][data-k="${k}"]`); if (nb) nb.focus();
+
+    function renderTable() {
+      const col = cols.find(c => c.k === sort.k), rows = visible();
+      rows.sort((x, y) => sort.d * col.f(x, y) || x.name.localeCompare(y.name));
+      $("count").textContent = rows.length + " of " + games.length + " games";
+      $("clear").hidden = !sel.size && !$("q").value;
+      if (!rows.length) { $("out").innerHTML = `<p class="empty">No games match. Try removing a tag or clearing the search.</p>`; return; }
+      const shown = new Set(cats.filter(c => c.showInRows).map(c => c.id));
+      const body = rows.map(g => {
+        const [c, l] = cx(g.weight);
+        const chips = g.tags.filter(t => shown.has(tagById[t].category))
+          .map(t => `<button type="button" class="tag tag--sm${sel.has(t) ? " on" : ""}" data-tag="${t}" aria-pressed="${sel.has(t)}">${esc(tagById[t].label)}</button>`).join("");
+        return `<tr><td><a href="${esc(g.link.url)}" target="_blank" rel="noopener">${esc(g.name)}</a></td><td class="nw">${esc(g.players)}</td><td class="nw">${fmt(g.minutes)}</td><td class="nw"><span class="pill ${c}">${l} ${g.weight.toFixed(1)}</span></td><td>${esc(g.description)}<div class="tags">${chips}</div></td></tr>`;
+      }).join("");
+      const head = cols.map(c => c.f ? `<th aria-sort="${sort.k === c.k ? (sort.d > 0 ? "ascending" : "descending") : "none"}"><button data-k="${c.k}">${c.l}<span class="arr">${sort.k === c.k ? (sort.d > 0 ? " ▲" : " ▼") : ""}</span></button></th>` : `<th>${c.l}</th>`).join("");
+      $("out").innerHTML = `<div class="wrap"><table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
+    }
+
+    function syncChips() {
+      document.querySelectorAll("[data-tag]").forEach(b => {
+        const on = sel.has(b.dataset.tag);
+        b.classList.toggle("on", on); b.setAttribute("aria-pressed", on);
+      });
+    }
+
+    function toggle(id) { sel.has(id) ? sel.delete(id) : sel.add(id); syncChips(); renderTable(); }
+
+    function buildFilters() {
+      $("filters").innerHTML = cats.map(c => `<div class="fgroup" role="group" aria-label="${esc(c.label)}"><span class="flabel">${esc(c.label)}</span>${c.tags.map(t => `<button type="button" class="tag" data-tag="${t.id}" aria-pressed="false">${esc(t.label)}</button>`).join("")}</div>`).join("");
+    }
+
+    document.addEventListener("click", e => {
+      const t = e.target.closest("button[data-tag]");
+      if (t) {
+        toggle(t.dataset.tag);
+        const again = document.querySelector(`button[data-tag="${t.dataset.tag}"]`); // keep keyboard focus
+        if (again && !document.activeElement.closest("#out")) again.focus();
+        return;
+      }
+      const h = e.target.closest("th button[data-k]");
+      if (h) {
+        if (sort.k === h.dataset.k) sort.d = -sort.d; else { sort.k = h.dataset.k; sort.d = 1; }
+        renderTable();
+        const nb = document.querySelector(`th button[data-k="${sort.k}"]`); if (nb) nb.focus();
+      }
     });
+    $("q").addEventListener("input", renderTable);
+    $("clear").addEventListener("click", () => { sel.clear(); $("q").value = ""; syncChips(); renderTable(); $("q").focus(); });
+
     fetch("games.json")
       .then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
       .then(data => {
-        groups = data.groups;
-        state = groups.map(() => ({ k: "time", d: 1 }));
-        render();
+        games = data.games;
+        data.tags.forEach(t => tagById[t.id] = t);
+        cats = data.tagCategories.map(c => ({ ...c, tags: data.tags.filter(t => t.category === c.id) })).filter(c => c.tags.length);
+        games.forEach(g => g._h = hay(g));
+        buildFilters(); renderTable();
       })
       .catch(err => {
-        out.innerHTML = `<p class="note">Couldn't load games.json (${esc(err.message)}). If you opened this file directly, serve it over http instead, e.g. <code>python3 -m http.server</code>.</p>`;
+        $("out").innerHTML = `<p class="note">Couldn't load games.json (${esc(err.message)}). If you opened this file directly, serve it over http instead, e.g. <code>python3 -m http.server</code>.</p>`;
       });
   </script>
 </body>

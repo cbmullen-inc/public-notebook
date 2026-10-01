@@ -1,407 +1,739 @@
 {
-  "_comment": "Board game shelf data. 'link.url' is the exact URL the page uses. link.type is 'game' (fixed BGG ID) or 'search' (BGG search fallback; replace with a game ID once known). link.verified is false until the URL has been checked against boardgamegeek.com.",
-  "groups": [
+  "_comment": "Board game shelf data. Each game has an array of tag ids (defined in 'tags'). Length tag uses max play time: short <=30, medium 31-60, long >60. Complexity tag uses BGG weight: light <2, medium 2-2.9, heavy >=3. 'solo' = supports 1 player; 'big-group' = supports 6+. link.type is 'game' (direct BGG page) or 'search'.",
+  "tagCategories": [
     {
-      "title": "Cooperative",
-      "note": "Everyone wins or loses together.",
-      "games": [
-        {
-          "name": "Forbidden Island",
-          "link": {
-            "type": "game",
-            "bggId": 65244,
-            "url": "https://boardgamegeek.com/boardgame/65244",
-            "verified": true
-          },
-          "players": "2–4",
-          "minutes": {
-            "min": 30,
-            "max": 30
-          },
-          "weight": 1.3,
-          "description": "Grab four treasures and escape before the island sinks."
-        },
-        {
-          "name": "Forbidden Desert",
-          "link": {
-            "type": "game",
-            "bggId": 136063,
-            "url": "https://boardgamegeek.com/boardgame/136063",
-            "verified": true
-          },
-          "players": "2–5",
-          "minutes": {
-            "min": 45,
-            "max": 45
-          },
-          "weight": 1.7,
-          "description": "Rebuild a flying machine while a sandstorm buries the ruins."
-        },
-        {
-          "name": "Pandemic",
-          "link": {
-            "type": "game",
-            "bggId": 30549,
-            "url": "https://boardgamegeek.com/boardgame/30549",
-            "verified": true
-          },
-          "players": "2–4",
-          "minutes": {
-            "min": 45,
-            "max": 45
-          },
-          "weight": 2.4,
-          "description": "Race to cure four diseases before outbreaks overrun the world."
-        },
-        {
-          "name": "Legendary Encounters: Buffy / Firefly",
-          "link": {
-            "type": "search",
-            "bggId": 195571,
-            "url": "https://boardgamegeek.com/boardgame/195571",
-            "verified": true
-          },
-          "players": "1–5",
-          "minutes": {
-            "min": 45,
-            "max": 60
-          },
-          "weight": 2.5,
-          "description": "Deck-building co-op where you fight a villain's scheme, once in Sunnydale and once in the 'verse."
-        },
-        {
-          "name": "Sherlock Holmes Consulting Detective - Thames Murders & Other Cases",
-          "link": {
-            "type": "search",
-            "bggId": 2511,
-            "url": "https://boardgamegeek.com/boardgame/2511",
-            "verified": true
-          },
-          "players": "1–8",
-          "minutes": {
-            "min": 60,
-            "max": 120
-          },
-          "weight": 1.8,
-          "description": "Solve cases by reading period newspapers and directories, then answer questions Holmes-style."
-        },
-        {
-          "name": "Leviathan Wilds",
-          "link": {
-            "type": "search",
-            "bggId": 358737,
-            "url": "https://boardgamegeek.com/boardgame/358737",
-            "verified": true
-          },
-          "players": "1–4",
-          "minutes": {
-            "min": 90,
-            "max": 90
-          },
-          "weight": 2.5,
-          "description": "Climb colossal creatures on a spiral-bound storybook board, managing a deck that doubles as your grip."
-        },
-        {
-          "name": "Arkham Horror: The Card Game",
-          "link": {
-            "type": "game",
-            "bggId": 205637,
-            "url": "https://boardgamegeek.com/boardgame/205637",
-            "verified": true
-          },
-          "players": "1–4",
-          "minutes": {
-            "min": 60,
-            "max": 120
-          },
-          "weight": 3.5,
-          "description": "Build an investigator deck and unravel Lovecraftian mysteries over a campaign."
-        },
-        {
-          "name": "Gloomhaven: Jaws of the Lion",
-          "link": {
-            "type": "game",
-            "bggId": 291457,
-            "url": "https://boardgamegeek.com/boardgame/291457",
-            "verified": true
-          },
-          "players": "1–4",
-          "minutes": {
-            "min": 60,
-            "max": 120
-          },
-          "weight": 3.6,
-          "description": "Tactical card-driven dungeon crawling, trimmed down from the original Gloomhaven."
-        },
-        {
-          "name": "Sleeping Gods",
-          "link": {
-            "type": "game",
-            "bggId": 255984,
-            "url": "https://boardgamegeek.com/boardgame/255984",
-            "verified": true
-          },
-          "players": "1–4",
-          "minutes": {
-            "min": 60,
-            "max": 120
-          },
-          "weight": 2.9,
-          "description": "Storybook exploration across an uncharted archipelago as a stranded 1920s crew."
-        },
-        {
-          "name": "Sleeping Gods Distant Skies",
-          "link": {
-            "type": "game",
-            "bggId": 358320,
-            "url": "https://boardgamegeek.com/boardgame/358320",
-            "verified": true
-          },
-          "players": "1–4",
-          "minutes": {
-            "min": 60,
-            "max": 120
-          },
-          "weight": 2.9,
-          "description": "Journey across a rugged landscape in this sequel to Sleeping Gods."
-        },
-        {
-          "name": "Eldritch Horror",
-          "link": {
-            "type": "game",
-            "bggId": 146021,
-            "url": "https://boardgamegeek.com/boardgame/146021",
-            "verified": true
-          },
-          "players": "1–8",
-          "minutes": {
-            "min": 120,
-            "max": 240
-          },
-          "weight": 2.9,
-          "description": "Globe-trotting co-op against an Ancient One that is waking up."
-        },
-        {
-          "name": "Freelancers: A Crossroads Game",
-          "link": {
-            "type": "search",
-            "bggId": 383206,
-            "url": "https://boardgamegeek.com/boardgasme/383206",
-            "verified": true
-          },
-          "players": "1–4",
-          "minutes": {
-            "min": 45,
-            "max": 90
-          },
-          "weight": 2.5,
-          "description": "Fantasy mercenaries take jobs and build their reputation, with story choices along the way."
-        }
-      ]
+      "id": "mode",
+      "label": "Play style",
+      "showInRows": true
     },
     {
-      "title": "Semi-cooperative / traitor",
-      "note": "Work together, but someone (or your own goals) may get in the way.",
-      "games": [
-        {
-          "name": "Scooby-Doo: Betrayal at Mystery Mansion",
-          "link": {
-            "type": "search",
-            "bggId": 302809,
-            "url": "https://boardgamegeek.com/boardgame/302809",
-            "verified": true
-          },
-          "players": "3–5",
-          "minutes": {
-            "min": 45,
-            "max": 60
-          },
-          "weight": 1.8,
-          "description": "Explore a haunted mansion as the gang until one player is secretly the culprit."
-        },
-        {
-          "name": "Nemesis",
-          "link": {
-            "type": "game",
-            "bggId": 167355,
-            "url": "https://boardgamegeek.com/boardgame/167355",
-            "verified": true
-          },
-          "players": "1–5",
-          "minutes": {
-            "min": 90,
-            "max": 180
-          },
-          "weight": 3.2,
-          "description": "Survive a sci-fi spaceship while aliens, and possibly your crewmates, try to finish you."
-        }
-      ]
+      "id": "length",
+      "label": "Length",
+      "showInRows": false
     },
     {
-      "title": "Competitive",
-      "note": "Every player for themselves.",
-      "games": [
-        {
-          "name": "Love Letter: Bridgerton",
-          "link": {
-            "type": "search",
-            "bggId": 406459,
-            "url": "https://boardgamegeek.com/boardgame/406459",
-            "verified": true
-          },
-          "players": "2–6",
-          "minutes": {
-            "min": 20,
-            "max": 20
-          },
-          "weight": 1.2,
-          "description": "Can you discover Lady Whistledown's identity? A quick deduction game with a Bridgerton twist."
-        },
-        {
-          "name": "Sushi Go Party!",
-          "link": {
-            "type": "game",
-            "bggId": 192291,
-            "url": "https://boardgamegeek.com/boardgame/192291",
-            "verified": true
-          },
-          "players": "2–8",
-          "minutes": {
-            "min": 20,
-            "max": 20
-          },
-          "weight": 1.2,
-          "description": "Draft sushi cards, passing your hand around the table, to score the best combos."
-        },
-        {
-          "name": "Parks",
-          "link": {
-            "type": "game",
-            "bggId": 266524,
-            "url": "https://boardgamegeek.com/boardgame/266524",
-            "verified": true
-          },
-          "players": "1–5",
-          "minutes": {
-            "min": 30,
-            "max": 60
-          },
-          "weight": 1.5,
-          "description": "Hike trails and collect national park cards as the seasons change."
-        },
-        {
-          "name": "Clank!",
-          "link": {
-            "type": "game",
-            "bggId": 201808,
-            "url": "https://boardgamegeek.com/boardgame/201808",
-            "verified": true
-          },
-          "players": "2–4",
-          "minutes": {
-            "min": 30,
-            "max": 60
-          },
-          "weight": 2.2,
-          "description": "Deck-building dungeon heist where every noise may wake the dragon."
-        },
-        {
-          "name": "The Quacks of Quedlinburg: MegaBox",
-          "link": {
-            "type": "game",
-            "bggId": 349955,
-            "url": "https://boardgamegeek.com/boardgame/349955",
-            "verified": true
-          },
-          "players": "2–5",
-          "minutes": {
-            "min": 45,
-            "max": 60
-          },
-          "weight": 1.9,
-          "description": "Push-your-luck potion brewing: pull ingredients from a bag and hope nothing explodes."
-        },
-        {
-          "name": "The Quest for El Dorado",
-          "link": {
-            "type": "game",
-            "bggId": 217372,
-            "url": "https://boardgamegeek.com/boardgame/217372",
-            "verified": true
-          },
-          "players": "2–4",
-          "minutes": {
-            "min": 45,
-            "max": 60
-          },
-          "weight": 2.3,
-          "description": "Deck-building race through the jungle to the lost city."
-        },
-        {
-          "name": "Small World",
-          "link": {
-            "type": "game",
-            "bggId": 40692,
-            "url": "https://boardgamegeek.com/boardgame/40692",
-            "verified": true
-          },
-          "players": "2–5",
-          "minutes": {
-            "min": 40,
-            "max": 80
-          },
-          "weight": 2.3,
-          "description": "Fantasy races fight over a cramped map, and decline when they run out of steam."
-        },
-        {
-          "name": "Arcadia Quest",
-          "link": {
-            "type": "game",
-            "bggId": 155068,
-            "url": "https://boardgamegeek.com/boardgame/155068",
-            "verified": true
-          },
-          "players": "2–4",
-          "minutes": {
-            "min": 60,
-            "max": 90
-          },
-          "weight": 2.3,
-          "description": "Competitive dungeon brawler where guilds race to slay monsters and each other."
-        },
-        {
-          "name": "Bloody Inn",
-          "link": {
-            "type": "search",
-            "bggId": 180593,
-            "url": "https://boardgamegeek.com/boardgame/180593",
-            "verified": true
-          },
-          "players": "2–4",
-          "minutes": {
-            "min": 60,
-            "max": 90
-          },
-          "weight": 2.4,
-          "description": "Run a rural inn and quietly dispose of guests in this dark worker-placement game."
-        },
-        {
-          "name": "Inis",
-          "link": {
-            "type": "game",
-            "bggId": 155821,
-            "url": "https://boardgamegeek.com/boardgame/155821",
-            "verified": true
-          },
-          "players": "2–4",
-          "minutes": {
-            "min": 90,
-            "max": 90
-          },
-          "weight": 2.9,
-          "description": "Celtic clans draft cards and battle for control of the isles."
-        }
-      ]
+      "id": "complexity",
+      "label": "Complexity",
+      "showInRows": false
+    },
+    {
+      "id": "players",
+      "label": "Players",
+      "showInRows": false
+    },
+    {
+      "id": "mechanic",
+      "label": "Mechanics",
+      "showInRows": true
+    },
+    {
+      "id": "theme",
+      "label": "Theme",
+      "showInRows": true
+    }
+  ],
+  "tags": [
+    {
+      "id": "coop",
+      "label": "Cooperative",
+      "category": "mode"
+    },
+    {
+      "id": "semi-coop",
+      "label": "Semi-coop / traitor",
+      "category": "mode"
+    },
+    {
+      "id": "competitive",
+      "label": "Competitive",
+      "category": "mode"
+    },
+    {
+      "id": "short",
+      "label": "Short (≤30 min)",
+      "category": "length"
+    },
+    {
+      "id": "medium-length",
+      "label": "Medium (31–60 min)",
+      "category": "length"
+    },
+    {
+      "id": "long",
+      "label": "Long (over 60 min)",
+      "category": "length"
+    },
+    {
+      "id": "light",
+      "label": "Light (<2)",
+      "category": "complexity"
+    },
+    {
+      "id": "medium",
+      "label": "Medium (2–2.9)",
+      "category": "complexity"
+    },
+    {
+      "id": "heavy",
+      "label": "Heavy (3+)",
+      "category": "complexity"
+    },
+    {
+      "id": "solo",
+      "label": "Solo-friendly (1 player)",
+      "category": "players"
+    },
+    {
+      "id": "big-group",
+      "label": "6+ players",
+      "category": "players"
+    },
+    {
+      "id": "deck-building",
+      "label": "Deck-building",
+      "category": "mechanic"
+    },
+    {
+      "id": "campaign",
+      "label": "Campaign / legacy",
+      "category": "mechanic"
+    },
+    {
+      "id": "drafting",
+      "label": "Drafting",
+      "category": "mechanic"
+    },
+    {
+      "id": "push-your-luck",
+      "label": "Push your luck",
+      "category": "mechanic"
+    },
+    {
+      "id": "worker-placement",
+      "label": "Worker placement",
+      "category": "mechanic"
+    },
+    {
+      "id": "area-control",
+      "label": "Area control",
+      "category": "mechanic"
+    },
+    {
+      "id": "deduction",
+      "label": "Deduction",
+      "category": "mechanic"
+    },
+    {
+      "id": "fantasy",
+      "label": "Fantasy",
+      "category": "theme"
+    },
+    {
+      "id": "sci-fi",
+      "label": "Sci-fi",
+      "category": "theme"
+    },
+    {
+      "id": "horror",
+      "label": "Horror",
+      "category": "theme"
+    },
+    {
+      "id": "mystery",
+      "label": "Mystery",
+      "category": "theme"
+    },
+    {
+      "id": "adventure",
+      "label": "Adventure",
+      "category": "theme"
+    },
+    {
+      "id": "licensed",
+      "label": "Licensed / franchise",
+      "category": "theme"
+    },
+    {
+      "id": "family",
+      "label": "Family-friendly",
+      "category": "theme"
+    }
+  ],
+  "games": [
+    {
+      "name": "Forbidden Island",
+      "link": {
+        "type": "game",
+        "bggId": 65244,
+        "url": "https://boardgamegeek.com/boardgame/65244",
+        "verified": true
+      },
+      "players": "2–4",
+      "minutes": {
+        "min": 30,
+        "max": 30
+      },
+      "weight": 1.3,
+      "tags": [
+        "coop",
+        "short",
+        "light",
+        "adventure",
+        "family"
+      ],
+      "description": "Grab four treasures and escape before the island sinks."
+    },
+    {
+      "name": "Forbidden Desert",
+      "link": {
+        "type": "game",
+        "bggId": 136063,
+        "url": "https://boardgamegeek.com/boardgame/136063",
+        "verified": true
+      },
+      "players": "2–5",
+      "minutes": {
+        "min": 45,
+        "max": 45
+      },
+      "weight": 1.7,
+      "tags": [
+        "coop",
+        "medium-length",
+        "light",
+        "adventure",
+        "family"
+      ],
+      "description": "Rebuild a flying machine while a sandstorm buries the ruins."
+    },
+    {
+      "name": "Pandemic",
+      "link": {
+        "type": "game",
+        "bggId": 30549,
+        "url": "https://boardgamegeek.com/boardgame/30549",
+        "verified": true
+      },
+      "players": "2–4",
+      "minutes": {
+        "min": 45,
+        "max": 45
+      },
+      "weight": 2.4,
+      "tags": [
+        "coop",
+        "medium-length",
+        "medium",
+        "family"
+      ],
+      "description": "Race to cure four diseases before outbreaks overrun the world."
+    },
+    {
+      "name": "Legendary Encounters: Buffy / Firefly",
+      "link": {
+        "type": "game",
+        "bggId": 195571,
+        "url": "https://boardgamegeek.com/boardgame/195571",
+        "verified": true
+      },
+      "players": "1–5",
+      "minutes": {
+        "min": 45,
+        "max": 60
+      },
+      "weight": 2.5,
+      "tags": [
+        "coop",
+        "medium-length",
+        "medium",
+        "solo",
+        "deck-building",
+        "fantasy",
+        "sci-fi",
+        "licensed"
+      ],
+      "description": "Deck-building co-op where you fight a villain's scheme, once in Sunnydale and once in the 'verse."
+    },
+    {
+      "name": "Sherlock Holmes Consulting Detective - Thames Murders & Other Cases",
+      "link": {
+        "type": "game",
+        "bggId": 2511,
+        "url": "https://boardgamegeek.com/boardgame/2511",
+        "verified": true
+      },
+      "players": "1–8",
+      "minutes": {
+        "min": 60,
+        "max": 120
+      },
+      "weight": 1.8,
+      "tags": [
+        "coop",
+        "long",
+        "light",
+        "solo",
+        "big-group",
+        "deduction",
+        "mystery"
+      ],
+      "description": "Solve cases by reading period newspapers and directories, then answer questions Holmes-style."
+    },
+    {
+      "name": "Leviathan Wilds",
+      "link": {
+        "type": "game",
+        "bggId": 358737,
+        "url": "https://boardgamegeek.com/boardgame/358737",
+        "verified": true
+      },
+      "players": "1–4",
+      "minutes": {
+        "min": 90,
+        "max": 90
+      },
+      "weight": 2.5,
+      "tags": [
+        "coop",
+        "long",
+        "medium",
+        "solo",
+        "fantasy",
+        "adventure"
+      ],
+      "description": "Climb colossal creatures on a spiral-bound storybook board, managing a deck that doubles as your grip."
+    },
+    {
+      "name": "Arkham Horror: The Card Game",
+      "link": {
+        "type": "game",
+        "bggId": 205637,
+        "url": "https://boardgamegeek.com/boardgame/205637",
+        "verified": true
+      },
+      "players": "1–4",
+      "minutes": {
+        "min": 60,
+        "max": 120
+      },
+      "weight": 3.5,
+      "tags": [
+        "coop",
+        "long",
+        "heavy",
+        "solo",
+        "deck-building",
+        "campaign",
+        "horror",
+        "mystery"
+      ],
+      "description": "Build an investigator deck and unravel Lovecraftian mysteries over a campaign."
+    },
+    {
+      "name": "Gloomhaven: Jaws of the Lion",
+      "link": {
+        "type": "game",
+        "bggId": 291457,
+        "url": "https://boardgamegeek.com/boardgame/291457",
+        "verified": true
+      },
+      "players": "1–4",
+      "minutes": {
+        "min": 60,
+        "max": 120
+      },
+      "weight": 3.6,
+      "tags": [
+        "coop",
+        "long",
+        "heavy",
+        "solo",
+        "campaign",
+        "fantasy"
+      ],
+      "description": "Tactical card-driven dungeon crawling, trimmed down from the original Gloomhaven."
+    },
+    {
+      "name": "Sleeping Gods",
+      "link": {
+        "type": "game",
+        "bggId": 255984,
+        "url": "https://boardgamegeek.com/boardgame/255984",
+        "verified": true
+      },
+      "players": "1–4",
+      "minutes": {
+        "min": 60,
+        "max": 120
+      },
+      "weight": 2.9,
+      "tags": [
+        "coop",
+        "long",
+        "medium",
+        "solo",
+        "campaign",
+        "adventure"
+      ],
+      "description": "Storybook exploration across an uncharted archipelago as a stranded 1920s crew."
+    },
+    {
+      "name": "Sleeping Gods Distant Skies",
+      "link": {
+        "type": "game",
+        "bggId": 358320,
+        "url": "https://boardgamegeek.com/boardgame/358320",
+        "verified": true
+      },
+      "players": "1–4",
+      "minutes": {
+        "min": 60,
+        "max": 120
+      },
+      "weight": 2.9,
+      "tags": [
+        "coop",
+        "long",
+        "medium",
+        "solo",
+        "campaign",
+        "adventure"
+      ],
+      "description": "Journey across a rugged landscape in this sequel to Sleeping Gods."
+    },
+    {
+      "name": "Eldritch Horror",
+      "link": {
+        "type": "game",
+        "bggId": 146021,
+        "url": "https://boardgamegeek.com/boardgame/146021",
+        "verified": true
+      },
+      "players": "1–8",
+      "minutes": {
+        "min": 120,
+        "max": 240
+      },
+      "weight": 2.9,
+      "tags": [
+        "coop",
+        "long",
+        "medium",
+        "solo",
+        "big-group",
+        "horror",
+        "adventure"
+      ],
+      "description": "Globe-trotting co-op against an Ancient One that is waking up."
+    },
+    {
+      "name": "Freelancers: A Crossroads Game",
+      "link": {
+        "type": "game",
+        "bggId": 383206,
+        "url": "https://boardgamegeek.com/boardgame/383206",
+        "verified": true
+      },
+      "players": "1–4",
+      "minutes": {
+        "min": 45,
+        "max": 90
+      },
+      "weight": 2.5,
+      "tags": [
+        "coop",
+        "long",
+        "medium",
+        "solo",
+        "fantasy"
+      ],
+      "description": "Fantasy mercenaries take jobs and build their reputation, with story choices along the way."
+    },
+    {
+      "name": "Scooby-Doo: Betrayal at Mystery Mansion",
+      "link": {
+        "type": "game",
+        "bggId": 302809,
+        "url": "https://boardgamegeek.com/boardgame/302809",
+        "verified": true
+      },
+      "players": "3–5",
+      "minutes": {
+        "min": 45,
+        "max": 60
+      },
+      "weight": 1.8,
+      "tags": [
+        "semi-coop",
+        "medium-length",
+        "light",
+        "mystery",
+        "licensed",
+        "family"
+      ],
+      "description": "Explore a haunted mansion as the gang until one player is secretly the culprit."
+    },
+    {
+      "name": "Nemesis",
+      "link": {
+        "type": "game",
+        "bggId": 167355,
+        "url": "https://boardgamegeek.com/boardgame/167355",
+        "verified": true
+      },
+      "players": "1–5",
+      "minutes": {
+        "min": 90,
+        "max": 180
+      },
+      "weight": 3.2,
+      "tags": [
+        "semi-coop",
+        "long",
+        "heavy",
+        "solo",
+        "sci-fi",
+        "horror"
+      ],
+      "description": "Survive a sci-fi spaceship while aliens, and possibly your crewmates, try to finish you."
+    },
+    {
+      "name": "Love Letter: Bridgerton",
+      "link": {
+        "type": "game",
+        "bggId": 406459,
+        "url": "https://boardgamegeek.com/boardgame/406459",
+        "verified": true
+      },
+      "players": "2–6",
+      "minutes": {
+        "min": 20,
+        "max": 20
+      },
+      "weight": 1.2,
+      "tags": [
+        "competitive",
+        "short",
+        "light",
+        "big-group",
+        "deduction",
+        "licensed"
+      ],
+      "description": "Can you discover Lady Whistledown's identity? A quick deduction game with a Bridgerton twist."
+    },
+    {
+      "name": "Sushi Go Party!",
+      "link": {
+        "type": "game",
+        "bggId": 192291,
+        "url": "https://boardgamegeek.com/boardgame/192291",
+        "verified": true
+      },
+      "players": "2–8",
+      "minutes": {
+        "min": 20,
+        "max": 20
+      },
+      "weight": 1.2,
+      "tags": [
+        "competitive",
+        "short",
+        "light",
+        "big-group",
+        "drafting",
+        "family"
+      ],
+      "description": "Draft sushi cards, passing your hand around the table, to score the best combos."
+    },
+    {
+      "name": "Parks",
+      "link": {
+        "type": "game",
+        "bggId": 266524,
+        "url": "https://boardgamegeek.com/boardgame/266524",
+        "verified": true
+      },
+      "players": "1–5",
+      "minutes": {
+        "min": 30,
+        "max": 60
+      },
+      "weight": 1.5,
+      "tags": [
+        "competitive",
+        "medium-length",
+        "light",
+        "solo",
+        "worker-placement",
+        "adventure",
+        "family"
+      ],
+      "description": "Hike trails and collect national park cards as the seasons change."
+    },
+    {
+      "name": "Clank!",
+      "link": {
+        "type": "game",
+        "bggId": 201808,
+        "url": "https://boardgamegeek.com/boardgame/201808",
+        "verified": true
+      },
+      "players": "2–4",
+      "minutes": {
+        "min": 30,
+        "max": 60
+      },
+      "weight": 2.2,
+      "tags": [
+        "competitive",
+        "medium-length",
+        "medium",
+        "deck-building",
+        "push-your-luck",
+        "fantasy",
+        "adventure"
+      ],
+      "description": "Deck-building dungeon heist where every noise may wake the dragon."
+    },
+    {
+      "name": "The Quacks of Quedlinburg: MegaBox",
+      "link": {
+        "type": "game",
+        "bggId": 349955,
+        "url": "https://boardgamegeek.com/boardgame/349955",
+        "verified": true
+      },
+      "players": "2–5",
+      "minutes": {
+        "min": 45,
+        "max": 60
+      },
+      "weight": 1.9,
+      "tags": [
+        "competitive",
+        "medium-length",
+        "light",
+        "push-your-luck",
+        "fantasy",
+        "family"
+      ],
+      "description": "Push-your-luck potion brewing: pull ingredients from a bag and hope nothing explodes."
+    },
+    {
+      "name": "The Quest for El Dorado",
+      "link": {
+        "type": "game",
+        "bggId": 217372,
+        "url": "https://boardgamegeek.com/boardgame/217372",
+        "verified": true
+      },
+      "players": "2–4",
+      "minutes": {
+        "min": 45,
+        "max": 60
+      },
+      "weight": 2.3,
+      "tags": [
+        "competitive",
+        "medium-length",
+        "medium",
+        "deck-building",
+        "adventure",
+        "family"
+      ],
+      "description": "Deck-building race through the jungle to the lost city."
+    },
+    {
+      "name": "Small World",
+      "link": {
+        "type": "game",
+        "bggId": 40692,
+        "url": "https://boardgamegeek.com/boardgame/40692",
+        "verified": true
+      },
+      "players": "2–5",
+      "minutes": {
+        "min": 40,
+        "max": 80
+      },
+      "weight": 2.3,
+      "tags": [
+        "competitive",
+        "long",
+        "medium",
+        "area-control",
+        "fantasy",
+        "family"
+      ],
+      "description": "Fantasy races fight over a cramped map, and decline when they run out of steam."
+    },
+    {
+      "name": "Arcadia Quest",
+      "link": {
+        "type": "game",
+        "bggId": 155068,
+        "url": "https://boardgamegeek.com/boardgame/155068",
+        "verified": true
+      },
+      "players": "2–4",
+      "minutes": {
+        "min": 60,
+        "max": 90
+      },
+      "weight": 2.3,
+      "tags": [
+        "competitive",
+        "long",
+        "medium",
+        "fantasy"
+      ],
+      "description": "Competitive dungeon brawler where guilds race to slay monsters and each other."
+    },
+    {
+      "name": "Bloody Inn",
+      "link": {
+        "type": "game",
+        "bggId": 180593,
+        "url": "https://boardgamegeek.com/boardgame/180593",
+        "verified": true
+      },
+      "players": "2–4",
+      "minutes": {
+        "min": 60,
+        "max": 90
+      },
+      "weight": 2.4,
+      "tags": [
+        "competitive",
+        "long",
+        "medium",
+        "worker-placement"
+      ],
+      "description": "Run a rural inn and quietly dispose of guests in this dark worker-placement game."
+    },
+    {
+      "name": "Inis",
+      "link": {
+        "type": "game",
+        "bggId": 155821,
+        "url": "https://boardgamegeek.com/boardgame/155821",
+        "verified": true
+      },
+      "players": "2–4",
+      "minutes": {
+        "min": 90,
+        "max": 90
+      },
+      "weight": 2.9,
+      "tags": [
+        "competitive",
+        "long",
+        "medium",
+        "drafting",
+        "area-control",
+        "fantasy"
+      ],
+      "description": "Celtic clans draft cards and battle for control of the isles."
     }
   ]
 }
