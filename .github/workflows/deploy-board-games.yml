@@ -4,8 +4,7 @@ on:
   push:
     branches: [main]
     paths:
-      - 'board-games.html'
-      - 'board-games.css'
+      - 'board-games/**'
   workflow_dispatch:
  
 permissions:
@@ -24,6 +23,7 @@ jobs:
           mkdir -p _site
           cp board-games/board-games.html _site/board-games.html
           cp board-games/board-games.css _site/board-games.css
+          cp board-games/games.json _site/games.json
  
       - name: Deploy to gh-pages subfolder
         uses: peaceiris/actions-gh-pages@v4
