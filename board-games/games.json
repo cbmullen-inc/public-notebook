@@ -25,6 +25,21 @@
       "id": "theme",
       "label": "Theme",
       "showInRows": true
+    },
+    {
+      "id": "components",
+      "label": "Components & table",
+      "showInRows": true
+    },
+    {
+      "id": "interaction",
+      "label": "Interaction & feel",
+      "showInRows": true
+    },
+    {
+      "id": "audience",
+      "label": "Audience",
+      "showInRows": true
     }
   ],
   "tags": [
@@ -80,7 +95,7 @@
     },
     {
       "id": "campaign",
-      "label": "Campaign / legacy",
+      "label": "Campaign (multi-session)",
       "category": "mechanic"
     },
     {
@@ -106,6 +121,21 @@
     {
       "id": "deduction",
       "label": "Deduction",
+      "category": "mechanic"
+    },
+    {
+      "id": "legacy",
+      "label": "Legacy (permanent changes)",
+      "category": "mechanic"
+    },
+    {
+      "id": "dice",
+      "label": "Dice-driven",
+      "category": "mechanic"
+    },
+    {
+      "id": "set-collection",
+      "label": "Set collection",
       "category": "mechanic"
     },
     {
@@ -139,9 +169,89 @@
       "category": "theme"
     },
     {
+      "id": "historical",
+      "label": "Historical",
+      "category": "theme"
+    },
+    {
+      "id": "lovecraftian",
+      "label": "Lovecraftian",
+      "category": "theme"
+    },
+    {
+      "id": "zombie",
+      "label": "Zombies",
+      "category": "theme"
+    },
+    {
+      "id": "abstract",
+      "label": "Abstract",
+      "category": "theme"
+    },
+    {
       "id": "family",
       "label": "Family-friendly",
-      "category": "theme"
+      "category": "audience"
+    },
+    {
+      "id": "gateway",
+      "label": "Gateway",
+      "category": "audience"
+    },
+    {
+      "id": "party",
+      "label": "Party / large group",
+      "category": "audience"
+    },
+    {
+      "id": "miniatures",
+      "label": "Miniatures",
+      "category": "components"
+    },
+    {
+      "id": "long-setup",
+      "label": "Long setup/teardown",
+      "category": "components"
+    },
+    {
+      "id": "big-table",
+      "label": "Big table footprint",
+      "category": "components"
+    },
+    {
+      "id": "compact",
+      "label": "Compact / travel-friendly",
+      "category": "components"
+    },
+    {
+      "id": "dexterity",
+      "label": "Dexterity",
+      "category": "components"
+    },
+    {
+      "id": "take-that",
+      "label": "Take-that / player attacks",
+      "category": "interaction"
+    },
+    {
+      "id": "bluffing",
+      "label": "Hidden roles / bluffing",
+      "category": "interaction"
+    },
+    {
+      "id": "asymmetric",
+      "label": "Asymmetric sides or powers",
+      "category": "interaction"
+    },
+    {
+      "id": "alpha-player",
+      "label": "Alpha-player prone",
+      "category": "interaction"
+    },
+    {
+      "id": "luck-heavy",
+      "label": "Luck-heavy",
+      "category": "interaction"
     }
   ],
   "games": [
@@ -165,7 +275,9 @@
         "short",
         "light",
         "adventure",
-        "family"
+        "alpha-player",
+        "family",
+        "gateway"
       ],
       "description": "Grab four treasures and escape before the island sinks.",
       "owner": "Chris"
@@ -190,7 +302,9 @@
         "medium-length",
         "light",
         "adventure",
-        "family"
+        "alpha-player",
+        "family",
+        "gateway"
       ],
       "description": "Rebuild a flying machine while a sandstorm buries the ruins.",
       "owner": "Chris"
@@ -214,7 +328,9 @@
         "coop",
         "medium-length",
         "medium",
-        "family"
+        "alpha-player",
+        "family",
+        "gateway"
       ],
       "description": "Race to cure four diseases before outbreaks overrun the world.",
       "owner": "Chris"
@@ -241,7 +357,8 @@
         "deck-building",
         "fantasy",
         "sci-fi",
-        "licensed"
+        "licensed",
+        "alpha-player"
       ],
       "description": "Deck-building co-op where you fight a villain's scheme, once in Sunnydale and once in the 'verse.",
       "owner": "Chris"
@@ -318,7 +435,9 @@
         "deck-building",
         "campaign",
         "horror",
-        "mystery"
+        "mystery",
+        "lovecraftian",
+        "long-setup"
       ],
       "description": "Build an investigator deck and unravel Lovecraftian mysteries over a campaign.",
       "owner": "Chris"
@@ -343,7 +462,9 @@
         "long",
         "heavy",
         "campaign",
-        "fantasy"
+        "fantasy",
+        "miniatures",
+        "long-setup"
       ],
       "description": "Tactical card-driven dungeon crawling, trimmed down from the original Gloomhaven.",
       "owner": "Chris"
@@ -368,7 +489,9 @@
         "long",
         "medium",
         "campaign",
-        "adventure"
+        "dice",
+        "adventure",
+        "big-table"
       ],
       "description": "Storybook exploration across an uncharted archipelago as a stranded 1920s crew.",
       "owner": "Chris"
@@ -393,7 +516,9 @@
         "long",
         "medium",
         "campaign",
-        "adventure"
+        "dice",
+        "adventure",
+                "big-table"
       ],
       "description": "Journey across a rugged landscape in this sequel to Sleeping Gods.",
       "owner": "Chris"
@@ -417,8 +542,14 @@
         "coop",
         "long",
         "medium",
+        "dice",
         "horror",
-        "adventure"
+        "adventure",
+        "lovecraftian",
+        "long-setup",
+        "big-table",
+        "alpha-player",
+        "luck-heavy"
       ],
       "description": "Globe-trotting co-op against an Ancient One that is waking up.",
       "owner": "Chris"
@@ -468,6 +599,7 @@
         "light",
         "mystery",
         "licensed",
+        "bluffing",
         "family"
       ],
       "description": "Explore a haunted mansion as the gang until one player is secretly the culprit.",
@@ -493,7 +625,11 @@
         "long",
         "heavy",
         "sci-fi",
-        "horror"
+        "horror",
+        "miniatures",
+        "long-setup",
+        "big-table",
+        "bluffing"
       ],
       "description": "Survive a sci-fi spaceship while aliens, and possibly your crewmates, try to finish you.",
       "owner": "Chris"
@@ -518,7 +654,10 @@
         "short",
         "light",
         "deduction",
-        "licensed"
+        "licensed",
+        "compact",
+        "luck-heavy",
+        "gateway"
       ],
       "description": "Can you discover Lady Whistledown's identity? A quick deduction game with a Bridgerton twist.",
       "owner": "Chris"
@@ -543,7 +682,11 @@
         "short",
         "light",
         "drafting",
-        "family"
+        "set-collection",
+        "compact",
+        "family",
+        "gateway",
+        "party"
       ],
       "description": "Draft sushi cards, passing your hand around the table, to score the best combos.",
       "owner": "Chris"
@@ -568,8 +711,10 @@
         "medium-length",
         "light",
         "worker-placement",
+        "set-collection",
         "adventure",
-        "family"
+        "family",
+        "gateway"
       ],
       "description": "Hike trails and collect national park cards as the seasons change.",
       "owner": "Chris"
@@ -622,7 +767,8 @@
         "light",
         "push-your-luck",
         "fantasy",
-        "family"
+        "family",
+        "gateway"
       ],
       "description": "Push-your-luck potion brewing: pull ingredients from a bag and hope nothing explodes.",
       "owner": "Chris"
@@ -648,7 +794,8 @@
         "medium",
         "deck-building",
         "adventure",
-        "family"
+        "family",
+        "gateway"
       ],
       "description": "Deck-building race through the jungle to the lost city.",
       "owner": "Chris"
@@ -674,7 +821,9 @@
         "medium",
         "area-control",
         "fantasy",
-        "family"
+        "take-that",
+        "family",
+        "gateway"
       ],
       "description": "Fantasy races fight over a cramped map, and decline when they run out of steam.",
       "owner": "Chris"
@@ -698,7 +847,13 @@
         "competitive",
         "long",
         "medium",
-        "fantasy"
+        "dice",
+        "fantasy",
+        "miniatures",
+        "long-setup",
+        "big-table",
+        "take-that",
+        "luck-heavy"
       ],
       "description": "Competitive dungeon brawler where guilds race to slay monsters and each other.",
       "owner": "Chris"
@@ -748,7 +903,8 @@
         "medium",
         "drafting",
         "area-control",
-        "fantasy"
+        "fantasy",
+        "miniatures"
       ],
       "description": "Celtic clans draft cards and battle for control of the isles.",
       "owner": "Chris"
@@ -773,7 +929,10 @@
         "long",
         "heavy",
         "area-control",
-        "fantasy"
+        "fantasy",
+        "miniatures",
+        "long-setup",
+        "take-that"
       ],
       "description": "Tactical magical combat on a shared arena, with customizable spellbooks.",
       "owner": "Chris"
@@ -799,6 +958,7 @@
         "medium",
         "deck-building",
         "campaign",
+        "legacy",
         "fantasy",
         "adventure"
       ],
@@ -825,7 +985,10 @@
         "short",
         "light",
         "deduction",
-        "family"
+        "compact",
+        "family",
+        "gateway",
+        "party"
       ],
       "description": "Teams give one-word clues to identify their agents while avoiding the assassin.",
       "owner": "Chris"
@@ -850,7 +1013,8 @@
         "medium-length",
         "medium",
         "deck-building",
-        "campaign"
+        "campaign",
+        "historical"
       ],
       "description": "A two-player WWII tactical campaign combining deck-building with battlefield control.",
       "owner": "Chris"
@@ -875,7 +1039,8 @@
         "medium-length",
         "medium",
         "deck-building",
-        "campaign"
+        "campaign",
+        "historical"
       ],
       "description": "A WWII desert campaign featuring infantry, vehicles and tactical deck-building.",
       "owner": "Chris"
@@ -900,7 +1065,8 @@
         "medium-length",
         "heavy",
         "deck-building",
-        "campaign"
+        "campaign",
+        "historical"
       ],
       "description": "A linked WWII campaign in which casualties and battlefield choices carry forward.",
       "owner": "Chris"
@@ -925,6 +1091,7 @@
         "medium-length",
         "medium",
         "campaign",
+        "dice",
         "sci-fi"
       ],
       "description": "A solo dice-placement defence game about stopping an alien invasion.",
@@ -950,7 +1117,11 @@
         "short",
         "light",
         "deduction",
-        "horror"
+        "horror",
+        "lovecraftian",
+        "compact",
+        "bluffing",
+        "party"
       ],
       "description": "A hidden-role deduction game where investigators and cultists struggle over Cthulhu.",
       "owner": "Chris"
@@ -975,7 +1146,9 @@
         "medium-length",
         "heavy",
         "deck-building",
-        "fantasy"
+        "fantasy",
+        "take-that",
+        "asymmetric"
       ],
       "description": "A head-to-head card-and-dice battle between powerful Phoenixborn.",
       "owner": "Chris"
@@ -999,8 +1172,10 @@
         "coop",
         "medium-length",
         "medium",
+        "dice",
         "fantasy",
-        "adventure"
+        "adventure",
+        "compact"
       ],
       "description": "A compact dice-driven dungeon crawl with roguelike progression.",
       "owner": "Chris"
@@ -1047,7 +1222,8 @@
         "competitive",
         "medium-length",
         "medium",
-        "fantasy"
+        "fantasy",
+        "take-that"
       ],
       "description": "Tactical magical duelling between apprentice mages.",
       "owner": "Chris"
@@ -1072,7 +1248,10 @@
         "short",
         "light",
         "drafting",
-        "horror"
+        "set-collection",
+        "horror",
+        "lovecraftian",
+        "compact"
       ],
       "description": "A two-player drafting game where powerful cards bring the risk of accumulating madness.",
       "owner": "Chris"
@@ -1095,7 +1274,9 @@
       "tags": [
         "competitive",
         "short",
-        "light"
+        "light",
+        "abstract",
+        "compact"
       ],
       "description": "An ancient abstract strategy game of forming mills and capturing opposing pieces.",
       "owner": "Chris"
@@ -1118,7 +1299,10 @@
       "tags": [
         "competitive",
         "short",
-        "light"
+        "light",
+        "abstract",
+        "big-table",
+        "dexterity"
       ],
       "description": "A dexterity game of flicking wooden discs into scoring areas on a circular board.",
       "owner": "Chris"
@@ -1142,8 +1326,11 @@
         "competitive",
         "short",
         "light",
+        "sci-fi",
         "licensed",
-        "sci-fi"
+        "compact",
+        "luck-heavy",
+        "party"
       ],
       "description": "A Firefly-themed Fluxx game where changing goals and rules keep the table in flux.",
       "owner": "Chris"
@@ -1167,7 +1354,10 @@
         "competitive",
         "short",
         "light",
-        "fantasy"
+        "fantasy",
+        "compact",
+        "luck-heavy",
+        "party"
       ],
       "description": "A fairy-tale Fluxx game built around changing goals and rules.",
       "owner": "Chris"
@@ -1191,7 +1381,10 @@
         "competitive",
         "short",
         "light",
-        "fantasy"
+        "fantasy",
+        "compact",
+        "luck-heavy",
+        "party"
       ],
       "description": "A Greek-mythology Fluxx game with constantly changing rules and goals.",
       "owner": "Chris"
@@ -1264,8 +1457,13 @@
         "long",
         "heavy",
         "area-control",
+        "dice",
         "fantasy",
-        "licensed"
+        "licensed",
+        "miniatures",
+        "long-setup",
+        "big-table",
+        "asymmetric"
       ],
       "description": "An epic strategic struggle for Middle-earth combining armies, characters and the Ring quest.",
       "owner": "Chris"
@@ -1314,7 +1512,9 @@
         "coop",
         "medium-length",
         "medium",
-        "campaign"
+        "campaign",
+        "legacy",
+        "alpha-player"
       ],
       "description": "A campaign version of Pandemic in which the world and rules evolve permanently.",
       "owner": "Chris"
@@ -1340,7 +1540,8 @@
         "heavy",
         "deck-building",
         "fantasy",
-        "licensed"
+        "licensed",
+        "take-that"
       ],
       "description": "A competitive living card game of intrigue, warfare and competing Westerosi houses.",
       "owner": "Chris"
@@ -1364,8 +1565,10 @@
         "competitive",
         "short",
         "light",
+        "set-collection",
+        "fantasy",
         "licensed",
-        "fantasy"
+        "gateway"
       ],
       "description": "A fast court-intrigue game where players use Varys to gather allies and claim house banners.",
       "owner": "Chris"
@@ -1390,7 +1593,9 @@
         "short",
         "light",
         "deck-building",
-        "sci-fi"
+        "sci-fi",
+        "compact",
+        "take-that"
       ],
       "description": "A fast two-player space deck-builder in which ships and bases generate trade and combat.",
       "owner": "Chris"
@@ -1414,8 +1619,11 @@
         "coop",
         "medium-length",
         "light",
+        "dice",
         "fantasy",
-        "adventure"
+        "adventure",
+        "compact",
+        "luck-heavy"
       ],
       "description": "A simple dungeon adventure using a bag-drawn dungeon and character upgrades.",
       "owner": "Chris"
@@ -1439,7 +1647,12 @@
         "competitive",
         "short",
         "light",
-        "family"
+        "compact",
+        "take-that",
+        "luck-heavy",
+        "family",
+        "gateway",
+        "party"
       ],
       "description": "A quick card game of avoiding exploding kittens while using attacks and tricks.",
       "owner": "Chris"
@@ -1464,7 +1677,11 @@
         "short",
         "light",
         "licensed",
-        "family"
+        "compact",
+        "take-that",
+        "luck-heavy",
+        "family",
+        "party"
       ],
       "description": "A Minions-themed version of the explosive Russian-roulette card game.",
       "owner": "Chris"
@@ -1516,6 +1733,9 @@
         "medium",
         "area-control",
         "licensed",
+        "big-table",
+        "take-that",
+        "asymmetric",
         "family"
       ],
       "description": "Each player controls a Disney villain with a unique objective, deck and powers.",
@@ -1541,7 +1761,10 @@
         "medium-length",
         "medium",
         "push-your-luck",
-        "horror"
+        "dice",
+        "horror",
+        "miniatures",
+        "asymmetric"
       ],
       "description": "A solo survival game recreating the structure of a slasher movie.",
       "owner": "Chris"
@@ -1566,8 +1789,13 @@
         "long",
         "heavy",
         "area-control",
+        "dice",
         "sci-fi",
-        "licensed"
+        "licensed",
+        "miniatures",
+        "long-setup",
+        "big-table",
+        "asymmetric"
       ],
       "description": "The Empire hunts for the hidden Rebel base while the Rebellion fights to survive.",
       "owner": "Chris"
@@ -1591,7 +1819,8 @@
         "competitive",
         "short",
         "light",
-        "deduction"
+        "deduction",
+        "compact"
       ],
       "description": "A two-player bluffing and deduction game about rival intelligence agents in Kyoto.",
       "owner": "Chris"
@@ -1614,7 +1843,11 @@
       "tags": [
         "competitive",
         "short",
-        "light"
+        "light",
+        "set-collection",
+        "abstract",
+        "compact",
+        "gateway"
       ],
       "description": "A tense two-player game of clever card distribution and competing for geishas' favour.",
       "owner": "Chris"
@@ -1639,7 +1872,10 @@
         "short",
         "light",
         "deduction",
-        "licensed"
+        "licensed",
+        "compact",
+        "bluffing",
+        "party"
       ],
       "description": "A fast hidden-role game where players use special powers to identify the super villain.",
       "owner": "Chris"
@@ -1664,7 +1900,9 @@
         "short",
         "light",
         "push-your-luck",
+        "dice",
         "fantasy",
+        "luck-heavy",
         "family"
       ],
       "description": "A fast family card game about gathering heroes, taking quests and fighting opponents.",
@@ -1712,8 +1950,11 @@
         "coop",
         "medium-length",
         "medium",
+        "dice",
         "fantasy",
-        "adventure"
+        "adventure",
+        "compact",
+        "alpha-player"
       ],
       "description": "A cooperative defence game in the Tiny Epic series.",
       "owner": "Chris"
@@ -1737,8 +1978,11 @@
         "coop",
         "medium-length",
         "medium",
+        "dice",
         "horror",
-        "adventure"
+        "adventure",
+        "zombie",
+        "compact"
       ],
       "description": "A compact cooperative zombie survival game with multiple modes.",
       "owner": "Chris"
@@ -1762,7 +2006,9 @@
         "competitive",
         "medium-length",
         "medium",
-        "sci-fi"
+        "dice",
+        "sci-fi",
+        "compact"
       ],
       "description": "A compact space game of dice-driven exploration, colonisation and influence.",
       "owner": "Chris"
@@ -1787,7 +2033,9 @@
         "medium-length",
         "medium",
         "fantasy",
-        "adventure"
+        "adventure",
+        "miniatures",
+        "compact"
       ],
       "description": "A tactical skirmish game combining tiny miniatures with card-driven abilities.",
       "owner": "Chris"
@@ -1812,6 +2060,7 @@
         "medium-length",
         "medium",
         "worker-placement",
+        "compact",
         "family"
       ],
       "description": "Breed, manage and research dinosaurs in a compact worker-placement game.",
@@ -1836,7 +2085,10 @@
         "competitive",
         "medium-length",
         "medium",
-        "fantasy"
+        "dice",
+        "fantasy",
+        "take-that",
+        "luck-heavy"
       ],
       "description": "A dice-driven head-to-head battle game with asymmetric heroes and tactical abilities.",
       "owner": "Chris"
@@ -1861,6 +2113,7 @@
         "long",
         "medium",
         "campaign",
+        "dice",
         "fantasy",
         "adventure"
       ],
@@ -1885,7 +2138,8 @@
       "tags": [
         "competitive",
         "short",
-        "light"
+        "light",
+        "compact"
       ],
       "description": "A compact card game about arranging a cemetery into scoring skull patterns.",
       "owner": "Chris"
@@ -1910,7 +2164,9 @@
         "short",
         "medium",
         "deduction",
-        "sci-fi"
+        "sci-fi",
+        "compact",
+        "asymmetric"
       ],
       "description": "An asymmetric 18-card cat-and-mouse game between a galactic dynasty and a hidden rebellion.",
       "owner": "Chris"
@@ -1934,7 +2190,11 @@
         "competitive",
         "short",
         "light",
-        "deduction"
+        "deduction",
+        "compact",
+        "bluffing",
+        "gateway",
+        "party"
       ],
       "description": "A bluffing game of hidden roles, influence and calculated challenges.",
       "owner": "Chris"
@@ -1959,8 +2219,10 @@
         "short",
         "medium",
         "deck-building",
+        "dice",
         "sci-fi",
-        "licensed"
+        "licensed",
+        "take-that"
       ],
       "description": "A collectible dice-and-card duel between teams of Star Wars heroes and villains.",
       "owner": "Chris"
@@ -1984,7 +2246,8 @@
         "competitive",
         "medium-length",
         "medium",
-        "area-control"
+        "area-control",
+        "abstract"
       ],
       "description": "A compact political strategy game about influencing rival factions in medieval Britain.",
       "owner": "Chris"
@@ -2008,8 +2271,12 @@
         "semi-coop",
         "long",
         "heavy",
+        "dice",
+        "sci-fi",
         "horror",
-        "sci-fi"
+        "zombie",
+        "long-setup",
+        "bluffing"
       ],
       "description": "Survivors struggle against zombies, bandits and Raxxon experiments, with competing secret objectives.",
       "owner": "Chris"
@@ -2035,7 +2302,8 @@
         "medium",
         "area-control",
         "fantasy",
-        "licensed"
+        "licensed",
+        "asymmetric"
       ],
       "description": "A two-player duel between the Fellowship and Sauron over the fate of Middle-earth.",
       "owner": "Chris"
@@ -2133,7 +2401,10 @@
         "short",
         "light",
         "push-your-luck",
-        "fantasy"
+        "fantasy",
+        "compact",
+        "bluffing",
+        "gateway"
       ],
       "description": "Players bluff about a dungeon's dangers while progressively removing equipment and monsters.",
       "owner": "Chris"
@@ -2159,7 +2430,8 @@
         "medium",
         "deck-building",
         "area-control",
-        "fantasy"
+        "fantasy",
+        "miniatures"
       ],
       "description": "A tactical miniatures game combining Ascension-style deck-building with battlefield combat.",
       "owner": "Chris"
@@ -2183,7 +2455,8 @@
         "competitive",
         "medium-length",
         "medium",
-        "deck-building"
+        "deck-building",
+        "take-that"
       ],
       "description": "Build a tribe's deck and compete for scarce resources in a frozen post-apocalyptic world.",
       "owner": "Chris"
@@ -2208,7 +2481,8 @@
         "medium-length",
         "heavy",
         "deck-building",
-        "fantasy"
+        "fantasy",
+        "alpha-player"
       ],
       "description": "A cooperative deck-building battle against Nemeses where the deck is never shuffled.",
       "owner": "Chris"
@@ -2231,7 +2505,8 @@
       "tags": [
         "competitive",
         "medium-length",
-        "medium"
+        "medium",
+        "historical"
       ],
       "description": "An asymmetric tactical card game recreating the Battle of Waterloo.",
       "owner": "Chris"
@@ -2254,7 +2529,8 @@
       "tags": [
         "competitive",
         "medium-length",
-        "medium"
+        "medium",
+        "historical"
       ],
       "description": "An asymmetric tactical card game depicting the Battle of Hastings.",
       "owner": "Chris"
@@ -2277,7 +2553,9 @@
       "tags": [
         "competitive",
         "medium-length",
-        "medium"
+        "medium",
+        "compact",
+        "take-that"
       ],
       "description": "A two-player post-apocalyptic duel where rival camps battle over scarce water.",
       "owner": "Chris"
@@ -2300,7 +2578,10 @@
       "tags": [
         "competitive",
         "short",
-        "light"
+        "light",
+        "set-collection",
+        "compact",
+        "gateway"
       ],
       "description": "Build the highest-scoring fantasy hand by drawing and discarding cards for powerful combinations.",
       "owner": "Chris"
