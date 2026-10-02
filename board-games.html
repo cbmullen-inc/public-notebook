@@ -6,6 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>My board game shelf</title>
   <link rel="stylesheet" href="board-games.css">
+  <script>
+    // Apply a saved theme before first paint to avoid a flash. No saved choice = follow the OS.
+    try { const t = localStorage.getItem("theme"); if (t === "dark" || t === "light") document.documentElement.dataset.theme = t; } catch (e) { }
+  </script>
 </head>
 
 <body>
@@ -13,6 +17,7 @@
     <header class="page-header">
       <div class="back-wrap">
         <a class="back" href="index.html">Back to notes</a>
+        <button type="button" class="theme-toggle" id="theme-toggle"><span class="theme-toggle__icon" aria-hidden="true"></span><span class="theme-toggle__text"></span></button>
       </div>
       <div class="title-block">
         <h1>My Board Game Shelf</h1>
@@ -151,6 +156,24 @@
         const nb = document.querySelector(`th button[data-k="${sort.k}"]`); if (nb) nb.focus();
       }
     });
+    const root = document.documentElement, darkMQ = window.matchMedia("(prefers-color-scheme: dark)");
+    const theme = () => root.dataset.theme || (darkMQ.matches ? "dark" : "light");
+    function syncTheme() {
+      const next = theme() === "dark" ? "light" : "dark"; // the button shows what a click will switch to
+      const b = $("theme-toggle");
+      b.setAttribute("aria-label", "Switch to " + next + " mode");
+      b.querySelector(".theme-toggle__icon").textContent = next === "dark" ? "☾" : "☀";
+      b.querySelector(".theme-toggle__text").textContent = next === "dark" ? "Dark" : "Light";
+    }
+    $("theme-toggle").addEventListener("click", () => {
+      const next = theme() === "dark" ? "light" : "dark";
+      root.dataset.theme = next;
+      try { localStorage.setItem("theme", next); } catch (e) { }
+      syncTheme();
+    });
+    darkMQ.addEventListener("change", syncTheme); // OS flips while no explicit choice is saved
+    syncTheme();
+
     const filterDrawer = document.getElementById("filter-drawer");
     const filterOverlay = document.querySelector(".filter-overlay");
     const filterToggle = document.querySelector(".mobile-filter-toggle");

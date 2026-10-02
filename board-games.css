@@ -8,7 +8,11 @@
   --l: #dff1e4;
   --m: #fdf0cf;
   --h: #f8dcd6;
-  --no: #b3261e
+  --no: #b3261e;
+  --title: #203845;
+  --title-shadow: rgba(255, 255, 255, .7);
+  --pill: rgba(255, 255, 255, .45);
+  color-scheme: light
 }
 
 @media(prefers-color-scheme:dark) {
@@ -22,8 +26,29 @@
     --l: #1f3a2a;
     --m: #3f3617;
     --h: #472421;
-    --no: #ff8a80
+    --no: #ff8a80;
+    --title: #e6eef2;
+    --title-shadow: transparent;
+    --pill: rgba(255, 255, 255, .06);
+    color-scheme: dark
   }
+}
+
+:root[data-theme=dark] {
+  --bg: #10181d;
+  --card: #182229;
+  --ink: #e6eef2;
+  --mute: #93a5b0;
+  --line: #2b3a43;
+  --acc: #5cc6cf;
+  --l: #1f3a2a;
+  --m: #3f3617;
+  --h: #472421;
+  --no: #ff8a80;
+  --title: #e6eef2;
+  --title-shadow: transparent;
+  --pill: rgba(255, 255, 255, .06);
+  color-scheme: dark
 }
 
 * {
@@ -93,7 +118,7 @@ main {
   border-bottom: 1px solid var(--line);
   margin: -.2rem -.2rem .8rem;
   background: rgba(24, 34, 41, .96);
-  color: var(--ink, #e6eef2);
+  color: #e6eef2;
   backdrop-filter: blur(6px)
 }
 
@@ -121,24 +146,38 @@ main {
 
 .back-wrap {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
+  align-items: center;
+  gap: .75rem;
   margin-bottom: 1.25rem
 }
 
-.back {
+.back,
+.theme-toggle {
   display: inline-flex;
   align-items: center;
   gap: .5rem;
   padding: .55rem .9rem;
   border: 1px solid var(--line);
   border-radius: 999px;
-  background: rgba(255, 255, 255, .45);
+  background: var(--pill);
   color: var(--ink);
   text-decoration: none;
   font-size: .9rem;
   font-weight: 600;
   box-shadow: 0 2px 8px rgba(23, 34, 43, .06);
   transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease
+}
+
+.theme-toggle {
+  font-family: inherit;
+  line-height: 1.5;
+  cursor: pointer
+}
+
+.theme-toggle__icon {
+  font-size: 1rem;
+  line-height: 1
 }
 
 .back::before {
@@ -148,7 +187,9 @@ main {
 }
 
 .back:hover,
-.back:focus-visible {
+.back:focus-visible,
+.theme-toggle:hover,
+.theme-toggle:focus-visible {
   transform: translateY(-1px);
   border-color: var(--acc);
   box-shadow: 0 6px 18px rgba(11, 107, 115, .12);
@@ -164,8 +205,8 @@ h1 {
   letter-spacing: .08em;
   text-transform: uppercase;
   margin: 0 0 .6rem;
-  color: #203845;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, .7);
+  color: var(--title);
+  text-shadow: 0 1px 0 var(--title-shadow);
   position: relative;
   padding-bottom: .9rem
 }
