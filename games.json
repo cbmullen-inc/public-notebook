@@ -1087,7 +1087,6 @@
       },
       "weight": 2.84,
       "tags": [
-        "coop",
         "medium-length",
         "medium",
         "campaign",
@@ -2595,6 +2594,37 @@
         "fantasy"
       ],
       "description": "Build the highest-scoring fantasy hand by drawing and discarding cards for powerful combinations.",
+      "owner": "Chris"
+    },
+    {
+      "name": "Star Wars: Battle of Hoth",
+      "link": {
+        "type": "game",
+        "bggId": 444481,
+        "url": "https://boardgamegeek.com/boardgame/444481",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 4,
+      "minutes": {
+        "min": 30,
+        "max": 30
+      },
+      "weight": 1.97,
+      "tags": [
+        "competitive",
+        "short",
+        "light",
+        "campaign",
+        "dice",
+        "sci-fi",
+        "licensed",
+        "miniatures",
+        "asymmetric",
+        "family",
+        "gateway"
+      ],
+      "description": "Tactical card- and dice-driven combat on the frozen plains of Hoth using the Command & Colors system.",
       "owner": "Chris"
     }
   ]
