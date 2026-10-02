@@ -518,7 +518,7 @@
         "campaign",
         "dice",
         "adventure",
-                "big-table"
+        "big-table"
       ],
       "description": "Journey across a rugged landscape in this sequel to Sleeping Gods.",
       "owner": "Chris"
@@ -1408,7 +1408,8 @@
         "competitive",
         "long",
         "heavy",
-        "deck-building"
+        "deck-building",
+        "historical"
       ],
       "description": "An asymmetric civilization deck-building game spanning eight ancient peoples.",
       "owner": "Chris"
@@ -1432,7 +1433,8 @@
         "competitive",
         "long",
         "heavy",
-        "deck-building"
+        "deck-building",
+        "fantasy"
       ],
       "description": "A deeper asymmetric civilization deck-builder featuring legendary civilizations.",
       "owner": "Chris"
@@ -1926,7 +1928,9 @@
       "tags": [
         "competitive",
         "medium-length",
-        "medium"
+        "medium",
+        "licensed",
+        "sci-fi"
       ],
       "description": "A hand-management and drafting game based on Pierce Brown's Red Rising universe.",
       "owner": "Chris"
@@ -2327,7 +2331,8 @@
         "competitive",
         "long",
         "heavy",
-        "worker-placement"
+        "worker-placement",
+        "historical"
       ],
       "description": "Build a Victorian estate, manage servants and host prestigious social events.",
       "owner": "Chris"
@@ -2456,7 +2461,8 @@
         "medium-length",
         "medium",
         "deck-building",
-        "take-that"
+        "take-that",
+        "sci-fi"
       ],
       "description": "Build a tribe's deck and compete for scarce resources in a frozen post-apocalyptic world.",
       "owner": "Chris"
@@ -2506,7 +2512,9 @@
         "competitive",
         "medium-length",
         "medium",
-        "historical"
+        "historical",
+        "take-that",
+        "asymmetric"
       ],
       "description": "An asymmetric tactical card game recreating the Battle of Waterloo.",
       "owner": "Chris"
@@ -2530,7 +2538,9 @@
         "competitive",
         "medium-length",
         "medium",
-        "historical"
+        "historical",
+        "take-that",
+        "asymmetric"
       ],
       "description": "An asymmetric tactical card game depicting the Battle of Hastings.",
       "owner": "Chris"
@@ -2581,7 +2591,8 @@
         "light",
         "set-collection",
         "compact",
-        "gateway"
+        "gateway",
+        "fantasy"
       ],
       "description": "Build the highest-scoring fantasy hand by drawing and discarding cards for powerful combinations.",
       "owner": "Chris"
