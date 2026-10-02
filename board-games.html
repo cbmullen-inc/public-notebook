@@ -17,7 +17,7 @@
       <div class="title-block">
         <h1>My Board Game Shelf</h1>
         <p class="sub">Search by name or description, pick how many are playing, or pick tags to narrow the list. Tags in the same row match any
-          (e.g. Short or Medium); different rows must all match. Click a column heading to sort; click again to reverse.
+          (e.g. Short or Medium); different rows must all match. Click a tag a second time to exclude it (e.g. not Campaign). Click a column heading to sort; click again to reverse.
           Titles link to BoardGameGeek.</p>
       </div>
     </header>
@@ -58,7 +58,7 @@
       { k: "about", l: "About" }];
     let games = [], cats = [], tagById = {};
     const owners = ["Chris", "Matt", "Jill", "Unknown"];
-    const sel = new Set(); let players = null, owner = null; // owner and players are optional filters
+    const sel = new Set(), exc = new Set(); let players = null, owner = null; // owner and players are optional filters
     const sort = { k: "time", d: 1 };
     const $ = id => document.getElementById(id);
 
@@ -69,6 +69,7 @@
       return games.filter(g => {
         if (owner !== null && (g.owner || "Unknown") !== owner) return false;
         if (players !== null && (players < g.playersMin || players > g.playersMax)) return false;
+        if (g.tags.some(t => exc.has(t))) return false;
         if (terms.length) { const h = g._h; if (!terms.every(t => h.includes(t))) return false; }
         return cats.every(c => {
           const picked = c.tags.filter(t => sel.has(t.id));
@@ -81,13 +82,13 @@
       const col = cols.find(c => c.k === sort.k), rows = visible();
       rows.sort((x, y) => sort.d * col.f(x, y) || x.name.localeCompare(y.name));
       $("count").textContent = rows.length + " of " + games.length + " games";
-      $("clear").hidden = !sel.size && !$("q").value && players === null && owner === null;
+      $("clear").hidden = !sel.size && !exc.size && !$("q").value && players === null && owner === null;
       if (!rows.length) { $("out").innerHTML = `<p class="empty">No games match. Try removing a tag or clearing the search.</p>`; return; }
       const shown = new Set(cats.filter(c => c.showInRows).map(c => c.id));
       const body = rows.map(g => {
         const [c, l] = cx(g.weight);
         const chips = g.tags.filter(t => shown.has(tagById[t].category))
-          .map(t => `<button type="button" class="tag tag--sm${sel.has(t) ? " on" : ""}" data-tag="${t}" aria-pressed="${sel.has(t)}">${esc(tagById[t].label)}</button>`).join("");
+          .map(t => `<button type="button" class="tag tag--sm${sel.has(t) ? " on" : ""}${exc.has(t) ? " not" : ""}" data-tag="${t}" aria-pressed="${sel.has(t) ? "true" : exc.has(t) ? "mixed" : "false"}">${esc(tagById[t].label)}</button>`).join("");
         return `<tr><td><a href="${esc(g.link.url)}" target="_blank" rel="noopener">${esc(g.name)}</a></td><td class="nw">${fmtP(g)}</td><td class="nw">${fmt(g.minutes)}</td><td class="nw"><span class="pill ${c}">${l} ${g.weight.toFixed(1)}</span></td><td>${esc(g.description)}<div class="tags">${chips}</div></td></tr>`;
       }).join("");
       const head = cols.map(c => c.f ? `<th aria-sort="${sort.k === c.k ? (sort.d > 0 ? "ascending" : "descending") : "none"}"><button data-k="${c.k}">${c.l}<span class="arr">${sort.k === c.k ? (sort.d > 0 ? " ▲" : " ▼") : ""}</span></button></th>` : `<th>${c.l}</th>`).join("");
@@ -96,12 +97,20 @@
 
     function syncChips() {
       document.querySelectorAll("[data-tag]").forEach(b => {
-        const on = sel.has(b.dataset.tag);
-        b.classList.toggle("on", on); b.setAttribute("aria-pressed", on);
+        const id = b.dataset.tag;
+        b.classList.toggle("on", sel.has(id));
+        b.classList.toggle("not", exc.has(id));
+        b.setAttribute("aria-pressed", sel.has(id) ? "true" : exc.has(id) ? "mixed" : "false");
       });
     }
 
-    function toggle(id) { sel.has(id) ? sel.delete(id) : sel.add(id); syncChips(); renderTable(); }
+    // Cycle: off -> include -> exclude -> off. Chips inside the table can't exclude (the row would vanish).
+    function toggle(id, allowExclude = true) {
+      if (sel.has(id)) { sel.delete(id); if (allowExclude) exc.add(id); }
+      else if (exc.has(id)) exc.delete(id);
+      else sel.add(id);
+      syncChips(); renderTable();
+    }
 
     function syncPlayers() {
       document.querySelectorAll("button[data-p]").forEach(b => {
@@ -130,7 +139,7 @@
       if (p) { players = players === +p.dataset.p ? null : +p.dataset.p; syncPlayers(); renderTable(); return; }
       const t = e.target.closest("button[data-tag]");
       if (t) {
-        toggle(t.dataset.tag);
+        toggle(t.dataset.tag, !t.closest("#out"));
         const again = document.querySelector(`button[data-tag="${t.dataset.tag}"]`); // keep keyboard focus
         if (again && !document.activeElement.closest("#out")) again.focus();
         return;
@@ -174,7 +183,7 @@
     });
 
     $("q").addEventListener("input", renderTable);
-    $("clear").addEventListener("click", () => { sel.clear(); players = null; owner = null; $("q").value = ""; syncChips(); syncPlayers(); syncOwner(); renderTable(); $("q").focus(); });
+    $("clear").addEventListener("click", () => { sel.clear(); exc.clear(); players = null; owner = null; $("q").value = ""; syncChips(); syncPlayers(); syncOwner(); renderTable(); $("q").focus(); });
 
     fetch("games.json")
       .then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
