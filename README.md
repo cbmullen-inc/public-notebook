@@ -37,9 +37,6 @@ its own files):
 | `deploy-index.yml` | `index.html` |
 | `deploy-board-games.yml` | `board-games.html`, `board-games.css` |
 
-**Heads-up:** the `on.push.paths` filters in both workflows are stale — `deploy-index.yml`
-watches `menu.html` and `deploy-board-games.yml` watches `board-games.html` /
-`board-games.css` at the repo root, neither of which exists on `main`. A normal push
-therefore will *not* trigger a deploy. To publish, use **Run workflow** in the Actions
-tab (both workflows support `workflow_dispatch`), or fix the path filters to
-`index.html` and `board-games/`.
+The index workflow watches `index.html`, and the board-games workflow watches
+`board-games/**`. Changes to either page on `main` trigger the corresponding deploy.
+Both workflows also support manual runs via **Run workflow** in the Actions tab.
