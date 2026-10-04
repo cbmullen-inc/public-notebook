@@ -1659,6 +1659,35 @@
       "owner": "Chris"
     },
     {
+      "name": "Exploding Kittens",
+      "link": {
+        "type": "game",
+        "bggId": 172225,
+        "url": "https://boardgamegeek.com/boardgame/172225",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 5,
+      "minutes": {
+        "min": 15,
+        "max": 15
+      },
+      "weight": 1.08,
+      "tags": [
+        "competitive",
+        "short",
+        "light",
+        "compact",
+        "take-that",
+        "luck-heavy",
+        "family",
+        "gateway",
+        "party"
+      ],
+      "description": "A quick card game of avoiding exploding kittens while using attacks and tricks.",
+      "owner": "Jill"
+    },
+    {
       "name": "Exploding Minions",
       "link": {
         "type": "game",
@@ -2201,6 +2230,34 @@
       ],
       "description": "A bluffing game of hidden roles, influence and calculated challenges.",
       "owner": "Chris"
+    },
+    {
+      "name": "Coup",
+      "link": {
+        "type": "game",
+        "bggId": 131357,
+        "url": "https://boardgamegeek.com/boardgame/131357",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 6,
+      "minutes": {
+        "min": 15,
+        "max": 15
+      },
+      "weight": 1.42,
+      "tags": [
+        "competitive",
+        "short",
+        "light",
+        "deduction",
+        "compact",
+        "bluffing",
+        "gateway",
+        "party"
+      ],
+      "description": "A bluffing game of hidden roles, influence and calculated challenges.",
+      "owner": "Matt"
     },
     {
       "name": "Star Wars: Destiny",
@@ -3115,6 +3172,406 @@
       ],
       "description": "A clever party game where cheating by dropping, hiding, or flicking away cards is explicitly required to empty your hand—if you don't get caught.",
       "owner": "Matt"
+    },
+{
+      "name": "Dixit",
+      "link": {
+        "type": "game",
+        "bggId": 39856,
+        "url": "https://boardgamegeek.com/boardgame/39856/dixit",
+        "verified": true
+      },
+      "playersMin": 3,
+      "playersMax": 6,
+      "minutes": {
+        "min": 30,
+        "max": 30
+      },
+      "weight": 1.2,
+      "tags": [
+        "competitive",
+        "short",
+        "light",
+        "bluffing",
+        "deduction",
+        "family",
+        "party",
+        "gateway"
+      ],
+      "description": "A storytelling party game where players use abstract clues to guide others to their surreal illustrated cards without making it too obvious.",
+      "owner": "Jill"
+    },
+    {
+      "name": "Gubs: A Game of Wit and Luck",
+      "link": {
+        "type": "game",
+        "bggId": 31808,
+        "url": "https://boardgamegeek.com/boardgame/31808/gubs-a-game-of-wit-and-luck",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 6,
+      "minutes": {
+        "min": 20,
+        "max": 20
+      },
+      "weight": 1.3,
+      "tags": [
+        "competitive",
+        "short",
+        "light",
+        "compact",
+        "take-that",
+        "family",
+        "fantasy"
+      ],
+      "description": "A fast, whimsical card game of building and protecting your colony of small creature Gubs while sabotaging rival players.",
+      "owner": "Jill"
+    },
+    {
+      "name": "Dragonwood",
+      "link": {
+        "type": "game",
+        "bggId": 172933,
+        "url": "https://boardgamegeek.com/boardgame/172933/dragonwood",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 4,
+      "minutes": {
+        "min": 20,
+        "max": 20
+      },
+      "weight": 1.4,
+      "tags": [
+        "competitive",
+        "short",
+        "light",
+        "dice",
+        "set-collection",
+        "fantasy",
+        "family"
+      ],
+      "description": "Collect card sets to earn dice and roll to capture magical creatures hidden deep within the mythical Dragonwood forest.",
+      "owner": "Jill"
+    },
+    {
+      "name": "Concept",
+      "link": {
+        "type": "game",
+        "bggId": 147151,
+        "url": "https://boardgamegeek.com/boardgame/147151/concept",
+        "verified": true
+      },
+      "playersMin": 4,
+      "playersMax": 12,
+      "minutes": {
+        "min": 40,
+        "max": 40
+      },
+      "weight": 1.4,
+      "tags": [
+        "competitive",
+        "medium-length",
+        "light",
+        "party",
+        "deduction",
+        "family"
+      ],
+      "description": "Communicate words and phrases without speaking by placing tokens on universal icons on a shared game board.",
+      "owner": "Jill"
+    },
+    {
+      "name": "Ticket to Ride: Europe",
+      "link": {
+        "type": "game",
+        "bggId": 14996,
+        "url": "https://boardgamegeek.com/boardgame/14996/ticket-ride-europe",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 5,
+      "minutes": {
+        "min": 30,
+        "max": 60
+      },
+      "weight": 1.9,
+      "tags": [
+        "competitive",
+        "medium-length",
+        "light",
+        "set-collection",
+        "historical",
+        "family",
+        "gateway"
+      ],
+      "description": "Claim railway routes connecting iconic European cities while managing tunnels, ferries, and train stations to complete secret tickets.",
+      "owner": "Jill"
+    }
+    {
+      "name": "Flamecraft",
+      "link": {
+        "type": "game",
+        "bggId": 336986,
+        "url": "https://boardgamegeek.com/boardgame/336986/flamecraft",
+        "verified": true
+      },
+      "playersMin": 1,
+      "playersMax": 5,
+      "minutes": {
+        "min": 60,
+        "max": 60
+      },
+      "weight": 2.1,
+      "tags": [
+        "competitive",
+        "medium-length",
+        "medium",
+        "worker-placement",
+        "fantasy",
+        "family"
+      ],
+      "description": "Place adorable Artisan Dragons into local village shops to gather goods, enchant storefronts, and build up reputation.",
+      "owner": "Jill"
+    },
+    {
+      "name": "Dice Forge",
+      "link": {
+        "type": "game",
+        "bggId": 194594,
+        "url": "https://boardgamegeek.com/boardgame/194594/dice-forge",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 4,
+      "minutes": {
+        "min": 45,
+        "max": 45
+      },
+      "weight": 2.0,
+      "tags": [
+        "competitive",
+        "medium-length",
+        "medium",
+        "dice",
+        "fantasy",
+        "family",
+        "gateway"
+      ],
+      "description": "Customize your own dice during play by popping off physical faces and upgrading them to gain gold, sun, and moon resources.",
+      "owner": "Jill"
+    },
+    {
+      "name": "Takenoko",
+      "link": {
+        "type": "game",
+        "bggId": 70919,
+        "url": "https://boardgamegeek.com/boardgame/70919/takenoko",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 4,
+      "minutes": {
+        "min": 45,
+        "max": 45
+      },
+      "weight": 2.0,
+      "tags": [
+        "competitive",
+        "medium-length",
+        "light",
+        "set-collection",
+        "family",
+        "gateway"
+      ],
+      "description": "Cultivate bamboo plots and manage irrigation while feeding a hungry giant panda to complete secret objective cards.",
+      "owner": "Jill"
+    },
+    {
+      "name": "Articulate!",
+      "link": {
+        "type": "game",
+        "bggId": 6541,
+        "url": "https://boardgamegeek.com/boardgame/6541/articulate",
+        "verified": true
+      },
+      "playersMin": 4,
+      "playersMax": 20,
+      "minutes": {
+        "min": 60,
+        "max": 60
+      },
+      "weight": 1.1,
+      "tags": [
+        "competitive",
+        "medium-length",
+        "light",
+        "party",
+        "family"
+      ],
+      "description": "A fast-paced team party game where players describe as many words from a category as possible against a ticking timer.",
+      "owner": "Jill"
+    },
+    {
+      "name": "Azul",
+      "link": {
+        "type": "game",
+        "bggId": 230802,
+        "url": "https://boardgamegeek.com/boardgame/230802/azul",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 4,
+      "minutes": {
+        "min": 30,
+        "max": 45
+      },
+      "weight": 1.8,
+      "tags": [
+        "competitive",
+        "medium-length",
+        "light",
+        "drafting",
+        "abstract",
+        "family",
+        "gateway"
+      ],
+      "description": "Draft beautiful Portuguese resin tiles from factory displays to decorate the walls of the Royal Palace of Evora.",
+      "owner": "Jill"
+    },
+    {
+      "name": "Mysterium",
+      "link": {
+        "type": "game",
+        "bggId": 181304,
+        "url": "https://boardgamegeek.com/boardgame/181304/mysterium",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 7,
+      "minutes": {
+        "min": 42,
+        "max": 42
+      },
+      "weight": 1.9,
+      "tags": [
+        "coop",
+        "medium-length",
+        "light",
+        "deduction",
+        "mystery",
+        "horror",
+        "family"
+      ],
+      "description": "A silent ghost sends abstract vision cards to psychic investigators to help them solve a mansion murder mystery (includes expansion).",
+      "owner": "Jill"
+    },
+    {
+      "name": "Marvel Champions: The Card Game",
+      "link": {
+        "type": "game",
+        "bggId": 285774,
+        "url": "https://boardgamegeek.com/boardgame/285774/marvel-champions-card-game",
+        "verified": true
+      },
+      "playersMin": 1,
+      "playersMax": 4,
+      "minutes": {
+        "min": 45,
+        "max": 90
+      },
+      "weight": 2.9,
+      "tags": [
+        "coop",
+        "medium-length",
+        "medium",
+        "deck-building",
+        "fantasy",
+        "licensed",
+        "asymmetric"
+      ],
+      "description": "Cooperative living card game where players team up as Marvel heroes to thwart villain schemes and combat threats.",
+      "owner": "Jill"
+    },
+    {
+      "name": "Labyrinth",
+      "link": {
+        "type": "game",
+        "bggId": 1219,
+        "url": "https://boardgamegeek.com/boardgame/1219",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 4,
+      "minutes": {
+        "min": 20,
+        "max": 30
+      },
+      "weight": 1.3,
+      "tags": [
+        "competitive",
+        "short",
+        "light",
+        "abstract",
+        "family",
+        "gateway"
+      ],
+      "description": "Shift maze tiles to create clear paths to secret treasures while blocking opponents in this classic family board game.",
+      "owner": "Jill"
+    },
+    {
+      "name": "Dungeon Mayhem",
+      "link": {
+        "type": "game",
+        "bggId": 260300,
+        "url": "https://boardgamegeek.com/boardgame/260300/dungeon-mayhem",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 4,
+      "minutes": {
+        "min": 10,
+        "max": 10
+      },
+      "weight": 1.1,
+      "tags": [
+        "competitive",
+        "short",
+        "light",
+        "compact",
+        "take-that",
+        "fantasy",
+        "family",
+        "licensed"
+      ],
+      "description": "A fast-paced D&D card brawler where adventurers use action cards to deal damage, block hits, and be the last hero standing (includes expansions).",
+      "owner": "Jill"
+    },
+    {
+      "name": "Cobra Paw",
+      "link": {
+        "type": "game",
+        "bggId": 220700,
+        "url": "https://boardgamegeek.com/boardgame/220700/cobra-paw",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 6,
+      "minutes": {
+        "min": 5,
+        "max": 15
+      },
+      "weight": 1.0,
+      "tags": [
+        "competitive",
+        "short",
+        "light",
+        "compact",
+        "dexterity",
+        "family"
+      ],
+      "description": "A high-speed tile-snatching game where players roll dice and race to grab the tile with matching symbols using quick reflexes.",
+      "owner": "Jill"
     }
   ]
 }
