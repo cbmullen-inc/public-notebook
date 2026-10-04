@@ -2203,6 +2203,34 @@
       "owner": "Chris"
     },
     {
+      "name": "Coup",
+      "link": {
+        "type": "game",
+        "bggId": 131357,
+        "url": "https://boardgamegeek.com/boardgame/131357",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 6,
+      "minutes": {
+        "min": 15,
+        "max": 15
+      },
+      "weight": 1.42,
+      "tags": [
+        "competitive",
+        "short",
+        "light",
+        "deduction",
+        "compact",
+        "bluffing",
+        "gateway",
+        "party"
+      ],
+      "description": "A bluffing game of hidden roles, influence and calculated challenges.",
+      "owner": "Matt"
+    },
+    {
       "name": "Star Wars: Destiny",
       "link": {
         "type": "game",
