@@ -62,9 +62,15 @@
       { k: "cx", l: "Complexity", f: (x, y) => x.weight - y.weight },
       { k: "about", l: "About" }];
     let games = [], cats = [], tagById = {};
-    const sel = new Set(), exc = new Set(); let players = null, owner = null; // owner and players are optional filters
+    const sel = new Set(), exc = new Set(); let players = null, owner = null, page = 1, pageSize = 25; // owner and players are optional filters
+    const pageSizeKey = "board-games-page-size";
     const sort = { k: "time", d: 1 };
     const $ = id => document.getElementById(id);
+
+    try {
+      const savedPageSize = localStorage.getItem(pageSizeKey);
+      if (savedPageSize === "25" || savedPageSize === "50") pageSize = Number(savedPageSize);
+    } catch (e) { }
 
     const ownersOf = g => Array.isArray(g.owners) ? g.owners : [g.owner || "Unknown"];
     const hay = g => (g.name + " " + g.description + " " + g.tags.map(t => tagById[t].label).join(" ")).toLowerCase();
@@ -88,16 +94,33 @@
       rows.sort((x, y) => sort.d * col.f(x, y) || x.name.localeCompare(y.name));
       $("count").textContent = rows.length + " of " + games.length + " games";
       $("clear").hidden = !sel.size && !exc.size && !$("q").value && players === null && owner === null;
+      const pageCount = Math.max(1, Math.ceil(rows.length / pageSize));
+      page = Math.min(page, pageCount);
+      const first = (page - 1) * pageSize;
+      const shownRows = rows.slice(first, first + pageSize);
+      const pagination = `<nav class="pagination" aria-label="Game list pages">
+        <label for="page-size">Rows per page
+          <select id="page-size">
+            <option value="25"${pageSize === 25 ? " selected" : ""}>25</option>
+            <option value="50"${pageSize === 50 ? " selected" : ""}>50</option>
+          </select>
+        </label>
+        <div class="pagination__controls">
+          <button type="button" data-page-action="previous"${page === 1 ? " disabled" : ""}>Previous</button>
+          <span aria-live="polite">Page ${page} of ${pageCount}</span>
+          <button type="button" data-page-action="next"${page === pageCount ? " disabled" : ""}>Next</button>
+        </div>
+      </nav>`;
       if (!rows.length) { $("out").innerHTML = `<p class="empty">No games match. Try removing a tag or clearing the search.</p>`; return; }
       const shown = new Set(cats.filter(c => c.showInRows).map(c => c.id));
-      const body = rows.map(g => {
+      const body = shownRows.map(g => {
         const [c, l] = cx(g.weight);
         const chips = g.tags.filter(t => shown.has(tagById[t].category))
           .map(t => `<button type="button" class="tag tag--sm${sel.has(t) ? " on" : ""}${exc.has(t) ? " not" : ""}" data-tag="${t}" aria-pressed="${sel.has(t) ? "true" : exc.has(t) ? "mixed" : "false"}">${esc(tagById[t].label)}</button>`).join("");
         return `<tr><td><a href="${esc(g.link.url)}" target="_blank" rel="noopener">${esc(g.name)}</a></td><td class="nw">${esc(ownersOf(g).join(", "))}</td><td class="nw">${fmtP(g)}</td><td class="nw">${fmt(g.minutes)}</td><td class="nw"><span class="pill ${c}">${l} ${g.weight.toFixed(1)}</span></td><td>${esc(g.description)}<div class="tags">${chips}</div></td></tr>`;
       }).join("");
       const head = cols.map(c => c.f ? `<th aria-sort="${sort.k === c.k ? (sort.d > 0 ? "ascending" : "descending") : "none"}"><button data-k="${c.k}">${c.l}<span class="arr">${sort.k === c.k ? (sort.d > 0 ? " ▲" : " ▼") : ""}</span></button></th>` : `<th>${c.l}</th>`).join("");
-      $("out").innerHTML = `<div class="wrap"><table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
+      $("out").innerHTML = `${pagination}<div class="wrap"><table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
     }
 
     function syncChips() {
@@ -114,6 +137,7 @@
       if (sel.has(id)) { sel.delete(id); if (allowExclude) exc.add(id); }
       else if (exc.has(id)) exc.delete(id);
       else sel.add(id);
+      page = 1;
       syncChips(); renderTable();
     }
 
@@ -140,9 +164,15 @@
 
     document.addEventListener("click", e => {
       const o = e.target.closest("button[data-owner]");
-      if (o) { owner = owner === o.dataset.owner ? null : o.dataset.owner; syncOwner(); renderTable(); return; }
+      if (o) { owner = owner === o.dataset.owner ? null : o.dataset.owner; page = 1; syncOwner(); renderTable(); return; }
       const p = e.target.closest("button[data-p]");
-      if (p) { players = players === p.dataset.p ? null : p.dataset.p; syncPlayers(); renderTable(); return; }
+      if (p) { players = players === p.dataset.p ? null : p.dataset.p; page = 1; syncPlayers(); renderTable(); return; }
+      const pageButton = e.target.closest("button[data-page-action]");
+      if (pageButton) {
+        page += pageButton.dataset.pageAction === "next" ? 1 : -1;
+        renderTable();
+        return;
+      }
       const t = e.target.closest("button[data-tag]");
       if (t) {
         toggle(t.dataset.tag, !t.closest("#out"));
@@ -153,6 +183,7 @@
       const h = e.target.closest("th button[data-k]");
       if (h) {
         if (sort.k === h.dataset.k) sort.d = -sort.d; else { sort.k = h.dataset.k; sort.d = 1; }
+        page = 1;
         renderTable();
         const nb = document.querySelector(`th button[data-k="${sort.k}"]`); if (nb) nb.focus();
       }
@@ -206,8 +237,15 @@
       if (e.key === "Escape" && filterDrawer.classList.contains("open")) setFilterDrawer(false);
     });
 
-    $("q").addEventListener("input", renderTable);
-    $("clear").addEventListener("click", () => { sel.clear(); exc.clear(); players = null; owner = null; $("q").value = ""; syncChips(); syncPlayers(); syncOwner(); renderTable(); $("q").focus(); });
+    $("q").addEventListener("input", () => { page = 1; renderTable(); });
+    $("out").addEventListener("change", e => {
+      if (e.target.id !== "page-size") return;
+      pageSize = Number(e.target.value);
+      page = 1;
+      try { localStorage.setItem(pageSizeKey, String(pageSize)); } catch (e) { }
+      renderTable();
+    });
+    $("clear").addEventListener("click", () => { sel.clear(); exc.clear(); players = null; owner = null; page = 1; $("q").value = ""; syncChips(); syncPlayers(); syncOwner(); renderTable(); $("q").focus(); });
 
     fetch("games.json")
       .then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
