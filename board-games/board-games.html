@@ -46,8 +46,8 @@
     </aside>
 
     <div id="out"></div>
-    <p class="note note--flush">Times, player counts and complexity (BGG's 1–5 weight scale) are approximate. Tags and
-      links live in games.json.</p>
+    <p class="note note--flush">Times, player counts and complexity (BGG's 1–5 weight scale) are approximate. Tags,
+        ownership and links live in games.json.</p>
   </main>
   <script>
     const cx = w => w < 2 ? ["L", "Light"] : w < 3 ? ["M", "Medium"] : ["H", "Heavy"];
@@ -56,23 +56,24 @@
     const esc = s => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
     const cols = [
       { k: "name", l: "Game", f: (x, y) => x.name.localeCompare(y.name) },
+      { k: "owners", l: "Owners" },
       { k: "players", l: "Players", f: (x, y) => x.playersMin - y.playersMin || x.playersMax - y.playersMax },
       { k: "time", l: "Time", f: (x, y) => (x.minutes.min + x.minutes.max) - (y.minutes.min + y.minutes.max) },
       { k: "cx", l: "Complexity", f: (x, y) => x.weight - y.weight },
       { k: "about", l: "About" }];
     let games = [], cats = [], tagById = {};
-    const owners = ["Chris", "Matt", "Jill", "Unknown"];
     const sel = new Set(), exc = new Set(); let players = null, owner = null; // owner and players are optional filters
     const sort = { k: "time", d: 1 };
     const $ = id => document.getElementById(id);
 
+    const ownersOf = g => Array.isArray(g.owners) ? g.owners : [g.owner || "Unknown"];
     const hay = g => (g.name + " " + g.description + " " + g.tags.map(t => tagById[t].label).join(" ")).toLowerCase();
 
     function visible() {
       const terms = $("q").value.toLowerCase().split(/\s+/).filter(Boolean);
       return games.filter(g => {
-        if (owner !== null && (g.owner || "Unknown") !== owner) return false;
-        if (players !== null && (players < g.playersMin || players > g.playersMax)) return false;
+        if (owner !== null && !ownersOf(g).includes(owner)) return false;
+        if (players !== null && (players === "6+" ? g.playersMax < 6 : +players < g.playersMin || +players > g.playersMax)) return false;
         if (g.tags.some(t => exc.has(t))) return false;
         if (terms.length) { const h = g._h; if (!terms.every(t => h.includes(t))) return false; }
         return cats.every(c => {
@@ -93,7 +94,7 @@
         const [c, l] = cx(g.weight);
         const chips = g.tags.filter(t => shown.has(tagById[t].category))
           .map(t => `<button type="button" class="tag tag--sm${sel.has(t) ? " on" : ""}${exc.has(t) ? " not" : ""}" data-tag="${t}" aria-pressed="${sel.has(t) ? "true" : exc.has(t) ? "mixed" : "false"}">${esc(tagById[t].label)}</button>`).join("");
-        return `<tr><td><a href="${esc(g.link.url)}" target="_blank" rel="noopener">${esc(g.name)}</a></td><td class="nw">${fmtP(g)}</td><td class="nw">${fmt(g.minutes)}</td><td class="nw"><span class="pill ${c}">${l} ${g.weight.toFixed(1)}</span></td><td>${esc(g.description)}<div class="tags">${chips}</div></td></tr>`;
+        return `<tr><td><a href="${esc(g.link.url)}" target="_blank" rel="noopener">${esc(g.name)}</a></td><td class="nw">${esc(ownersOf(g).join(", "))}</td><td class="nw">${fmtP(g)}</td><td class="nw">${fmt(g.minutes)}</td><td class="nw"><span class="pill ${c}">${l} ${g.weight.toFixed(1)}</span></td><td>${esc(g.description)}<div class="tags">${chips}</div></td></tr>`;
       }).join("");
       const head = cols.map(c => c.f ? `<th aria-sort="${sort.k === c.k ? (sort.d > 0 ? "ascending" : "descending") : "none"}"><button data-k="${c.k}">${c.l}<span class="arr">${sort.k === c.k ? (sort.d > 0 ? " ▲" : " ▼") : ""}</span></button></th>` : `<th>${c.l}</th>`).join("");
       $("out").innerHTML = `<div class="wrap"><table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
@@ -118,7 +119,7 @@
 
     function syncPlayers() {
       document.querySelectorAll("button[data-p]").forEach(b => {
-        const on = players === +b.dataset.p;
+        const on = players === b.dataset.p;
         b.classList.toggle("on", on); b.setAttribute("aria-pressed", on);
       });
     }
@@ -131,16 +132,17 @@
     }
 
     function buildFilters() {
-      const top = Math.max(...games.map(g => g.playersMax));
-      $("pcount").innerHTML = Array.from({ length: top }, (_, i) => `<button type="button" class="tag" data-p="${i + 1}" aria-pressed="false">${i + 1}</button>`).join("");
-      $("filters").innerHTML = `<div class="fgroup" role="group" aria-label="Current owner"><span class="flabel">Owner</span>${owners.map(name => `<button type="button" class="tag" data-owner="${name}" aria-pressed="false">${name}</button>`).join("")}</div>` + cats.map(c => `<div class="fgroup" role="group" aria-label="${esc(c.label)}"><span class="flabel">${esc(c.label)}</span>${c.tags.map(t => `<button type="button" class="tag" data-tag="${t.id}" aria-pressed="false">${esc(t.label)}</button>`).join("")}</div>`).join("");
+      const owners = [...new Set(games.flatMap(ownersOf))];
+      $("pcount").innerHTML = [...Array.from({ length: 5 }, (_, i) => String(i + 1)), "6+"]
+        .map(count => `<button type="button" class="tag" data-p="${count}" aria-pressed="false">${count}</button>`).join("");
+      $("filters").innerHTML = `<div class="fgroup" role="group" aria-label="Current owner"><span class="flabel">Owner</span>${owners.map(name => `<button type="button" class="tag" data-owner="${esc(name)}" aria-pressed="false">${esc(name)}</button>`).join("")}</div>` + cats.map(c => `<div class="fgroup" role="group" aria-label="${esc(c.label)}"><span class="flabel">${esc(c.label)}</span>${c.tags.map(t => `<button type="button" class="tag" data-tag="${t.id}" aria-pressed="false">${esc(t.label)}</button>`).join("")}</div>`).join("");
     }
 
     document.addEventListener("click", e => {
       const o = e.target.closest("button[data-owner]");
       if (o) { owner = owner === o.dataset.owner ? null : o.dataset.owner; syncOwner(); renderTable(); return; }
       const p = e.target.closest("button[data-p]");
-      if (p) { players = players === +p.dataset.p ? null : +p.dataset.p; syncPlayers(); renderTable(); return; }
+      if (p) { players = players === p.dataset.p ? null : p.dataset.p; syncPlayers(); renderTable(); return; }
       const t = e.target.closest("button[data-tag]");
       if (t) {
         toggle(t.dataset.tag, !t.closest("#out"));
