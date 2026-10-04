@@ -157,12 +157,27 @@
 
     function buildFilters() {
       const owners = [...new Set(games.flatMap(ownersOf))];
+      const groupHtml = category => `<div class="fgroup" role="group" aria-label="${esc(category.label)}"><span class="flabel">${esc(category.label)}</span>${category.tags.map(t => `<button type="button" class="tag" data-tag="${t.id}" aria-pressed="false">${esc(t.label)}</button>`).join("")}</div>`;
+      const primaryCategories = cats.filter(c => ["mode", "length", "complexity"].includes(c.id));
+      const advancedCategories = cats.filter(c => !["mode", "length", "complexity"].includes(c.id));
       $("pcount").innerHTML = [...Array.from({ length: 5 }, (_, i) => String(i + 1)), "6+"]
         .map(count => `<button type="button" class="tag" data-p="${count}" aria-pressed="false">${count}</button>`).join("");
-      $("filters").innerHTML = `<div class="fgroup" role="group" aria-label="Current owner"><span class="flabel">Owner</span>${owners.map(name => `<button type="button" class="tag" data-owner="${esc(name)}" aria-pressed="false">${esc(name)}</button>`).join("")}</div>` + cats.map(c => `<div class="fgroup" role="group" aria-label="${esc(c.label)}"><span class="flabel">${esc(c.label)}</span>${c.tags.map(t => `<button type="button" class="tag" data-tag="${t.id}" aria-pressed="false">${esc(t.label)}</button>`).join("")}</div>`).join("");
+      $("filters").innerHTML = `<div class="fgroup" role="group" aria-label="Current owner"><span class="flabel">Owner</span>${owners.map(name => `<button type="button" class="tag" data-owner="${esc(name)}" aria-pressed="false">${esc(name)}</button>`).join("")}</div>`
+        + primaryCategories.map(groupHtml).join("")
+        + `<button type="button" class="advanced-toggle" aria-expanded="false" aria-controls="advanced-filters">Advanced filters</button>`
+        + `<div id="advanced-filters" hidden>${advancedCategories.map(groupHtml).join("")}</div>`;
     }
 
     document.addEventListener("click", e => {
+      const advancedToggle = e.target.closest(".advanced-toggle");
+      if (advancedToggle) {
+        const advancedFilters = $(advancedToggle.getAttribute("aria-controls"));
+        const expanded = advancedToggle.getAttribute("aria-expanded") !== "true";
+        advancedToggle.setAttribute("aria-expanded", String(expanded));
+        advancedToggle.textContent = expanded ? "Hide advanced filters" : "Advanced filters";
+        advancedFilters.hidden = !expanded;
+        return;
+      }
       const o = e.target.closest("button[data-owner]");
       if (o) { owner = owner === o.dataset.owner ? null : o.dataset.owner; page = 1; syncOwner(); renderTable(); return; }
       const p = e.target.closest("button[data-p]");

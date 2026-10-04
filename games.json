@@ -22,11 +22,6 @@
       "showInRows": true
     },
     {
-      "id": "theme",
-      "label": "Theme",
-      "showInRows": true
-    },
-    {
       "id": "components",
       "label": "Components & table",
       "showInRows": true
@@ -139,56 +134,6 @@
       "category": "mechanic"
     },
     {
-      "id": "fantasy",
-      "label": "Fantasy",
-      "category": "theme"
-    },
-    {
-      "id": "sci-fi",
-      "label": "Sci-fi",
-      "category": "theme"
-    },
-    {
-      "id": "horror",
-      "label": "Horror",
-      "category": "theme"
-    },
-    {
-      "id": "mystery",
-      "label": "Mystery",
-      "category": "theme"
-    },
-    {
-      "id": "adventure",
-      "label": "Adventure",
-      "category": "theme"
-    },
-    {
-      "id": "licensed",
-      "label": "Licensed / franchise",
-      "category": "theme"
-    },
-    {
-      "id": "historical",
-      "label": "Historical",
-      "category": "theme"
-    },
-    {
-      "id": "lovecraftian",
-      "label": "Lovecraftian",
-      "category": "theme"
-    },
-    {
-      "id": "zombie",
-      "label": "Zombies",
-      "category": "theme"
-    },
-    {
-      "id": "abstract",
-      "label": "Abstract",
-      "category": "theme"
-    },
-    {
       "id": "family",
       "label": "Family-friendly",
       "category": "audience"
@@ -299,11 +244,6 @@
       "category": "components"
     },
     {
-      "id": "murder-mystery",
-      "label": "Murder mystery",
-      "category": "theme"
-    },
-    {
       "id": "dice-rolling",
       "label": "Dice rolling",
       "category": "mechanic"
@@ -329,19 +269,9 @@
       "category": "mechanic"
     },
     {
-      "id": "city-building",
-      "label": "City building",
-      "category": "theme"
-    },
-    {
       "id": "memory",
       "label": "Memory",
       "category": "mechanic"
-    },
-    {
-      "id": "western",
-      "label": "Western",
-      "category": "theme"
     }
   ],
   "games": [
@@ -364,7 +294,6 @@
         "coop",
         "short",
         "light",
-        "adventure",
         "alpha-player",
         "family",
         "gateway"
@@ -391,7 +320,6 @@
         "coop",
         "medium-length",
         "light",
-        "adventure",
         "alpha-player",
         "family",
         "gateway"
@@ -445,9 +373,6 @@
         "medium-length",
         "medium",
         "deck-building",
-        "fantasy",
-        "sci-fi",
-        "licensed",
         "alpha-player"
       ],
       "description": "Deck-building co-op where you fight a villain's scheme, once in Sunnydale and once in the 'verse.",
@@ -472,8 +397,7 @@
         "coop",
         "long",
         "light",
-        "deduction",
-        "mystery"
+        "deduction"
       ],
       "description": "Solve cases by reading period newspapers and directories, then answer questions Holmes-style.",
       "owner": "Chris"
@@ -496,9 +420,7 @@
       "tags": [
         "coop",
         "long",
-        "medium",
-        "fantasy",
-        "adventure"
+        "medium"
       ],
       "description": "Climb colossal creatures on a spiral-bound storybook board, managing a deck that doubles as your grip.",
       "owner": "Chris"
@@ -524,9 +446,6 @@
         "heavy",
         "deck-building",
         "campaign",
-        "horror",
-        "mystery",
-        "lovecraftian",
         "long-setup"
       ],
       "description": "Build an investigator deck and unravel Lovecraftian mysteries over a campaign.",
@@ -552,7 +471,6 @@
         "long",
         "heavy",
         "campaign",
-        "fantasy",
         "miniatures",
         "long-setup"
       ],
@@ -580,7 +498,6 @@
         "medium",
         "campaign",
         "dice",
-        "adventure",
         "big-table"
       ],
       "description": "Storybook exploration across an uncharted archipelago as a stranded 1920s crew.",
@@ -607,7 +524,6 @@
         "medium",
         "campaign",
         "dice",
-        "adventure",
         "big-table"
       ],
       "description": "Journey across a rugged landscape in this sequel to Sleeping Gods.",
@@ -633,9 +549,6 @@
         "long",
         "medium",
         "dice",
-        "horror",
-        "adventure",
-        "lovecraftian",
         "long-setup",
         "big-table",
         "alpha-player",
@@ -662,8 +575,7 @@
       "tags": [
         "coop",
         "long",
-        "medium",
-        "fantasy"
+        "medium"
       ],
       "description": "Fantasy mercenaries take jobs and build their reputation, with story choices along the way.",
       "owner": "Chris"
@@ -687,8 +599,6 @@
         "semi-coop",
         "medium-length",
         "light",
-        "mystery",
-        "licensed",
         "bluffing",
         "family"
       ],
@@ -714,8 +624,6 @@
         "semi-coop",
         "long",
         "heavy",
-        "sci-fi",
-        "horror",
         "miniatures",
         "long-setup",
         "big-table",
@@ -744,7 +652,6 @@
         "short",
         "light",
         "deduction",
-        "licensed",
         "compact",
         "luck-heavy",
         "gateway"
@@ -802,7 +709,6 @@
         "light",
         "worker-placement",
         "set-collection",
-        "adventure",
         "family",
         "gateway"
       ],
@@ -829,9 +735,7 @@
         "medium-length",
         "medium",
         "deck-building",
-        "push-your-luck",
-        "fantasy",
-        "adventure"
+        "push-your-luck"
       ],
       "description": "Deck-building dungeon heist where every noise may wake the dragon.",
       "owner": "Chris"
@@ -856,7 +760,6 @@
         "medium-length",
         "light",
         "push-your-luck",
-        "fantasy",
         "family",
         "gateway"
       ],
@@ -883,7 +786,6 @@
         "medium-length",
         "medium",
         "deck-building",
-        "adventure",
         "family",
         "gateway"
       ],
@@ -910,7 +812,6 @@
         "long",
         "medium",
         "area-control",
-        "fantasy",
         "take-that",
         "family",
         "gateway"
@@ -938,7 +839,6 @@
         "long",
         "medium",
         "dice",
-        "fantasy",
         "miniatures",
         "long-setup",
         "big-table",
@@ -993,7 +893,6 @@
         "medium",
         "drafting",
         "area-control",
-        "fantasy",
         "miniatures"
       ],
       "description": "Celtic clans draft cards and battle for control of the isles.",
@@ -1019,7 +918,6 @@
         "long",
         "heavy",
         "area-control",
-        "fantasy",
         "miniatures",
         "long-setup",
         "take-that"
@@ -1048,9 +946,7 @@
         "medium",
         "deck-building",
         "campaign",
-        "legacy",
-        "fantasy",
-        "adventure"
+        "legacy"
       ],
       "description": "A legacy campaign that turns Clank! into an evolving adventuring-company story.",
       "owner": "Chris"
@@ -1108,8 +1004,7 @@
         "medium-length",
         "medium",
         "deck-building",
-        "campaign",
-        "historical"
+        "campaign"
       ],
       "description": "A two-player WWII tactical campaign combining deck-building with battlefield control.",
       "owner": "Chris"
@@ -1134,8 +1029,7 @@
         "medium-length",
         "medium",
         "deck-building",
-        "campaign",
-        "historical"
+        "campaign"
       ],
       "description": "A WWII desert campaign featuring infantry, vehicles and tactical deck-building.",
       "owner": "Chris"
@@ -1160,8 +1054,7 @@
         "medium-length",
         "heavy",
         "deck-building",
-        "campaign",
-        "historical"
+        "campaign"
       ],
       "description": "A linked WWII campaign in which casualties and battlefield choices carry forward.",
       "owner": "Chris"
@@ -1185,8 +1078,7 @@
         "medium-length",
         "medium",
         "campaign",
-        "dice",
-        "sci-fi"
+        "dice"
       ],
       "description": "A solo dice-placement defence game about stopping an alien invasion.",
       "owner": "Chris"
@@ -1211,8 +1103,6 @@
         "short",
         "light",
         "deduction",
-        "horror",
-        "lovecraftian",
         "compact",
         "bluffing",
         "party"
@@ -1240,7 +1130,6 @@
         "medium-length",
         "heavy",
         "deck-building",
-        "fantasy",
         "take-that",
         "asymmetric"
       ],
@@ -1267,8 +1156,6 @@
         "medium-length",
         "medium",
         "dice",
-        "fantasy",
-        "adventure",
         "compact"
       ],
       "description": "A compact dice-driven dungeon crawl with roguelike progression.",
@@ -1316,7 +1203,6 @@
         "competitive",
         "medium-length",
         "medium",
-        "fantasy",
         "take-that"
       ],
       "description": "Tactical magical duelling between apprentice mages.",
@@ -1343,8 +1229,6 @@
         "light",
         "drafting",
         "set-collection",
-        "horror",
-        "lovecraftian",
         "compact"
       ],
       "description": "A two-player drafting game where powerful cards bring the risk of accumulating madness.",
@@ -1369,7 +1253,6 @@
         "competitive",
         "short",
         "light",
-        "abstract",
         "compact"
       ],
       "description": "An ancient abstract strategy game of forming mills and capturing opposing pieces.",
@@ -1394,7 +1277,6 @@
         "competitive",
         "short",
         "light",
-        "abstract",
         "big-table",
         "dexterity"
       ],
@@ -1420,8 +1302,6 @@
         "competitive",
         "short",
         "light",
-        "sci-fi",
-        "licensed",
         "compact",
         "luck-heavy",
         "party"
@@ -1448,7 +1328,6 @@
         "competitive",
         "short",
         "light",
-        "fantasy",
         "compact",
         "luck-heavy",
         "party"
@@ -1475,7 +1354,6 @@
         "competitive",
         "short",
         "light",
-        "fantasy",
         "compact",
         "luck-heavy",
         "party"
@@ -1502,8 +1380,7 @@
         "competitive",
         "long",
         "heavy",
-        "deck-building",
-        "historical"
+        "deck-building"
       ],
       "description": "An asymmetric civilization deck-building game spanning eight ancient peoples.",
       "owner": "Chris"
@@ -1527,8 +1404,7 @@
         "competitive",
         "long",
         "heavy",
-        "deck-building",
-        "fantasy"
+        "deck-building"
       ],
       "description": "A deeper asymmetric civilization deck-builder featuring legendary civilizations.",
       "owner": "Chris"
@@ -1554,8 +1430,6 @@
         "heavy",
         "area-control",
         "dice",
-        "fantasy",
-        "licensed",
         "miniatures",
         "long-setup",
         "big-table",
@@ -1583,8 +1457,7 @@
         "competitive",
         "long",
         "medium",
-        "worker-placement",
-        "fantasy"
+        "worker-placement"
       ],
       "description": "Place agents around Waterdeep to recruit adventurers, complete quests and score points.",
       "owner": "Chris"
@@ -1635,8 +1508,6 @@
         "long",
         "heavy",
         "deck-building",
-        "fantasy",
-        "licensed",
         "take-that"
       ],
       "description": "A competitive living card game of intrigue, warfare and competing Westerosi houses.",
@@ -1662,8 +1533,6 @@
         "short",
         "light",
         "set-collection",
-        "fantasy",
-        "licensed",
         "gateway"
       ],
       "description": "A fast court-intrigue game where players use Varys to gather allies and claim house banners.",
@@ -1689,7 +1558,6 @@
         "short",
         "light",
         "deck-building",
-        "sci-fi",
         "compact",
         "take-that"
       ],
@@ -1716,8 +1584,6 @@
         "medium-length",
         "light",
         "dice",
-        "fantasy",
-        "adventure",
         "compact",
         "luck-heavy"
       ],
@@ -1775,7 +1641,6 @@
         "competitive",
         "short",
         "light",
-        "licensed",
         "compact",
         "take-that",
         "luck-heavy",
@@ -1805,7 +1670,6 @@
         "medium-length",
         "light",
         "deduction",
-        "mystery",
         "family"
       ],
       "description": "Track an invisible thief from audio clues and race to make the arrest.",
@@ -1831,7 +1695,6 @@
         "long",
         "medium",
         "area-control",
-        "licensed",
         "big-table",
         "take-that",
         "asymmetric",
@@ -1861,7 +1724,6 @@
         "medium",
         "push-your-luck",
         "dice",
-        "horror",
         "miniatures",
         "asymmetric"
       ],
@@ -1889,8 +1751,6 @@
         "heavy",
         "area-control",
         "dice",
-        "sci-fi",
-        "licensed",
         "miniatures",
         "long-setup",
         "big-table",
@@ -1944,7 +1804,6 @@
         "short",
         "light",
         "set-collection",
-        "abstract",
         "compact",
         "gateway"
       ],
@@ -1971,7 +1830,6 @@
         "short",
         "light",
         "deduction",
-        "licensed",
         "compact",
         "bluffing",
         "party"
@@ -2000,7 +1858,6 @@
         "light",
         "push-your-luck",
         "dice",
-        "fantasy",
         "luck-heavy",
         "family"
       ],
@@ -2025,9 +1882,7 @@
       "tags": [
         "competitive",
         "medium-length",
-        "medium",
-        "licensed",
-        "sci-fi"
+        "medium"
       ],
       "description": "A hand-management and drafting game based on Pierce Brown's Red Rising universe.",
       "owner": "Chris"
@@ -2052,8 +1907,6 @@
         "medium-length",
         "medium",
         "dice",
-        "fantasy",
-        "adventure",
         "compact",
         "alpha-player"
       ],
@@ -2080,9 +1933,6 @@
         "medium-length",
         "medium",
         "dice",
-        "horror",
-        "adventure",
-        "zombie",
         "compact"
       ],
       "description": "A compact cooperative zombie survival game with multiple modes.",
@@ -2108,7 +1958,6 @@
         "medium-length",
         "medium",
         "dice",
-        "sci-fi",
         "compact"
       ],
       "description": "A compact space game of dice-driven exploration, colonisation and influence.",
@@ -2133,8 +1982,6 @@
         "competitive",
         "medium-length",
         "medium",
-        "fantasy",
-        "adventure",
         "miniatures",
         "compact"
       ],
@@ -2187,7 +2034,6 @@
         "medium-length",
         "medium",
         "dice",
-        "fantasy",
         "take-that",
         "luck-heavy"
       ],
@@ -2214,9 +2060,7 @@
         "long",
         "medium",
         "campaign",
-        "dice",
-        "fantasy",
-        "adventure"
+        "dice"
       ],
       "description": "A cooperative campaign that uses Dice Throne heroes to explore, fight and upgrade.",
       "owner": "Chris"
@@ -2265,7 +2109,6 @@
         "short",
         "medium",
         "deduction",
-        "sci-fi",
         "compact",
         "asymmetric"
       ],
@@ -2324,8 +2167,6 @@
         "medium",
         "deck-building",
         "dice",
-        "sci-fi",
-        "licensed",
         "take-that"
       ],
       "description": "A collectible dice-and-card duel between teams of Star Wars heroes and villains.",
@@ -2350,8 +2191,7 @@
         "competitive",
         "medium-length",
         "medium",
-        "area-control",
-        "abstract"
+        "area-control"
       ],
       "description": "A compact political strategy game about influencing rival factions in medieval Britain.",
       "owner": "Chris"
@@ -2376,9 +2216,6 @@
         "long",
         "heavy",
         "dice",
-        "sci-fi",
-        "horror",
-        "zombie",
         "long-setup",
         "bluffing"
       ],
@@ -2405,8 +2242,6 @@
         "medium-length",
         "medium",
         "area-control",
-        "fantasy",
-        "licensed",
         "asymmetric"
       ],
       "description": "A two-player duel between the Fellowship and Sauron over the fate of Middle-earth.",
@@ -2431,8 +2266,7 @@
         "competitive",
         "long",
         "heavy",
-        "worker-placement",
-        "historical"
+        "worker-placement"
       ],
       "description": "Build a Victorian estate, manage servants and host prestigious social events.",
       "owner": "Chris"
@@ -2457,7 +2291,6 @@
         "long",
         "medium",
         "worker-placement",
-        "fantasy",
         "family"
       ],
       "description": "Build a woodland city by combining critters, constructions and seasonal worker placement.",
@@ -2506,7 +2339,6 @@
         "short",
         "light",
         "push-your-luck",
-        "fantasy",
         "compact",
         "bluffing",
         "gateway"
@@ -2535,7 +2367,6 @@
         "medium",
         "deck-building",
         "area-control",
-        "fantasy",
         "miniatures"
       ],
       "description": "A tactical miniatures game combining Ascension-style deck-building with battlefield combat.",
@@ -2561,8 +2392,7 @@
         "medium-length",
         "medium",
         "deck-building",
-        "take-that",
-        "sci-fi"
+        "take-that"
       ],
       "description": "Build a tribe's deck and compete for scarce resources in a frozen post-apocalyptic world.",
       "owner": "Chris"
@@ -2587,7 +2417,6 @@
         "medium-length",
         "heavy",
         "deck-building",
-        "fantasy",
         "alpha-player"
       ],
       "description": "A cooperative deck-building battle against Nemeses where the deck is never shuffled.",
@@ -2612,7 +2441,6 @@
         "competitive",
         "medium-length",
         "medium",
-        "historical",
         "take-that",
         "asymmetric"
       ],
@@ -2638,7 +2466,6 @@
         "competitive",
         "medium-length",
         "medium",
-        "historical",
         "take-that",
         "asymmetric"
       ],
@@ -2691,8 +2518,7 @@
         "light",
         "set-collection",
         "compact",
-        "gateway",
-        "fantasy"
+        "gateway"
       ],
       "description": "Build the highest-scoring fantasy hand by drawing and discarding cards for powerful combinations.",
       "owner": "Chris"
@@ -2718,8 +2544,6 @@
         "light",
         "campaign",
         "dice",
-        "sci-fi",
-        "licensed",
         "miniatures",
         "asymmetric",
         "family",
@@ -2748,8 +2572,6 @@
         "medium-length",
         "medium",
         "area-control",
-        "fantasy",
-        "licensed",
         "take-that",
         "bluffing",
         "asymmetric"
@@ -2777,8 +2599,6 @@
         "long",
         "heavy",
         "area-control",
-        "sci-fi",
-        "licensed",
         "bluffing",
         "asymmetric",
         "long-setup",
@@ -2916,7 +2736,6 @@
         "heavy",
         "asymmetric",
         "deck-building",
-        "sci-fi",
         "bluffing",
         "2-player"
       ],
@@ -2944,9 +2763,7 @@
         "heavy",
         "area-control",
         "deck-building",
-        "hand-management",
-        "western",
-        "fantasy"
+        "hand-management"
       ],
       "description": "Expand influence, build up the town, and battle rival factions in high-stakes poker hand shootouts across a weird-west frontier town.",
       "owner": "Matt"
@@ -2972,7 +2789,6 @@
         "heavy",
         "asymmetric",
         "hand-management",
-        "fantasy",
         "2-player"
       ],
       "description": "Lead honor-bound Samurai clans, manage military and political conflicts, and balance fate to break into your rival's stronghold.",
@@ -2997,7 +2813,6 @@
         "competitive",
         "short",
         "light",
-        "fantasy",
         "family",
         "roll-and-move"
       ],
@@ -3024,7 +2839,6 @@
         "long",
         "heavy",
         "deduction",
-        "sci-fi",
         "storytelling",
         "asymmetric"
       ],
@@ -3051,8 +2865,7 @@
         "medium-length",
         "medium",
         "deduction",
-        "app-driven",
-        "murder-mystery"
+        "app-driven"
       ],
       "description": "A cooperative crime-solving experience using app integration, scan-enabled QR components, and VR crime scene investigations.",
       "owner": "Matt"
@@ -3104,7 +2917,6 @@
         "medium-length",
         "light",
         "roll-and-write",
-        "fantasy",
         "pattern-building"
       ],
       "description": "Players map out fantasy terrain across four seasons to earn royal decrees while fending off monster ambushes drawn by opponents.",
@@ -3130,8 +2942,7 @@
         "short",
         "light",
         "roll-and-write",
-        "simultaneous-action",
-        "city-building"
+        "simultaneous-action"
       ],
       "description": "Architects build perfect 1950s suburban neighborhoods by assigning house numbers, installing pools, and hiring contractors simultaneously.",
       "owner": "Matt"
@@ -3239,8 +3050,7 @@
         "light",
         "compact",
         "take-that",
-        "family",
-        "fantasy"
+        "family"
       ],
       "description": "A fast, whimsical card game of building and protecting your colony of small creature Gubs while sabotaging rival players.",
       "owner": "Jill"
@@ -3266,7 +3076,6 @@
         "light",
         "dice",
         "set-collection",
-        "fantasy",
         "family"
       ],
       "description": "Collect card sets to earn dice and roll to capture magical creatures hidden deep within the mythical Dragonwood forest.",
@@ -3318,7 +3127,6 @@
         "medium-length",
         "light",
         "set-collection",
-        "historical",
         "family",
         "gateway"
       ],
@@ -3345,7 +3153,6 @@
         "medium-length",
         "medium",
         "worker-placement",
-        "fantasy",
         "family"
       ],
       "description": "Place adorable Artisan Dragons into local village shops to gather goods, enchant storefronts, and build up reputation.",
@@ -3371,7 +3178,6 @@
         "medium-length",
         "medium",
         "dice",
-        "fantasy",
         "family",
         "gateway"
       ],
@@ -3449,7 +3255,6 @@
         "medium-length",
         "light",
         "drafting",
-        "abstract",
         "family",
         "gateway"
       ],
@@ -3476,8 +3281,6 @@
         "medium-length",
         "light",
         "deduction",
-        "mystery",
-        "horror",
         "family"
       ],
       "description": "A silent ghost sends abstract vision cards to psychic investigators to help them solve a mansion murder mystery (includes expansion).",
@@ -3503,8 +3306,6 @@
         "medium-length",
         "medium",
         "deck-building",
-        "fantasy",
-        "licensed",
         "asymmetric"
       ],
       "description": "Cooperative living card game where players team up as Marvel heroes to thwart villain schemes and combat threats.",
@@ -3529,7 +3330,6 @@
         "competitive",
         "short",
         "light",
-        "abstract",
         "family",
         "gateway"
       ],
@@ -3557,9 +3357,7 @@
         "light",
         "compact",
         "take-that",
-        "fantasy",
-        "family",
-        "licensed"
+        "family"
       ],
       "description": "A fast-paced D&D card brawler where adventurers use action cards to deal damage, block hits, and be the last hero standing (includes expansions).",
       "owner": "Jill"
