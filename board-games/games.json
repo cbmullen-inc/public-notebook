@@ -2685,6 +2685,436 @@
       ],
       "description": "Clashing factions vie for control of the desert planet Arrakis using unique asymmetric powers, military strength, and shifting alliances.",
       "owner": "Matt"
+    },
+{
+      "name": "Night of the Ninja",
+      "link": {
+        "type": "game",
+        "bggId": 306321,
+        "url": "https://boardgamegeek.com/boardgame/306321/night-of-the-ninja",
+        "verified": true
+      },
+      "playersMin": 4,
+      "playersMax": 11,
+      "minutes": {
+        "min": 15,
+        "max": 30
+      },
+      "weight": 1.4,
+      "tags": [
+        "competitive",
+        "short",
+        "light",
+        "bluffing",
+        "social-deduction",
+        "drafting",
+        "take-that",
+        "party"
+      ],
+      "description": "Players strike from the shadows in this quick draft-and-deduction game of rival ninja houses, hidden roles, and lethal backstabbing.",
+      "owner": "Matt"
+    },
+    {
+      "name": "Sheriff of Nottingham",
+      "link": {
+        "type": "game",
+        "bggId": 157969,
+        "url": "https://boardgamegeek.com/boardgame/157969/sheriff-nottingham",
+        "verified": true
+      },
+      "playersMin": 3,
+      "playersMax": 5,
+      "minutes": {
+        "min": 60,
+        "max": 60
+      },
+      "weight": 1.7,
+      "tags": [
+        "competitive",
+        "medium-length",
+        "light",
+        "bluffing",
+        "negotiation",
+        "hand-management",
+        "take-that",
+        "party"
+      ],
+      "description": "Merchants bribe, lie, and smuggle contraband past a rotating Sheriff who must decide whose goods to inspect and whose bribes to accept.",
+      "owner": "Matt"
+    },
+    {
+      "name": "Fort",
+      "link": {
+        "type": "game",
+        "bggId": 296912,
+        "url": "https://boardgamegeek.com/boardgame/296912/fort",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 4,
+      "minutes": {
+        "min": 30,
+        "max": 60
+      },
+      "weight": 2.4,
+      "tags": [
+        "competitive",
+        "medium-length",
+        "medium",
+        "deck-building",
+        "hand-management"
+      ],
+      "description": "Draft kids to build the ultimate backyard fort, stash pizza and toys, and draft unplayed cards straight out of your rivals' yards.",
+      "owner": "Matt"
+    },
+    {
+      "name": "Decrypto",
+      "link": {
+        "type": "game",
+        "bggId": 225694,
+        "url": "https://boardgamegeek.com/boardgame/225694/decrypto",
+        "verified": true
+      },
+      "playersMin": 3,
+      "playersMax": 8,
+      "minutes": {
+        "min": 15,
+        "max": 45
+      },
+      "weight": 1.8,
+      "tags": [
+        "competitive",
+        "medium-length",
+        "medium",
+        "party",
+        "word-game",
+        "team-based",
+        "deduction"
+      ],
+      "description": "Teams communicate in coded clues to reveal secret words to teammates without allowing opponent interceptors to crack their system.",
+      "owner": "Matt"
+    },
+    {
+      "name": "Android: Netrunner",
+      "link": {
+        "type": "game",
+        "bggId": 124742,
+        "url": "https://boardgamegeek.com/boardgame/124742/android-netrunner",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 2,
+      "minutes": {
+        "min": 30,
+        "max": 60
+      },
+      "weight": 3.4,
+      "tags": [
+        "competitive",
+        "medium-length",
+        "heavy",
+        "asymmetric",
+        "deck-building",
+        "sci-fi",
+        "bluffing",
+        "2-player"
+      ],
+      "description": "A cyberpunk duel where a megacorporation protects secret agendas while a rogue hacker attempts to break through digital ice and steal data.",
+      "owner": "Matt"
+    },
+    {
+      "name": "Doomtown: Reloaded",
+      "link": {
+        "type": "game",
+        "bggId": 156714,
+        "url": "https://boardgamegeek.com/boardgame/156714/doomtown-reloaded",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 4,
+      "minutes": {
+        "min": 30,
+        "max": 90
+      },
+      "weight": 3.6,
+      "tags": [
+        "competitive",
+        "medium-length",
+        "heavy",
+        "area-control",
+        "deck-building",
+        "hand-management",
+        "western",
+        "fantasy"
+      ],
+      "description": "Expand influence, build up the town, and battle rival factions in high-stakes poker hand shootouts across a weird-west frontier town.",
+      "owner": "Matt"
+    },
+    {
+      "name": "Legend of the Five Rings: The Card Game",
+      "link": {
+        "type": "game",
+        "bggId": 184151,
+        "url": "https://boardgamegeek.com/boardgame/184151/legend-of-the-five-rings-the-card-game",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 2,
+      "minutes": {
+        "min": 45,
+        "max": 90
+      },
+      "weight": 3.8,
+      "tags": [
+        "competitive",
+        "long",
+        "heavy",
+        "asymmetric",
+        "hand-management",
+        "fantasy",
+        "2-player"
+      ],
+      "description": "Lead honor-bound Samurai clans, manage military and political conflicts, and balance fate to break into your rival's stronghold.",
+      "owner": "Matt"
+    },
+    {
+      "name": "Ghost Chase",
+      "link": {
+        "type": "game",
+        "bggId": 1533,
+        "url": "https://boardgamegeek.com/boardgame/1533/ghost-chase",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 6,
+      "minutes": {
+        "min": 30,
+        "max": 30
+      },
+      "weight": 1.2,
+      "tags": [
+        "competitive",
+        "short",
+        "light",
+        "fantasy",
+        "family",
+        "roll-and-move"
+      ],
+      "description": "Players navigate spooky haunted rooms, avoiding mischievous ghosts while collecting items and escaping the castle grounds.",
+      "owner": "Matt"
+    },
+    {
+      "name": "Android",
+      "link": {
+        "type": "game",
+        "bggId": 39339,
+        "url": "https://boardgamegeek.com/boardgame/39339/android",
+        "verified": true
+      },
+      "playersMin": 3,
+      "playersMax": 5,
+      "minutes": {
+        "min": 180,
+        "max": 240
+      },
+      "weight": 4.1,
+      "tags": [
+        "competitive",
+        "long",
+        "heavy",
+        "deduction",
+        "sci-fi",
+        "storytelling",
+        "asymmetric"
+      ],
+      "description": "Detectives solve a high-tech murder mystery in a dystopian future while balancing personal demons, conspiracy, and shifting evidence.",
+      "owner": "Matt"
+    },
+    {
+      "name": "Chronicles of Crime",
+      "link": {
+        "type": "game",
+        "bggId": 239188,
+        "url": "https://boardgamegeek.com/boardgame/239188/chronicles-of-crime",
+        "verified": true
+      },
+      "playersMin": 1,
+      "playersMax": 4,
+      "minutes": {
+        "min": 60,
+        "max": 90
+      },
+      "weight": 2.1,
+      "tags": [
+        "cooperative",
+        "medium-length",
+        "medium",
+        "deduction",
+        "app-driven",
+        "murder-mystery"
+      ],
+      "description": "A cooperative crime-solving experience using app integration, scan-enabled QR components, and VR crime scene investigations.",
+      "owner": "Matt"
+    },
+    {
+      "name": "Rush Out!",
+      "link": {
+        "type": "game",
+        "bggId": 300521,
+        "url": "https://boardgamegeek.com/boardgame/300521/rush-out",
+        "verified": true
+      },
+      "playersMin": 3,
+      "playersMax": 5,
+      "minutes": {
+        "min": 15,
+        "max": 30
+      },
+      "weight": 1.2,
+      "tags": [
+        "competitive",
+        "short",
+        "light",
+        "dice-rolling",
+        "real-time",
+        "asymmetric",
+        "family"
+      ],
+      "description": "A frantic real-time dice game where sorcery students race to match spell cards and break free from a relentless chasing monster.",
+      "owner": "Matt"
+    },
+    {
+      "name": "Cartographers",
+      "link": {
+        "type": "game",
+        "bggId": 263918,
+        "url": "https://boardgamegeek.com/boardgame/263918/cartographers",
+        "verified": true
+      },
+      "playersMin": 1,
+      "playersMax": 100,
+      "minutes": {
+        "min": 30,
+        "max": 45
+      },
+      "weight": 1.9,
+      "tags": [
+        "competitive",
+        "medium-length",
+        "light",
+        "roll-and-write",
+        "fantasy",
+        "pattern-building"
+      ],
+      "description": "Players map out fantasy terrain across four seasons to earn royal decrees while fending off monster ambushes drawn by opponents.",
+      "owner": "Matt"
+    },
+    {
+      "name": "Welcome To...",
+      "link": {
+        "type": "game",
+        "bggId": 233867,
+        "url": "https://boardgamegeek.com/boardgame/233867/welcome-to",
+        "verified": true
+      },
+      "playersMin": 1,
+      "playersMax": 100,
+      "minutes": {
+        "min": 25,
+        "max": 25
+      },
+      "weight": 1.8,
+      "tags": [
+        "competitive",
+        "short",
+        "light",
+        "roll-and-write",
+        "simultaneous-action",
+        "city-building"
+      ],
+      "description": "Architects build perfect 1950s suburban neighborhoods by assigning house numbers, installing pools, and hiring contractors simultaneously.",
+      "owner": "Matt"
+    },
+    {
+      "name": "Mascarade",
+      "link": {
+        "type": "game",
+        "bggId": 139030,
+        "url": "https://boardgamegeek.com/boardgame/139030/mascarade",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 13,
+      "minutes": {
+        "min": 30,
+        "max": 30
+      },
+      "weight": 1.5,
+      "tags": [
+        "competitive",
+        "short",
+        "light",
+        "bluffing",
+        "memory",
+        "party",
+        "social-deduction"
+      ],
+      "description": "A chaotic game of masquerade roles where cards swap face-down, forcing players to guess or bluff about who they currently are.",
+      "owner": "Matt"
+    },
+    {
+      "name": "Codenames",
+      "link": {
+        "type": "game",
+        "bggId": 178900,
+        "url": "https://boardgamegeek.com/boardgame/178900/codenames",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 8,
+      "minutes": {
+        "min": 15,
+        "max": 15
+      },
+      "weight": 1.3,
+      "tags": [
+        "competitive",
+        "short",
+        "light",
+        "party",
+        "word-game",
+        "team-based",
+        "deduction"
+      ],
+      "description": "Spymasters give one-word clues to help team agents pinpoint key words on a grid while dodging rival agents and the assassin.",
+      "owner": "Matt"
+    },
+    {
+      "name": "Cheating Moth",
+      "link": {
+        "type": "game",
+        "bggId": 105593,
+        "url": "https://boardgamegeek.com/boardgame/105593/cheating-moth",
+        "verified": true
+      },
+      "playersMin": 3,
+      "playersMax": 5,
+      "minutes": {
+        "min": 15,
+        "max": 25
+      },
+      "weight": 1.1,
+      "tags": [
+        "competitive",
+        "short",
+        "light",
+        "hand-management",
+        "party",
+        "family",
+        "real-time"
+      ],
+      "description": "A clever party game where cheating by dropping, hiding, or flicking away cards is explicitly required to empty your hand—if you don't get caught.",
+      "owner": "Matt"
     }
   ]
 }
