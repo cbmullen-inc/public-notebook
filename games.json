@@ -2626,6 +2626,65 @@
       ],
       "description": "Tactical card- and dice-driven combat on the frozen plains of Hoth using the Command & Colors system.",
       "owner": "Chris"
+    },
+    {
+      "name": "Discworld: Ankh-Morpork",
+      "link": {
+        "type": "game",
+        "bggId": 91312,
+        "url": "https://boardgamegeek.com/boardgame/91312/discworld-ankh-morpork",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 4,
+      "minutes": {
+        "min": 60,
+        "max": 60
+      },
+      "weight": 2.2,
+      "tags": [
+        "competitive",
+        "medium-length",
+        "medium",
+        "area-control",
+        "fantasy",
+        "licensed",
+        "take-that",
+        "bluffing",
+        "asymmetric"
+      ],
+      "description": "Players control hidden personalities competing to fulfill secret victory conditions across the chaotic city of Ankh-Morpork.",
+      "owner": "Matt"
+    },
+    {
+      "name": "Dune",
+      "link": {
+        "type": "game",
+        "bggId": 283355,
+        "url": "https://boardgamegeek.com/boardgame/283355/dune",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 6,
+      "minutes": {
+        "min": 120,
+        "max": 120
+      },
+      "weight": 3.9,
+      "tags": [
+        "competitive",
+        "long",
+        "heavy",
+        "area-control",
+        "sci-fi",
+        "licensed",
+        "bluffing",
+        "asymmetric",
+        "long-setup",
+        "big-table"
+      ],
+      "description": "Clashing factions vie for control of the desert planet Arrakis using unique asymmetric powers, military strength, and shifting alliances.",
+      "owner": "Matt"
     }
   ]
 }
