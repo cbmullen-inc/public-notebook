@@ -3387,6 +3387,81 @@
       ],
       "description": "A high-speed tile-snatching game where players roll dice and race to grab the tile with matching symbols using quick reflexes.",
       "owner": "Jill"
+    },
+    {
+      "name": "Fluxx",
+      "link": {
+        "type": "game",
+        "bggId": 258,
+        "url": "https://boardgamegeek.com/boardgame/258/fluxx"
+      },
+      "playersMin": 2,
+      "playersMax": 6,
+      "minutes": {
+        "min": 10,
+        "max": 30
+      },
+      "weight": 1.4,
+      "tags": [
+        "competitive",
+        "short",
+        "light",
+        "compact",
+        "luck-heavy",
+        "party"
+      ],
+      "description": "A changing-rules card game where the rules and winning goal shift as players play cards.",
+      "owner": "Jill"
+    },
+    {
+      "name": "Fluxx: Marvel",
+      "link": {
+        "type": "game",
+        "bggId": 290026,
+        "url": "https://boardgamegeek.com/boardgame/272541/marvel-fluxx"
+      },
+      "playersMin": 2,
+      "playersMax": 6,
+      "minutes": {
+        "min": 10,
+        "max": 30
+      },
+      "weight": 1.4,
+      "tags": [
+        "competitive",
+        "short",
+        "light",
+        "compact",
+        "luck-heavy",
+        "party"
+      ],
+      "description": "A Marvel-themed Fluxx game where players change the rules and winning goal by playing cards.",
+      "owner": "Jill"
+    },
+    {
+      "name": "Fluxx: Astronomy",
+      "link": {
+        "type": "game",
+        "bggId": 290025,
+        "url": "https://boardgamegeek.com/boardgame/290025/astronomy-fluxx"
+      },
+      "playersMin": 2,
+      "playersMax": 6,
+      "minutes": {
+        "min": 10,
+        "max": 30
+      },
+      "weight": 1.4,
+      "tags": [
+        "competitive",
+        "short",
+        "light",
+        "compact",
+        "luck-heavy",
+        "party"
+      ],
+      "description": "An astronomy-themed Fluxx game where players change the rules and winning goal by playing cards.",
+      "owner": "Jill"
     }
   ]
 }
