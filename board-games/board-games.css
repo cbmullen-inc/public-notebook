@@ -548,6 +548,35 @@ th button:focus-visible {
   margin-top: .6rem
 }
 
+.advanced-toggle {
+  margin-top: .7rem;
+  padding: .3rem .65rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--acc);
+  font: inherit;
+  font-size: .85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color .15s ease, box-shadow .15s ease
+}
+
+.advanced-toggle:hover,
+.advanced-toggle:focus-visible {
+  border-color: var(--acc);
+  box-shadow: 0 2px 8px rgba(11, 107, 115, .12)
+}
+
+.advanced-toggle:focus-visible {
+  outline: 2px solid var(--acc);
+  outline-offset: 2px
+}
+
+#advanced-filters[hidden] {
+  display: none
+}
+
 .flabel {
   font-size: .8rem;
   font-weight: 600;
