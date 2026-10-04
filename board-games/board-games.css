@@ -258,6 +258,55 @@ h2 {
   border-radius: 6px
 }
 
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .65rem 1rem;
+  margin: 0 0 .65rem;
+  color: var(--mute);
+  font-size: .9rem
+}
+
+.pagination label,
+.pagination__controls {
+  display: flex;
+  align-items: center;
+  gap: .5rem
+}
+
+.pagination select,
+.pagination button {
+  font: inherit;
+  color: var(--ink);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: .3rem .55rem
+}
+
+.pagination button {
+  cursor: pointer
+}
+
+.pagination button:hover:not(:disabled),
+.pagination button:focus-visible {
+  border-color: var(--acc);
+  color: var(--acc)
+}
+
+.pagination button:disabled {
+  opacity: .55;
+  cursor: default
+}
+
+.pagination select:focus-visible,
+.pagination button:focus-visible {
+  outline: 2px solid var(--acc);
+  outline-offset: 1px
+}
+
 table {
   border-collapse: collapse;
   width: 100%;
@@ -519,17 +568,23 @@ th button:focus-visible {
   justify-content: center;
   font: inherit;
   font-size: .85rem;
+  font-weight: 600;
+  letter-spacing: .015em;
   color: var(--ink);
-  background: var(--bg);
+  background: linear-gradient(180deg, var(--card), var(--bg));
   border: 1px solid var(--line);
   border-radius: 99px;
-  padding: .1rem .6rem;
+  padding: .16rem .68rem;
   cursor: pointer;
-  min-height: 1.75rem
+  min-height: 1.85rem;
+  box-shadow: 0 1px 3px rgba(23, 34, 43, .06);
+  transition: transform .15s ease, border-color .15s ease, background .15s ease, box-shadow .15s ease
 }
 
 .tag:hover {
-  border-color: var(--acc)
+  transform: translateY(-1px);
+  border-color: var(--acc);
+  box-shadow: 0 3px 8px rgba(11, 107, 115, .12)
 }
 
 .tag:focus-visible {
@@ -540,7 +595,8 @@ th button:focus-visible {
 .tag.on {
   background: var(--acc);
   border-color: var(--acc);
-  color: var(--card)
+  color: var(--card);
+  box-shadow: 0 2px 7px rgba(11, 107, 115, .2)
 }
 
 .tag.not {
@@ -557,8 +613,10 @@ th button:focus-visible {
 }
 
 .tag--sm {
-  font-size: .75rem;
-  padding: 0 .5rem
+  font-size: .76rem;
+  padding: .08rem .52rem;
+  min-height: 1.6rem;
+  box-shadow: none
 }
 
 .tags {
