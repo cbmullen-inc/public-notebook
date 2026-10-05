@@ -3393,7 +3393,8 @@
       "link": {
         "type": "game",
         "bggId": 258,
-        "url": "https://boardgamegeek.com/boardgame/258/fluxx"
+        "url": "https://boardgamegeek.com/boardgame/258/fluxx",
+        "verified": true
       },
       "playersMin": 2,
       "playersMax": 6,
@@ -3417,8 +3418,9 @@
       "name": "Fluxx: Marvel",
       "link": {
         "type": "game",
-        "bggId": 290026,
-        "url": "https://boardgamegeek.com/boardgame/272541/marvel-fluxx"
+        "bggId": 272541,
+        "url": "https://boardgamegeek.com/boardgame/272541/marvel-fluxx",
+        "verified": true
       },
       "playersMin": 2,
       "playersMax": 6,
@@ -3443,7 +3445,8 @@
       "link": {
         "type": "game",
         "bggId": 290025,
-        "url": "https://boardgamegeek.com/boardgame/290025/astronomy-fluxx"
+        "url": "https://boardgamegeek.com/boardgame/290025/astronomy-fluxx",
+        "verified": true
       },
       "playersMin": 2,
       "playersMax": 6,
