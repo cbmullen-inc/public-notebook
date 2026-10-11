@@ -40,3 +40,12 @@ its own files):
 The index workflow watches `index.html`, and the board-games workflow watches
 `board-games/**`. Changes to either page on `main` trigger the corresponding deploy.
 Both workflows also support manual runs via **Run workflow** in the Actions tab.
+
+## Pre-push validation
+
+The repository includes a Git pre-push hook that validates `board-games/games.json`
+before allowing a push. Python is required. Enable the hook once in each clone with:
+
+```sh
+git config core.hooksPath .githooks
+```
