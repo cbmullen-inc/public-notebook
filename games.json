@@ -446,7 +446,8 @@
         "heavy",
         "deck-building",
         "campaign",
-        "long-setup"
+        "long-setup",
+        "storytelling"
       ],
       "description": "Build an investigator deck and unravel Lovecraftian mysteries over a campaign.",
       "owner": "Chris"
@@ -498,7 +499,8 @@
         "medium",
         "campaign",
         "dice",
-        "big-table"
+        "big-table",
+        "storytelling"
       ],
       "description": "Storybook exploration across an uncharted archipelago as a stranded 1920s crew.",
       "owner": "Chris"
@@ -524,7 +526,8 @@
         "medium",
         "campaign",
         "dice",
-        "big-table"
+        "big-table",
+        "storytelling"
       ],
       "description": "Journey across a rugged landscape in this sequel to Sleeping Gods.",
       "owner": "Chris"
@@ -573,6 +576,7 @@
       },
       "weight": 2.5,
       "tags": [
+        "app-driven",
         "coop",
         "long",
         "medium"
@@ -2362,6 +2366,7 @@
       },
       "weight": 2.8,
       "tags": [
+        "coop",
         "competitive",
         "long",
         "medium",
@@ -3465,6 +3470,31 @@
       ],
       "description": "An astronomy-themed Fluxx game where players change the rules and winning goal by playing cards.",
       "owner": "Jill"
+    },
+    {
+      "name": "Vantage",
+      "link": {
+        "type": "game",
+        "bggId": 420033,
+        "url": "https://boardgamegeek.com/boardgame/420033/vantage",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 6,
+      "minutes": {
+        "min": 45,
+        "max": 120
+      },
+      "weight": 2.7,
+      "tags": [
+        "coop",
+        "storytelling",
+        "medium",
+        "luck-heavy",
+        "tableau-building"
+      ],
+      "description": "Explore an entire planet's open world from a first-person vantage point.",
+      "owner": "Chris"
     }
   ]
 }
