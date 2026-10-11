@@ -272,6 +272,11 @@
       "id": "memory",
       "label": "Memory",
       "category": "mechanic"
+    },
+    {
+      "id": "tableau-building",
+      "label": "Tableau building",
+      "category": "mechanic"
     }
   ],
   "games": [
@@ -1886,7 +1891,8 @@
       "tags": [
         "competitive",
         "medium-length",
-        "medium"
+        "medium",
+        "tableau-building"
       ],
       "description": "A hand-management and drafting game based on Pierce Brown's Red Rising universe.",
       "owner": "Chris"
@@ -2295,7 +2301,8 @@
         "long",
         "medium",
         "worker-placement",
-        "family"
+        "family",
+        "tableau-building"
       ],
       "description": "Build a woodland city by combining critters, constructions and seasonal worker placement.",
       "owner": "Chris"
@@ -2318,7 +2325,8 @@
       "tags": [
         "competitive",
         "medium-length",
-        "light"
+        "light",
+        "tableau-building"
       ],
       "description": "A tile-based strategy game set among Inuit communities and Arctic waters.",
       "owner": "Chris"
