@@ -3487,7 +3487,7 @@
         "url": "https://boardgamegeek.com/boardgame/420033/vantage",
         "verified": true
       },
-      "playersMin": 2,
+      "playersMin": 1,
       "playersMax": 6,
       "minutes": {
         "min": 45,
