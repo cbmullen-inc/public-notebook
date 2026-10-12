@@ -326,7 +326,7 @@
       "tags": [
         "coop",
         "medium-length",
-        "light",
+        "medium",
         "alpha-player",
         "family",
         "gateway"
@@ -436,7 +436,7 @@
       "tags": [
         "coop",
         "long",
-        "light",
+        "medium",
         "deduction"
       ],
       "description": "Solve cases by reading period newspapers and directories, then answer questions Holmes-style.",
@@ -544,7 +544,7 @@
       "tags": [
         "coop",
         "long",
-        "medium",
+        "heavy",
         "campaign",
         "dice",
         "big-table",
@@ -573,7 +573,7 @@
       "tags": [
         "coop",
         "long",
-        "medium",
+        "heavy",
         "campaign",
         "dice",
         "big-table",
@@ -602,7 +602,7 @@
       "tags": [
         "coop",
         "long",
-        "medium",
+        "heavy",
         "dice",
         "long-setup",
         "big-table",
@@ -726,6 +726,35 @@
       "averageRating": 6.9
     },
     {
+      "name": "Love Letter",
+      "link": {
+        "type": "game",
+        "bggId": 129622,
+        "url": "https://boardgamegeek.com/boardgame/129622",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 4,
+      "minutes": {
+        "min": 20,
+        "max": 20
+      },
+      "weight": 1.2,
+      "tags": [
+        "competitive",
+        "short",
+        "light",
+        "hand-management",
+        "deduction",
+        "bluffing",
+        "compact"
+      ],
+      "description": "Use deduction and a changing hand of character cards to deliver your love letter and eliminate rivals.",
+      "owner": "Chris",
+      "recommendedAge": "8+",
+      "averageRating": 7.2
+    },
+    {
       "name": "Sushi Go Party!",
       "link": {
         "type": "game",
@@ -774,7 +803,7 @@
       "tags": [
         "competitive",
         "medium-length",
-        "light",
+        "medium",
         "worker-placement",
         "set-collection",
         "family",
@@ -830,7 +859,7 @@
       "tags": [
         "competitive",
         "medium-length",
-        "light",
+        "medium",
         "push-your-luck",
         "family",
         "gateway"
@@ -858,7 +887,7 @@
       "tags": [
         "competitive",
         "medium-length",
-        "medium",
+        "light",
         "deck-building",
         "family",
         "gateway"
@@ -1146,7 +1175,7 @@
       "tags": [
         "competitive",
         "medium-length",
-        "heavy",
+        "medium",
         "deck-building",
         "campaign"
       ],
@@ -1228,7 +1257,7 @@
       "tags": [
         "competitive",
         "medium-length",
-        "heavy",
+        "medium",
         "deck-building",
         "take-that",
         "asymmetric"
@@ -1308,7 +1337,7 @@
       "tags": [
         "competitive",
         "medium-length",
-        "medium",
+        "heavy",
         "take-that"
       ],
       "description": "Tactical magical duelling between apprentice mages.",
@@ -1926,7 +1955,7 @@
       "tags": [
         "competitive",
         "short",
-        "light",
+        "medium",
         "deduction",
         "compact"
       ],
@@ -2065,7 +2094,7 @@
       "tags": [
         "coop",
         "medium-length",
-        "medium",
+        "light",
         "dice",
         "compact",
         "alpha-player"
@@ -2507,7 +2536,7 @@
       "tags": [
         "competitive",
         "medium-length",
-        "light",
+        "medium",
         "tableau-building"
       ],
       "description": "A tile-based strategy game set among Inuit communities and Arctic waters.",
@@ -2617,7 +2646,7 @@
       "tags": [
         "coop",
         "medium-length",
-        "heavy",
+        "medium",
         "deck-building",
         "alpha-player"
       ],
@@ -2930,7 +2959,7 @@
       "tags": [
         "competitive",
         "medium-length",
-        "medium",
+        "light",
         "party",
         "word-game",
         "team-based",
@@ -2966,7 +2995,10 @@
         "2-player"
       ],
       "description": "A cyberpunk duel where a megacorporation protects secret agendas while a rogue hacker attempts to break through digital ice and steal data.",
-      "owner": "Matt",
+      "owners": [
+        "Chris",
+        "Matt"
+      ],
       "recommendedAge": "12+",
       "averageRating": 7.9
     },
@@ -3464,7 +3496,7 @@
       "tags": [
         "competitive",
         "medium-length",
-        "light",
+        "medium",
         "set-collection",
         "family",
         "gateway"
@@ -3574,7 +3606,7 @@
       "tags": [
         "coop",
         "medium-length",
-        "medium",
+        "heavy",
         "deck-building",
         "asymmetric"
       ],
