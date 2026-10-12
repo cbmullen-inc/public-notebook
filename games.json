@@ -294,7 +294,7 @@
         "min": 30,
         "max": 30
       },
-      "weight": 1.3,
+      "weight": 1.7,
       "tags": [
         "coop",
         "short",
@@ -304,7 +304,9 @@
         "gateway"
       ],
       "description": "Grab four treasures and escape before the island sinks.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "8+",
+      "averageRating": 6.7
     },
     {
       "name": "Forbidden Desert",
@@ -320,7 +322,7 @@
         "min": 45,
         "max": 45
       },
-      "weight": 1.7,
+      "weight": 2.0,
       "tags": [
         "coop",
         "medium-length",
@@ -330,7 +332,9 @@
         "gateway"
       ],
       "description": "Rebuild a flying machine while a sandstorm buries the ruins.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "8+",
+      "averageRating": 7.1
     },
     {
       "name": "Pandemic",
@@ -356,10 +360,12 @@
         "gateway"
       ],
       "description": "Race to cure four diseases before outbreaks overrun the world.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "10+",
+      "averageRating": 7.5
     },
     {
-      "name": "Legendary Encounters: Buffy / Firefly",
+      "name": "Legendary Encounters: A Firefly Deck Building Game",
       "link": {
         "type": "game",
         "bggId": 195571,
@@ -370,9 +376,11 @@
       "playersMax": 5,
       "minutes": {
         "min": 45,
-        "max": 60
+        "max": 90
       },
-      "weight": 2.5,
+      "weight": 2.6,
+      "recommendedAge": "12+",
+      "averageRating": 7.1,
       "tags": [
         "coop",
         "medium-length",
@@ -380,7 +388,34 @@
         "deck-building",
         "alpha-player"
       ],
-      "description": "Deck-building co-op where you fight a villain's scheme, once in Sunnydale and once in the 'verse.",
+      "description": "Deck-building co-op where you defend the 'verse and stop a villain's scheme from taking over the galaxy.",
+      "owner": "Chris"
+    },
+    {
+      "name": "Legendary: Buffy The Vampire Slayer",
+      "link": {
+        "type": "game",
+        "bggId": 210290,
+        "url": "https://boardgamegeek.com/boardgame/210290",
+        "verified": true
+      },
+      "playersMin": 1,
+      "playersMax": 5,
+      "minutes": {
+        "min": 30,
+        "max": 60
+      },
+      "weight": 2.2,
+      "recommendedAge": "12+",
+      "averageRating": 7.5,
+      "tags": [
+        "coop",
+        "medium-length",
+        "medium",
+        "deck-building",
+        "alpha-player"
+      ],
+      "description": "Deck-building co-op where you battle the forces of darkness while saving Sunnydale from a looming apocalypse.",
       "owner": "Chris"
     },
     {
@@ -397,7 +432,7 @@
         "min": 60,
         "max": 120
       },
-      "weight": 1.8,
+      "weight": 2.7,
       "tags": [
         "coop",
         "long",
@@ -405,7 +440,9 @@
         "deduction"
       ],
       "description": "Solve cases by reading period newspapers and directories, then answer questions Holmes-style.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "14+",
+      "averageRating": 7.6
     },
     {
       "name": "Leviathan Wilds",
@@ -418,17 +455,19 @@
       "playersMin": 1,
       "playersMax": 4,
       "minutes": {
-        "min": 90,
+        "min": 45,
         "max": 90
       },
-      "weight": 2.5,
+      "weight": 2.6,
       "tags": [
         "coop",
         "long",
         "medium"
       ],
       "description": "Climb colossal creatures on a spiral-bound storybook board, managing a deck that doubles as your grip.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "10+",
+      "averageRating": 7.8
     },
     {
       "name": "Arkham Horror: The Card Game",
@@ -439,12 +478,12 @@
         "verified": true
       },
       "playersMin": 1,
-      "playersMax": 4,
+      "playersMax": 2,
       "minutes": {
         "min": 60,
         "max": 120
       },
-      "weight": 3.5,
+      "weight": 3.6,
       "tags": [
         "coop",
         "long",
@@ -455,7 +494,9 @@
         "storytelling"
       ],
       "description": "Build an investigator deck and unravel Lovecraftian mysteries over a campaign.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "14+",
+      "averageRating": 8.1
     },
     {
       "name": "Gloomhaven: Jaws of the Lion",
@@ -468,7 +509,7 @@
       "playersMin": 1,
       "playersMax": 4,
       "minutes": {
-        "min": 60,
+        "min": 30,
         "max": 120
       },
       "weight": 3.6,
@@ -481,7 +522,9 @@
         "long-setup"
       ],
       "description": "Tactical card-driven dungeon crawling, trimmed down from the original Gloomhaven.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "12+",
+      "averageRating": 8.3
     },
     {
       "name": "Sleeping Gods",
@@ -495,9 +538,9 @@
       "playersMax": 4,
       "minutes": {
         "min": 60,
-        "max": 120
+        "max": 1200
       },
-      "weight": 2.9,
+      "weight": 3.3,
       "tags": [
         "coop",
         "long",
@@ -508,7 +551,9 @@
         "storytelling"
       ],
       "description": "Storybook exploration across an uncharted archipelago as a stranded 1920s crew.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "12+",
+      "averageRating": 8.1
     },
     {
       "name": "Sleeping Gods Distant Skies",
@@ -522,9 +567,9 @@
       "playersMax": 4,
       "minutes": {
         "min": 60,
-        "max": 120
+        "max": 600
       },
-      "weight": 2.9,
+      "weight": 3.0,
       "tags": [
         "coop",
         "long",
@@ -535,7 +580,9 @@
         "storytelling"
       ],
       "description": "Journey across a rugged landscape in this sequel to Sleeping Gods.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "10+",
+      "averageRating": 8.3
     },
     {
       "name": "Eldritch Horror",
@@ -551,7 +598,7 @@
         "min": 120,
         "max": 240
       },
-      "weight": 2.9,
+      "weight": 3.3,
       "tags": [
         "coop",
         "long",
@@ -563,7 +610,9 @@
         "luck-heavy"
       ],
       "description": "Globe-trotting co-op against an Ancient One that is waking up.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "14+",
+      "averageRating": 7.7
     },
     {
       "name": "Freelancers: A Crossroads Game",
@@ -573,13 +622,13 @@
         "url": "https://boardgamegeek.com/boardgame/383206",
         "verified": true
       },
-      "playersMin": 1,
-      "playersMax": 4,
+      "playersMin": 3,
+      "playersMax": 7,
       "minutes": {
-        "min": 45,
-        "max": 90
+        "min": 90,
+        "max": 180
       },
-      "weight": 2.5,
+      "weight": 2.1,
       "tags": [
         "app-driven",
         "coop",
@@ -587,7 +636,9 @@
         "medium"
       ],
       "description": "Fantasy mercenaries take jobs and build their reputation, with story choices along the way.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "8+",
+      "averageRating": 7.7
     },
     {
       "name": "Scooby-Doo: Betrayal at Mystery Mansion",
@@ -600,8 +651,8 @@
       "playersMin": 3,
       "playersMax": 5,
       "minutes": {
-        "min": 45,
-        "max": 60
+        "min": 25,
+        "max": 50
       },
       "weight": 1.8,
       "tags": [
@@ -612,7 +663,9 @@
         "family"
       ],
       "description": "Explore a haunted mansion as the gang until one player is secretly the culprit.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "8+",
+      "averageRating": 6.6
     },
     {
       "name": "Nemesis",
@@ -628,7 +681,7 @@
         "min": 90,
         "max": 180
       },
-      "weight": 3.2,
+      "weight": 3.5,
       "tags": [
         "semi-coop",
         "long",
@@ -639,7 +692,9 @@
         "bluffing"
       ],
       "description": "Survive a sci-fi spaceship while aliens, and possibly your crewmates, try to finish you.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "14+",
+      "averageRating": 8.2
     },
     {
       "name": "Love Letter: Bridgerton",
@@ -655,7 +710,7 @@
         "min": 20,
         "max": 20
       },
-      "weight": 1.2,
+      "weight": 1.3,
       "tags": [
         "competitive",
         "short",
@@ -666,7 +721,9 @@
         "gateway"
       ],
       "description": "Can you discover Lady Whistledown's identity? A quick deduction game with a Bridgerton twist.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "10+",
+      "averageRating": 6.9
     },
     {
       "name": "Sushi Go Party!",
@@ -682,7 +739,7 @@
         "min": 20,
         "max": 20
       },
-      "weight": 1.2,
+      "weight": 1.3,
       "tags": [
         "competitive",
         "short",
@@ -695,7 +752,9 @@
         "party"
       ],
       "description": "Draft sushi cards, passing your hand around the table, to score the best combos.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "8+",
+      "averageRating": 7.4
     },
     {
       "name": "Parks",
@@ -711,7 +770,7 @@
         "min": 30,
         "max": 60
       },
-      "weight": 1.5,
+      "weight": 2.1,
       "tags": [
         "competitive",
         "medium-length",
@@ -722,7 +781,9 @@
         "gateway"
       ],
       "description": "Hike trails and collect national park cards as the seasons change.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "10+",
+      "averageRating": 7.6
     },
     {
       "name": "Clank!",
@@ -747,7 +808,9 @@
         "push-your-luck"
       ],
       "description": "Deck-building dungeon heist where every noise may wake the dragon.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "8+",
+      "averageRating": 7.8
     },
     {
       "name": "The Quacks of Quedlinburg: MegaBox",
@@ -763,7 +826,7 @@
         "min": 45,
         "max": 60
       },
-      "weight": 1.9,
+      "weight": 2.0,
       "tags": [
         "competitive",
         "medium-length",
@@ -773,7 +836,9 @@
         "gateway"
       ],
       "description": "Push-your-luck potion brewing: pull ingredients from a bag and hope nothing explodes.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "8+",
+      "averageRating": 8.2
     },
     {
       "name": "The Quest for El Dorado",
@@ -786,10 +851,10 @@
       "playersMin": 2,
       "playersMax": 4,
       "minutes": {
-        "min": 45,
+        "min": 30,
         "max": 60
       },
-      "weight": 2.3,
+      "weight": 1.9,
       "tags": [
         "competitive",
         "medium-length",
@@ -799,7 +864,9 @@
         "gateway"
       ],
       "description": "Deck-building race through the jungle to the lost city.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "8+",
+      "averageRating": 7.7
     },
     {
       "name": "Small World",
@@ -826,7 +893,9 @@
         "gateway"
       ],
       "description": "Fantasy races fight over a cramped map, and decline when they run out of steam.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "8+",
+      "averageRating": 7.2
     },
     {
       "name": "Arcadia Quest",
@@ -840,9 +909,9 @@
       "playersMax": 4,
       "minutes": {
         "min": 60,
-        "max": 90
+        "max": 60
       },
-      "weight": 2.3,
+      "weight": 2.5,
       "tags": [
         "competitive",
         "long",
@@ -855,7 +924,9 @@
         "luck-heavy"
       ],
       "description": "Competitive dungeon brawler where guilds race to slay monsters and each other.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "10+",
+      "averageRating": 7.6
     },
     {
       "name": "Bloody Inn",
@@ -865,13 +936,13 @@
         "url": "https://boardgamegeek.com/boardgame/180593",
         "verified": true
       },
-      "playersMin": 2,
+      "playersMin": 1,
       "playersMax": 4,
       "minutes": {
-        "min": 60,
-        "max": 90
+        "min": 30,
+        "max": 60
       },
-      "weight": 2.4,
+      "weight": 2.3,
       "tags": [
         "competitive",
         "long",
@@ -879,7 +950,9 @@
         "worker-placement"
       ],
       "description": "Run a rural inn and quietly dispose of guests in this dark worker-placement game.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "12+",
+      "averageRating": 7.1
     },
     {
       "name": "Inis",
@@ -892,7 +965,7 @@
       "playersMin": 2,
       "playersMax": 4,
       "minutes": {
-        "min": 90,
+        "min": 60,
         "max": 90
       },
       "weight": 2.9,
@@ -905,7 +978,9 @@
         "miniatures"
       ],
       "description": "Celtic clans draft cards and battle for control of the isles.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "12+",
+      "averageRating": 7.8
     },
     {
       "name": "Mage Wars Arena",
@@ -921,7 +996,7 @@
         "min": 90,
         "max": 90
       },
-      "weight": 3.68,
+      "weight": 3.7,
       "tags": [
         "competitive",
         "long",
@@ -932,7 +1007,9 @@
         "take-that"
       ],
       "description": "Tactical magical combat on a shared arena, with customizable spellbooks.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "12+",
+      "averageRating": 7.6
     },
     {
       "name": "Clank! Legacy: Acquisitions Incorporated",
@@ -948,7 +1025,7 @@
         "min": 90,
         "max": 120
       },
-      "weight": 2.74,
+      "weight": 2.7,
       "tags": [
         "competitive",
         "long",
@@ -958,21 +1035,23 @@
         "legacy"
       ],
       "description": "A legacy campaign that turns Clank! into an evolving adventuring-company story.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "10+",
+      "averageRating": 8.5
     },
     {
       "name": "Codenames",
       "link": {
         "type": "game",
         "bggId": 178900,
-        "url": "https://boardgamegeek.com/boardgame/178900/codenames",
+        "url": "https://boardgamegeek.com/boardgame/178900",
         "verified": true
       },
       "playersMin": 2,
       "playersMax": 8,
       "minutes": {
         "min": 15,
-        "max": 30
+        "max": 15
       },
       "weight": 1.3,
       "tags": [
@@ -991,7 +1070,9 @@
       "owners": [
         "Chris",
         "Matt"
-      ]
+      ],
+      "recommendedAge": "10+",
+      "averageRating": 7.5
     },
     {
       "name": "Undaunted: Normandy",
@@ -1007,7 +1088,7 @@
         "min": 45,
         "max": 60
       },
-      "weight": 2.27,
+      "weight": 2.3,
       "tags": [
         "competitive",
         "medium-length",
@@ -1016,7 +1097,9 @@
         "campaign"
       ],
       "description": "A two-player WWII tactical campaign combining deck-building with battlefield control.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "12+",
+      "averageRating": 7.8
     },
     {
       "name": "Undaunted: North Africa",
@@ -1032,7 +1115,7 @@
         "min": 45,
         "max": 60
       },
-      "weight": 2.32,
+      "weight": 2.3,
       "tags": [
         "competitive",
         "medium-length",
@@ -1041,7 +1124,9 @@
         "campaign"
       ],
       "description": "A WWII desert campaign featuring infantry, vehicles and tactical deck-building.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "10+",
+      "averageRating": 7.7
     },
     {
       "name": "Undaunted: Stalingrad",
@@ -1055,9 +1140,9 @@
       "playersMax": 2,
       "minutes": {
         "min": 45,
-        "max": 60
+        "max": 75
       },
-      "weight": 3,
+      "weight": 2.7,
       "tags": [
         "competitive",
         "medium-length",
@@ -1066,7 +1151,9 @@
         "campaign"
       ],
       "description": "A linked WWII campaign in which casualties and battlefield choices carry forward.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "12+",
+      "averageRating": 8.5
     },
     {
       "name": "Under Falling Skies",
@@ -1082,7 +1169,7 @@
         "min": 20,
         "max": 40
       },
-      "weight": 2.84,
+      "weight": 2.4,
       "tags": [
         "medium-length",
         "medium",
@@ -1090,7 +1177,9 @@
         "dice"
       ],
       "description": "A solo dice-placement defence game about stopping an alien invasion.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "10+",
+      "averageRating": 7.6
     },
     {
       "name": "Don't Mess with Cthulhu",
@@ -1106,7 +1195,7 @@
         "min": 1,
         "max": 30
       },
-      "weight": 1.15,
+      "weight": 1.2,
       "tags": [
         "competitive",
         "short",
@@ -1117,7 +1206,9 @@
         "party"
       ],
       "description": "A hidden-role deduction game where investigators and cultists struggle over Cthulhu.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "10+",
+      "averageRating": 6.8
     },
     {
       "name": "Ashes Reborn: Rise of the Phoenixborn",
@@ -1128,12 +1219,12 @@
         "verified": true
       },
       "playersMin": 2,
-      "playersMax": 2,
+      "playersMax": 4,
       "minutes": {
         "min": 30,
-        "max": 60
+        "max": 120
       },
-      "weight": 3,
+      "weight": 2.9,
       "tags": [
         "competitive",
         "medium-length",
@@ -1143,7 +1234,9 @@
         "asymmetric"
       ],
       "description": "A head-to-head card-and-dice battle between powerful Phoenixborn.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "12+",
+      "averageRating": 7.3
     },
     {
       "name": "One Deck Dungeon",
@@ -1159,7 +1252,7 @@
         "min": 30,
         "max": 45
       },
-      "weight": 2.09,
+      "weight": 2.1,
       "tags": [
         "coop",
         "medium-length",
@@ -1168,7 +1261,9 @@
         "compact"
       ],
       "description": "A compact dice-driven dungeon crawl with roguelike progression.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "10+",
+      "averageRating": 6.9
     },
     {
       "name": "Fog of Love",
@@ -1184,14 +1279,16 @@
         "min": 60,
         "max": 120
       },
-      "weight": 2,
+      "weight": 2.2,
       "tags": [
         "competitive",
         "long",
         "medium"
       ],
       "description": "A story-driven two-player game about creating and navigating a romantic relationship.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "16+",
+      "averageRating": 6.6
     },
     {
       "name": "Mage Wars Academy",
@@ -1205,9 +1302,9 @@
       "playersMax": 2,
       "minutes": {
         "min": 30,
-        "max": 60
+        "max": 30
       },
-      "weight": 2.7,
+      "weight": 3.1,
       "tags": [
         "competitive",
         "medium-length",
@@ -1215,7 +1312,9 @@
         "take-that"
       ],
       "description": "Tactical magical duelling between apprentice mages.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "10+",
+      "averageRating": 7.1
     },
     {
       "name": "Tides of Madness",
@@ -1229,9 +1328,9 @@
       "playersMax": 2,
       "minutes": {
         "min": 20,
-        "max": 30
+        "max": 20
       },
-      "weight": 1.85,
+      "weight": 1.5,
       "tags": [
         "competitive",
         "short",
@@ -1241,7 +1340,9 @@
         "compact"
       ],
       "description": "A two-player drafting game where powerful cards bring the risk of accumulating madness.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "10+",
+      "averageRating": 6.7
     },
     {
       "name": "Nine Men's Morris",
@@ -1255,9 +1356,9 @@
       "playersMax": 2,
       "minutes": {
         "min": 20,
-        "max": 30
+        "max": 20
       },
-      "weight": 1.5,
+      "weight": 1.8,
       "tags": [
         "competitive",
         "short",
@@ -1265,7 +1366,9 @@
         "compact"
       ],
       "description": "An ancient abstract strategy game of forming mills and capturing opposing pieces.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "6+",
+      "averageRating": 5.4
     },
     {
       "name": "Crokinole",
@@ -1281,7 +1384,7 @@
         "min": 30,
         "max": 30
       },
-      "weight": 1.23,
+      "weight": 1.2,
       "tags": [
         "competitive",
         "short",
@@ -1290,7 +1393,9 @@
         "dexterity"
       ],
       "description": "A dexterity game of flicking wooden discs into scoring areas on a circular board.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "6+",
+      "averageRating": 8.1
     },
     {
       "name": "Fluxx: Firefly",
@@ -1303,10 +1408,10 @@
       "playersMin": 2,
       "playersMax": 6,
       "minutes": {
-        "min": 10,
+        "min": 5,
         "max": 30
       },
-      "weight": 1.4,
+      "weight": 1.3,
       "tags": [
         "competitive",
         "short",
@@ -1316,7 +1421,9 @@
         "party"
       ],
       "description": "A Firefly-themed Fluxx game where changing goals and rules keep the table in flux.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "6+",
+      "averageRating": 6.7
     },
     {
       "name": "Fluxx: Fairy Tale",
@@ -1329,10 +1436,10 @@
       "playersMin": 2,
       "playersMax": 6,
       "minutes": {
-        "min": 10,
+        "min": 5,
         "max": 30
       },
-      "weight": 1.4,
+      "weight": 1.5,
       "tags": [
         "competitive",
         "short",
@@ -1342,7 +1449,9 @@
         "party"
       ],
       "description": "A fairy-tale Fluxx game built around changing goals and rules.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "8+",
+      "averageRating": 6.5
     },
     {
       "name": "Fluxx: Olympus",
@@ -1355,10 +1464,10 @@
       "playersMin": 2,
       "playersMax": 6,
       "minutes": {
-        "min": 10,
+        "min": 5,
         "max": 30
       },
-      "weight": 1.4,
+      "weight": 1.5,
       "tags": [
         "competitive",
         "short",
@@ -1368,7 +1477,8 @@
         "party"
       ],
       "description": "A Greek-mythology Fluxx game with constantly changing rules and goals.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "averageRating": 6.6
     },
     {
       "name": "Imperium: Classics",
@@ -1384,7 +1494,7 @@
         "min": 40,
         "max": 160
       },
-      "weight": 3.63,
+      "weight": 3.6,
       "tags": [
         "competitive",
         "long",
@@ -1392,7 +1502,9 @@
         "deck-building"
       ],
       "description": "An asymmetric civilization deck-building game spanning eight ancient peoples.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "14+",
+      "averageRating": 7.7
     },
     {
       "name": "Imperium: Legends",
@@ -1408,7 +1520,7 @@
         "min": 40,
         "max": 160
       },
-      "weight": 3.76,
+      "weight": 3.8,
       "tags": [
         "competitive",
         "long",
@@ -1416,7 +1528,9 @@
         "deck-building"
       ],
       "description": "A deeper asymmetric civilization deck-builder featuring legendary civilizations.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "14+",
+      "averageRating": 7.8
     },
     {
       "name": "War of the Ring: Second Edition",
@@ -1430,9 +1544,9 @@
       "playersMax": 4,
       "minutes": {
         "min": 150,
-        "max": 180
+        "max": 240
       },
-      "weight": 4.21,
+      "weight": 4.2,
       "tags": [
         "competitive",
         "long",
@@ -1445,7 +1559,9 @@
         "asymmetric"
       ],
       "description": "An epic strategic struggle for Middle-earth combining armies, characters and the Ring quest.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "14+",
+      "averageRating": 8.6
     },
     {
       "name": "Lords of Waterdeep",
@@ -1461,7 +1577,7 @@
         "min": 60,
         "max": 120
       },
-      "weight": 2.45,
+      "weight": 2.4,
       "tags": [
         "competitive",
         "long",
@@ -1469,7 +1585,9 @@
         "worker-placement"
       ],
       "description": "Place agents around Waterdeep to recruit adventurers, complete quests and score points.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "10+",
+      "averageRating": 7.7
     },
     {
       "name": "Pandemic Legacy: Season 1",
@@ -1485,7 +1603,7 @@
         "min": 60,
         "max": 60
       },
-      "weight": 2.83,
+      "weight": 2.8,
       "tags": [
         "coop",
         "medium-length",
@@ -1495,7 +1613,9 @@
         "alpha-player"
       ],
       "description": "A campaign version of Pandemic in which the world and rules evolve permanently.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "12+",
+      "averageRating": 8.5
     },
     {
       "name": "A Game of Thrones: The Living Card Game",
@@ -1511,7 +1631,7 @@
         "min": 60,
         "max": 120
       },
-      "weight": 3,
+      "weight": 3.5,
       "tags": [
         "competitive",
         "long",
@@ -1520,7 +1640,9 @@
         "take-that"
       ],
       "description": "A competitive living card game of intrigue, warfare and competing Westerosi houses.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "14+",
+      "averageRating": 7.5
     },
     {
       "name": "A Game of Thrones: Hand of the King",
@@ -1536,7 +1658,7 @@
         "min": 15,
         "max": 30
       },
-      "weight": 1.25,
+      "weight": 1.2,
       "tags": [
         "competitive",
         "short",
@@ -1545,7 +1667,9 @@
         "gateway"
       ],
       "description": "A fast court-intrigue game where players use Varys to gather allies and claim house banners.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "8+",
+      "averageRating": 6.6
     },
     {
       "name": "Star Realms",
@@ -1561,7 +1685,7 @@
         "min": 20,
         "max": 20
       },
-      "weight": 1.91,
+      "weight": 1.9,
       "tags": [
         "competitive",
         "short",
@@ -1571,7 +1695,9 @@
         "take-that"
       ],
       "description": "A fast two-player space deck-builder in which ships and bases generate trade and combat.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "8+",
+      "averageRating": 7.5
     },
     {
       "name": "Bag of Dungeon: A Fantasy Adventure Game",
@@ -1587,7 +1713,7 @@
         "min": 20,
         "max": 60
       },
-      "weight": 1.75,
+      "weight": 1.8,
       "tags": [
         "coop",
         "medium-length",
@@ -1597,7 +1723,9 @@
         "luck-heavy"
       ],
       "description": "A simple dungeon adventure using a bag-drawn dungeon and character upgrades.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "6+",
+      "averageRating": 6.8
     },
     {
       "name": "Exploding Kittens",
@@ -1613,7 +1741,7 @@
         "min": 15,
         "max": 15
       },
-      "weight": 1.08,
+      "weight": 1.1,
       "tags": [
         "competitive",
         "short",
@@ -1629,7 +1757,9 @@
       "owners": [
         "Chris",
         "Jill"
-      ]
+      ],
+      "recommendedAge": "8+",
+      "averageRating": 6.1
     },
     {
       "name": "Exploding Minions",
@@ -1645,7 +1775,7 @@
         "min": 15,
         "max": 15
       },
-      "weight": 1,
+      "weight": 1.0,
       "tags": [
         "competitive",
         "short",
@@ -1657,7 +1787,9 @@
         "party"
       ],
       "description": "A Minions-themed version of the explosive Russian-roulette card game.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "6+",
+      "averageRating": 6.4
     },
     {
       "name": "Stop Thief!",
@@ -1673,7 +1805,7 @@
         "min": 30,
         "max": 60
       },
-      "weight": 1.48,
+      "weight": 1.5,
       "tags": [
         "competitive",
         "medium-length",
@@ -1682,7 +1814,9 @@
         "family"
       ],
       "description": "Track an invisible thief from audio clues and race to make the arrest.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "8+",
+      "averageRating": 6.9
     },
     {
       "name": "Disney Villainous",
@@ -1695,10 +1829,10 @@
       "playersMin": 2,
       "playersMax": 6,
       "minutes": {
-        "min": 40,
+        "min": 45,
         "max": 120
       },
-      "weight": 2.07,
+      "weight": 2.5,
       "tags": [
         "competitive",
         "long",
@@ -1710,7 +1844,9 @@
         "family"
       ],
       "description": "Each player controls a Disney villain with a unique objective, deck and powers.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "10+",
+      "averageRating": 6.9
     },
     {
       "name": "Final Girl",
@@ -1726,7 +1862,7 @@
         "min": 20,
         "max": 60
       },
-      "weight": 2.76,
+      "weight": 2.8,
       "tags": [
         "competitive",
         "medium-length",
@@ -1737,7 +1873,9 @@
         "asymmetric"
       ],
       "description": "A solo survival game recreating the structure of a slasher movie.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "14+",
+      "averageRating": 8.2
     },
     {
       "name": "Star Wars: Rebellion",
@@ -1753,7 +1891,7 @@
         "min": 180,
         "max": 240
       },
-      "weight": 3.75,
+      "weight": 3.8,
       "tags": [
         "competitive",
         "long",
@@ -1766,7 +1904,9 @@
         "asymmetric"
       ],
       "description": "The Empire hunts for the hidden Rebel base while the Rebellion fights to survive.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "12+",
+      "averageRating": 8.4
     },
     {
       "name": "Shadows in Kyoto",
@@ -1782,7 +1922,7 @@
         "min": 15,
         "max": 30
       },
-      "weight": 1.8,
+      "weight": 2.0,
       "tags": [
         "competitive",
         "short",
@@ -1791,7 +1931,9 @@
         "compact"
       ],
       "description": "A two-player bluffing and deduction game about rival intelligence agents in Kyoto.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "10+",
+      "averageRating": 6.8
     },
     {
       "name": "Hanamikoji",
@@ -1807,7 +1949,7 @@
         "min": 15,
         "max": 15
       },
-      "weight": 1.68,
+      "weight": 1.7,
       "tags": [
         "competitive",
         "short",
@@ -1817,7 +1959,9 @@
         "gateway"
       ],
       "description": "A tense two-player game of clever card distribution and competing for geishas' favour.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "8+",
+      "averageRating": 7.4
     },
     {
       "name": "One Night Ultimate Super Villains",
@@ -1844,7 +1988,9 @@
         "party"
       ],
       "description": "A fast hidden-role game where players use special powers to identify the super villain.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "6–16",
+      "averageRating": 6.7
     },
     {
       "name": "Hero Slam",
@@ -1860,7 +2006,7 @@
         "min": 20,
         "max": 40
       },
-      "weight": 1,
+      "weight": 1.0,
       "tags": [
         "competitive",
         "short",
@@ -1871,7 +2017,9 @@
         "family"
       ],
       "description": "A fast family card game about gathering heroes, taking quests and fighting opponents.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "8+",
+      "averageRating": 6.9
     },
     {
       "name": "Red Rising",
@@ -1887,7 +2035,7 @@
         "min": 45,
         "max": 60
       },
-      "weight": 2.4,
+      "weight": 2.3,
       "tags": [
         "competitive",
         "medium-length",
@@ -1895,7 +2043,9 @@
         "tableau-building"
       ],
       "description": "A hand-management and drafting game based on Pierce Brown's Red Rising universe.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "12+",
+      "averageRating": 7.0
     },
     {
       "name": "Tiny Epic Defenders",
@@ -1909,9 +2059,9 @@
       "playersMax": 4,
       "minutes": {
         "min": 30,
-        "max": 45
+        "max": 30
       },
-      "weight": 2.12,
+      "weight": 1.8,
       "tags": [
         "coop",
         "medium-length",
@@ -1921,7 +2071,9 @@
         "alpha-player"
       ],
       "description": "A cooperative defence game in the Tiny Epic series.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "8+",
+      "averageRating": 6.2
     },
     {
       "name": "Tiny Epic Zombies",
@@ -1935,9 +2087,9 @@
       "playersMax": 5,
       "minutes": {
         "min": 30,
-        "max": 60
+        "max": 45
       },
-      "weight": 2.63,
+      "weight": 2.5,
       "tags": [
         "coop",
         "medium-length",
@@ -1946,7 +2098,9 @@
         "compact"
       ],
       "description": "A compact cooperative zombie survival game with multiple modes.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "10+",
+      "averageRating": 6.9
     },
     {
       "name": "Tiny Epic Galaxies",
@@ -1962,7 +2116,7 @@
         "min": 30,
         "max": 45
       },
-      "weight": 2.14,
+      "weight": 2.2,
       "tags": [
         "competitive",
         "medium-length",
@@ -1971,7 +2125,9 @@
         "compact"
       ],
       "description": "A compact space game of dice-driven exploration, colonisation and influence.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "10+",
+      "averageRating": 7.3
     },
     {
       "name": "Tiny Epic Tactics",
@@ -1987,7 +2143,7 @@
         "min": 30,
         "max": 60
       },
-      "weight": 2.83,
+      "weight": 2.6,
       "tags": [
         "competitive",
         "medium-length",
@@ -1996,7 +2152,9 @@
         "compact"
       ],
       "description": "A tactical skirmish game combining tiny miniatures with card-driven abilities.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "12+",
+      "averageRating": 6.6
     },
     {
       "name": "Tiny Epic Dinosaurs",
@@ -2012,7 +2170,7 @@
         "min": 30,
         "max": 60
       },
-      "weight": 2.29,
+      "weight": 2.6,
       "tags": [
         "competitive",
         "medium-length",
@@ -2022,14 +2180,16 @@
         "family"
       ],
       "description": "Breed, manage and research dinosaurs in a compact worker-placement game.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "10+",
+      "averageRating": 7.3
     },
     {
       "name": "Dice Throne",
       "link": {
         "type": "game",
-        "bggId": 216734,
-        "url": "https://boardgamegeek.com/boardgame/216734",
+        "bggId": 268201,
+        "url": "https://boardgamegeek.com/boardgame/268201",
         "verified": true
       },
       "playersMin": 2,
@@ -2048,7 +2208,9 @@
         "luck-heavy"
       ],
       "description": "A dice-driven head-to-head battle game with asymmetric heroes and tactical abilities.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "8+",
+      "averageRating": 7.6
     },
     {
       "name": "Dice Throne: Adventures",
@@ -2064,7 +2226,7 @@
         "min": 90,
         "max": 120
       },
-      "weight": 2.62,
+      "weight": 2.6,
       "tags": [
         "coop",
         "long",
@@ -2073,7 +2235,9 @@
         "dice"
       ],
       "description": "A cooperative campaign that uses Dice Throne heroes to explore, fight and upgrade.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "10+",
+      "averageRating": 8.1
     },
     {
       "name": "Skulls of Sedlec",
@@ -2083,13 +2247,13 @@
         "url": "https://boardgamegeek.com/boardgame/303553",
         "verified": true
       },
-      "playersMin": 1,
-      "playersMax": 4,
+      "playersMin": 2,
+      "playersMax": 3,
       "minutes": {
         "min": 20,
-        "max": 30
+        "max": 20
       },
-      "weight": 1.5,
+      "weight": 1.2,
       "tags": [
         "competitive",
         "short",
@@ -2097,7 +2261,9 @@
         "compact"
       ],
       "description": "A compact card game about arranging a cemetery into scoring skull patterns.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "8+",
+      "averageRating": 7.3
     },
     {
       "name": "Liberation",
@@ -2113,7 +2279,7 @@
         "min": 30,
         "max": 30
       },
-      "weight": 2.32,
+      "weight": 2.3,
       "tags": [
         "competitive",
         "short",
@@ -2123,7 +2289,9 @@
         "asymmetric"
       ],
       "description": "An asymmetric 18-card cat-and-mouse game between a galactic dynasty and a hidden rebellion.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "10+",
+      "averageRating": 6.8
     },
     {
       "name": "Coup",
@@ -2139,7 +2307,7 @@
         "min": 15,
         "max": 15
       },
-      "weight": 1.42,
+      "weight": 1.4,
       "tags": [
         "competitive",
         "short",
@@ -2154,7 +2322,9 @@
       "owners": [
         "Chris",
         "Matt"
-      ]
+      ],
+      "recommendedAge": "10+",
+      "averageRating": 7.0
     },
     {
       "name": "Star Wars: Destiny",
@@ -2170,7 +2340,7 @@
         "min": 30,
         "max": 30
       },
-      "weight": 2.45,
+      "weight": 2.4,
       "tags": [
         "competitive",
         "short",
@@ -2180,7 +2350,9 @@
         "take-that"
       ],
       "description": "A collectible dice-and-card duel between teams of Star Wars heroes and villains.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "10+",
+      "averageRating": 7.4
     },
     {
       "name": "The King Is Dead",
@@ -2194,9 +2366,9 @@
       "playersMax": 4,
       "minutes": {
         "min": 30,
-        "max": 50
+        "max": 45
       },
-      "weight": 2.59,
+      "weight": 2.2,
       "tags": [
         "competitive",
         "medium-length",
@@ -2204,7 +2376,9 @@
         "area-control"
       ],
       "description": "A compact political strategy game about influencing rival factions in medieval Britain.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "12+",
+      "averageRating": 7.6
     },
     {
       "name": "Dead of Winter: The Long Night",
@@ -2220,7 +2394,7 @@
         "min": 60,
         "max": 120
       },
-      "weight": 3.33,
+      "weight": 3.3,
       "tags": [
         "semi-coop",
         "long",
@@ -2230,7 +2404,9 @@
         "bluffing"
       ],
       "description": "Survivors struggle against zombies, bandits and Raxxon experiments, with competing secret objectives.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "14+",
+      "averageRating": 7.5
     },
     {
       "name": "The Lord of the Rings: Duel for Middle-earth",
@@ -2244,9 +2420,9 @@
       "playersMax": 2,
       "minutes": {
         "min": 30,
-        "max": 45
+        "max": 30
       },
-      "weight": 2.17,
+      "weight": 2.1,
       "tags": [
         "competitive",
         "medium-length",
@@ -2255,7 +2431,9 @@
         "asymmetric"
       ],
       "description": "A two-player duel between the Fellowship and Sauron over the fate of Middle-earth.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "10+",
+      "averageRating": 8.4
     },
     {
       "name": "Obsession",
@@ -2271,7 +2449,7 @@
         "min": 30,
         "max": 90
       },
-      "weight": 3.12,
+      "weight": 3.1,
       "tags": [
         "competitive",
         "long",
@@ -2279,7 +2457,9 @@
         "worker-placement"
       ],
       "description": "Build a Victorian estate, manage servants and host prestigious social events.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "12+",
+      "averageRating": 8.1
     },
     {
       "name": "Everdell",
@@ -2295,7 +2475,7 @@
         "min": 40,
         "max": 80
       },
-      "weight": 2.83,
+      "weight": 2.8,
       "tags": [
         "competitive",
         "long",
@@ -2305,23 +2485,25 @@
         "tableau-building"
       ],
       "description": "Build a woodland city by combining critters, constructions and seasonal worker placement.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "10+",
+      "averageRating": 8.0
     },
     {
       "name": "Inuit",
       "link": {
         "type": "game",
-        "bggId": 261009,
-        "url": "https://boardgamegeek.com/boardgame/261009",
+        "bggId": 260763,
+        "url": "https://boardgamegeek.com/boardgame/260763",
         "verified": true
       },
       "playersMin": 2,
       "playersMax": 4,
       "minutes": {
-        "min": 30,
-        "max": 60
+        "min": 10,
+        "max": 30
       },
-      "weight": 1.9,
+      "weight": 2.0,
       "tags": [
         "competitive",
         "medium-length",
@@ -2329,7 +2511,8 @@
         "tableau-building"
       ],
       "description": "A tile-based strategy game set among Inuit communities and Arctic waters.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "averageRating": 5.8
     },
     {
       "name": "Welcome to the Dungeon",
@@ -2345,7 +2528,7 @@
         "min": 30,
         "max": 30
       },
-      "weight": 1.45,
+      "weight": 1.2,
       "tags": [
         "competitive",
         "short",
@@ -2356,7 +2539,9 @@
         "gateway"
       ],
       "description": "Players bluff about a dungeon's dangers while progressively removing equipment and monsters.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "8+",
+      "averageRating": 6.5
     },
     {
       "name": "Ascension Tactics: Miniatures Deckbuilding Game",
@@ -2369,10 +2554,10 @@
       "playersMin": 1,
       "playersMax": 4,
       "minutes": {
-        "min": 60,
+        "min": 45,
         "max": 90
       },
-      "weight": 2.8,
+      "weight": 2.5,
       "tags": [
         "coop",
         "competitive",
@@ -2383,7 +2568,9 @@
         "miniatures"
       ],
       "description": "A tactical miniatures game combining Ascension-style deck-building with battlefield combat.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "10+",
+      "averageRating": 7.8
     },
     {
       "name": "Arctic Scavengers: Base Game+HQ+Recon",
@@ -2393,13 +2580,13 @@
         "url": "https://boardgamegeek.com/boardgame/174226",
         "verified": true
       },
-      "playersMin": 2,
+      "playersMin": 1,
       "playersMax": 5,
       "minutes": {
-        "min": 30,
+        "min": 45,
         "max": 60
       },
-      "weight": 2.26,
+      "weight": 2.3,
       "tags": [
         "competitive",
         "medium-length",
@@ -2408,7 +2595,9 @@
         "take-that"
       ],
       "description": "Build a tribe's deck and compete for scarce resources in a frozen post-apocalyptic world.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "12+",
+      "averageRating": 7.2
     },
     {
       "name": "Aeon's End: War Eternal",
@@ -2424,7 +2613,7 @@
         "min": 60,
         "max": 60
       },
-      "weight": 3.1,
+      "weight": 2.9,
       "tags": [
         "coop",
         "medium-length",
@@ -2433,7 +2622,9 @@
         "alpha-player"
       ],
       "description": "A cooperative deck-building battle against Nemeses where the deck is never shuffled.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "10+",
+      "averageRating": 8.2
     },
     {
       "name": "1815, Scum of the Earth: The Battle of Waterloo Card Game",
@@ -2449,7 +2640,7 @@
         "min": 30,
         "max": 60
       },
-      "weight": 2.33,
+      "weight": 2.3,
       "tags": [
         "competitive",
         "medium-length",
@@ -2458,7 +2649,9 @@
         "asymmetric"
       ],
       "description": "An asymmetric tactical card game recreating the Battle of Waterloo.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "16+",
+      "averageRating": 7.3
     },
     {
       "name": "1066, Tears to Many Mothers: The Battle of Hastings",
@@ -2483,7 +2676,9 @@
         "asymmetric"
       ],
       "description": "An asymmetric tactical card game depicting the Battle of Hastings.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "12+",
+      "averageRating": 7.0
     },
     {
       "name": "Radlands",
@@ -2499,7 +2694,7 @@
         "min": 20,
         "max": 40
       },
-      "weight": 2.27,
+      "weight": 2.3,
       "tags": [
         "competitive",
         "medium-length",
@@ -2508,7 +2703,9 @@
         "take-that"
       ],
       "description": "A two-player post-apocalyptic duel where rival camps battle over scarce water.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "12+",
+      "averageRating": 7.7
     },
     {
       "name": "Fantasy Realms",
@@ -2518,13 +2715,13 @@
         "url": "https://boardgamegeek.com/boardgame/223040",
         "verified": true
       },
-      "playersMin": 3,
+      "playersMin": 2,
       "playersMax": 6,
       "minutes": {
         "min": 20,
         "max": 20
       },
-      "weight": 1.81,
+      "weight": 1.8,
       "tags": [
         "competitive",
         "short",
@@ -2534,7 +2731,9 @@
         "gateway"
       ],
       "description": "Build the highest-scoring fantasy hand by drawing and discarding cards for powerful combinations.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "10+",
+      "averageRating": 7.5
     },
     {
       "name": "Star Wars: Battle of Hoth",
@@ -2550,7 +2749,7 @@
         "min": 30,
         "max": 30
       },
-      "weight": 1.97,
+      "weight": 1.9,
       "tags": [
         "competitive",
         "short",
@@ -2563,14 +2762,16 @@
         "gateway"
       ],
       "description": "Tactical card- and dice-driven combat on the frozen plains of Hoth using the Command & Colors system.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "8+",
+      "averageRating": 7.9
     },
     {
       "name": "Discworld: Ankh-Morpork",
       "link": {
         "type": "game",
         "bggId": 91312,
-        "url": "https://boardgamegeek.com/boardgame/91312/discworld-ankh-morpork",
+        "url": "https://boardgamegeek.com/boardgame/91312",
         "verified": true
       },
       "playersMin": 2,
@@ -2590,23 +2791,25 @@
         "asymmetric"
       ],
       "description": "Players control hidden personalities competing to fulfill secret victory conditions across the chaotic city of Ankh-Morpork.",
-      "owner": "Matt"
+      "owner": "Matt",
+      "recommendedAge": "10+",
+      "averageRating": 7.3
     },
     {
       "name": "Dune",
       "link": {
         "type": "game",
         "bggId": 283355,
-        "url": "https://boardgamegeek.com/boardgame/283355/dune",
+        "url": "https://boardgamegeek.com/boardgame/283355",
         "verified": true
       },
       "playersMin": 2,
       "playersMax": 6,
       "minutes": {
         "min": 120,
-        "max": 120
+        "max": 180
       },
-      "weight": 3.9,
+      "weight": 4.0,
       "tags": [
         "competitive",
         "long",
@@ -2618,14 +2821,16 @@
         "big-table"
       ],
       "description": "Clashing factions vie for control of the desert planet Arrakis using unique asymmetric powers, military strength, and shifting alliances.",
-      "owner": "Matt"
+      "owner": "Matt",
+      "recommendedAge": "14+",
+      "averageRating": 7.9
     },
     {
       "name": "Night of the Ninja",
       "link": {
         "type": "game",
         "bggId": 306321,
-        "url": "https://boardgamegeek.com/boardgame/306321/night-of-the-ninja",
+        "url": "https://boardgamegeek.com/boardgame/306321",
         "verified": true
       },
       "playersMin": 4,
@@ -2634,7 +2839,7 @@
         "min": 15,
         "max": 30
       },
-      "weight": 1.4,
+      "weight": 1.8,
       "tags": [
         "competitive",
         "short",
@@ -2646,14 +2851,16 @@
         "party"
       ],
       "description": "Players strike from the shadows in this quick draft-and-deduction game of rival ninja houses, hidden roles, and lethal backstabbing.",
-      "owner": "Matt"
+      "owner": "Matt",
+      "recommendedAge": "12+",
+      "averageRating": 7.1
     },
     {
       "name": "Sheriff of Nottingham",
       "link": {
         "type": "game",
         "bggId": 157969,
-        "url": "https://boardgamegeek.com/boardgame/157969/sheriff-nottingham",
+        "url": "https://boardgamegeek.com/boardgame/157969",
         "verified": true
       },
       "playersMin": 3,
@@ -2674,21 +2881,23 @@
         "party"
       ],
       "description": "Merchants bribe, lie, and smuggle contraband past a rotating Sheriff who must decide whose goods to inspect and whose bribes to accept.",
-      "owner": "Matt"
+      "owner": "Matt",
+      "recommendedAge": "8+",
+      "averageRating": 7.0
     },
     {
       "name": "Fort",
       "link": {
         "type": "game",
         "bggId": 296912,
-        "url": "https://boardgamegeek.com/boardgame/296912/fort",
+        "url": "https://boardgamegeek.com/boardgame/296912",
         "verified": true
       },
       "playersMin": 2,
       "playersMax": 4,
       "minutes": {
-        "min": 30,
-        "max": 60
+        "min": 20,
+        "max": 40
       },
       "weight": 2.4,
       "tags": [
@@ -2699,14 +2908,16 @@
         "hand-management"
       ],
       "description": "Draft kids to build the ultimate backyard fort, stash pizza and toys, and draft unplayed cards straight out of your rivals' yards.",
-      "owner": "Matt"
+      "owner": "Matt",
+      "recommendedAge": "10+",
+      "averageRating": 7.1
     },
     {
       "name": "Decrypto",
       "link": {
         "type": "game",
         "bggId": 225694,
-        "url": "https://boardgamegeek.com/boardgame/225694/decrypto",
+        "url": "https://boardgamegeek.com/boardgame/225694",
         "verified": true
       },
       "playersMin": 3,
@@ -2726,21 +2937,23 @@
         "deduction"
       ],
       "description": "Teams communicate in coded clues to reveal secret words to teammates without allowing opponent interceptors to crack their system.",
-      "owner": "Matt"
+      "owner": "Matt",
+      "recommendedAge": "10+",
+      "averageRating": 7.8
     },
     {
       "name": "Android: Netrunner",
       "link": {
         "type": "game",
         "bggId": 124742,
-        "url": "https://boardgamegeek.com/boardgame/124742/android-netrunner",
+        "url": "https://boardgamegeek.com/boardgame/124742",
         "verified": true
       },
       "playersMin": 2,
       "playersMax": 2,
       "minutes": {
-        "min": 30,
-        "max": 60
+        "min": 45,
+        "max": 45
       },
       "weight": 3.4,
       "tags": [
@@ -2753,21 +2966,23 @@
         "2-player"
       ],
       "description": "A cyberpunk duel where a megacorporation protects secret agendas while a rogue hacker attempts to break through digital ice and steal data.",
-      "owner": "Matt"
+      "owner": "Matt",
+      "recommendedAge": "12+",
+      "averageRating": 7.9
     },
     {
       "name": "Doomtown: Reloaded",
       "link": {
         "type": "game",
         "bggId": 156714,
-        "url": "https://boardgamegeek.com/boardgame/156714/doomtown-reloaded",
+        "url": "https://boardgamegeek.com/boardgame/156714",
         "verified": true
       },
       "playersMin": 2,
       "playersMax": 4,
       "minutes": {
         "min": 30,
-        "max": 90
+        "max": 30
       },
       "weight": 3.6,
       "tags": [
@@ -2779,14 +2994,16 @@
         "hand-management"
       ],
       "description": "Expand influence, build up the town, and battle rival factions in high-stakes poker hand shootouts across a weird-west frontier town.",
-      "owner": "Matt"
+      "owner": "Matt",
+      "recommendedAge": "14+",
+      "averageRating": 7.1
     },
     {
       "name": "Legend of the Five Rings: The Card Game",
       "link": {
         "type": "game",
         "bggId": 184151,
-        "url": "https://boardgamegeek.com/boardgame/184151/legend-of-the-five-rings-the-card-game",
+        "url": "https://boardgamegeek.com/boardgame/184151",
         "verified": true
       },
       "playersMin": 2,
@@ -2795,7 +3012,7 @@
         "min": 45,
         "max": 90
       },
-      "weight": 3.8,
+      "weight": 4.0,
       "tags": [
         "competitive",
         "long",
@@ -2805,23 +3022,25 @@
         "2-player"
       ],
       "description": "Lead honor-bound Samurai clans, manage military and political conflicts, and balance fate to break into your rival's stronghold.",
-      "owner": "Matt"
+      "owner": "Matt",
+      "recommendedAge": "12+",
+      "averageRating": 7.3
     },
     {
       "name": "Ghost Chase",
       "link": {
         "type": "game",
         "bggId": 1533,
-        "url": "https://boardgamegeek.com/boardgame/1533/ghost-chase",
+        "url": "https://boardgamegeek.com/boardgame/1533",
         "verified": true
       },
       "playersMin": 2,
-      "playersMax": 6,
+      "playersMax": 5,
       "minutes": {
-        "min": 30,
-        "max": 30
+        "min": 60,
+        "max": 60
       },
-      "weight": 1.2,
+      "weight": 1.7,
       "tags": [
         "competitive",
         "short",
@@ -2830,23 +3049,25 @@
         "roll-and-move"
       ],
       "description": "Players navigate spooky haunted rooms, avoiding mischievous ghosts while collecting items and escaping the castle grounds.",
-      "owner": "Matt"
+      "owner": "Matt",
+      "recommendedAge": "6+",
+      "averageRating": 6.3
     },
     {
       "name": "Android",
       "link": {
         "type": "game",
         "bggId": 39339,
-        "url": "https://boardgamegeek.com/boardgame/39339/android",
+        "url": "https://boardgamegeek.com/boardgame/39339",
         "verified": true
       },
       "playersMin": 3,
       "playersMax": 5,
       "minutes": {
         "min": 180,
-        "max": 240
+        "max": 180
       },
-      "weight": 4.1,
+      "weight": 4.0,
       "tags": [
         "competitive",
         "long",
@@ -2856,14 +3077,16 @@
         "asymmetric"
       ],
       "description": "Detectives solve a high-tech murder mystery in a dystopian future while balancing personal demons, conspiracy, and shifting evidence.",
-      "owner": "Matt"
+      "owner": "Matt",
+      "recommendedAge": "14+",
+      "averageRating": 6.7
     },
     {
       "name": "Chronicles of Crime",
       "link": {
         "type": "game",
         "bggId": 239188,
-        "url": "https://boardgamegeek.com/boardgame/239188/chronicles-of-crime",
+        "url": "https://boardgamegeek.com/boardgame/239188",
         "verified": true
       },
       "playersMin": 1,
@@ -2881,23 +3104,25 @@
         "app-driven"
       ],
       "description": "A cooperative crime-solving experience using app integration, scan-enabled QR components, and VR crime scene investigations.",
-      "owner": "Matt"
+      "owner": "Matt",
+      "recommendedAge": "12+",
+      "averageRating": 7.5
     },
     {
       "name": "Rush Out!",
       "link": {
         "type": "game",
         "bggId": 300521,
-        "url": "https://boardgamegeek.com/boardgame/300521/rush-out",
+        "url": "https://boardgamegeek.com/boardgame/300521",
         "verified": true
       },
       "playersMin": 3,
       "playersMax": 5,
       "minutes": {
-        "min": 15,
+        "min": 20,
         "max": 30
       },
-      "weight": 1.2,
+      "weight": 1.5,
       "tags": [
         "competitive",
         "short",
@@ -2908,14 +3133,16 @@
         "family"
       ],
       "description": "A frantic real-time dice game where sorcery students race to match spell cards and break free from a relentless chasing monster.",
-      "owner": "Matt"
+      "owner": "Matt",
+      "recommendedAge": "10+",
+      "averageRating": 6.6
     },
     {
       "name": "Cartographers",
       "link": {
         "type": "game",
         "bggId": 263918,
-        "url": "https://boardgamegeek.com/boardgame/263918/cartographers",
+        "url": "https://boardgamegeek.com/boardgame/263918",
         "verified": true
       },
       "playersMin": 1,
@@ -2933,14 +3160,16 @@
         "pattern-building"
       ],
       "description": "Players map out fantasy terrain across four seasons to earn royal decrees while fending off monster ambushes drawn by opponents.",
-      "owner": "Matt"
+      "owner": "Matt",
+      "recommendedAge": "8+",
+      "averageRating": 7.5
     },
     {
       "name": "Welcome To...",
       "link": {
         "type": "game",
         "bggId": 233867,
-        "url": "https://boardgamegeek.com/boardgame/233867/welcome-to",
+        "url": "https://boardgamegeek.com/boardgame/233867",
         "verified": true
       },
       "playersMin": 1,
@@ -2958,14 +3187,16 @@
         "simultaneous-action"
       ],
       "description": "Architects build perfect 1950s suburban neighborhoods by assigning house numbers, installing pools, and hiring contractors simultaneously.",
-      "owner": "Matt"
+      "owner": "Matt",
+      "recommendedAge": "10+",
+      "averageRating": 7.5
     },
     {
       "name": "Mascarade",
       "link": {
         "type": "game",
         "bggId": 139030,
-        "url": "https://boardgamegeek.com/boardgame/139030/mascarade",
+        "url": "https://boardgamegeek.com/boardgame/139030",
         "verified": true
       },
       "playersMin": 2,
@@ -2985,23 +3216,25 @@
         "social-deduction"
       ],
       "description": "A chaotic game of masquerade roles where cards swap face-down, forcing players to guess or bluff about who they currently are.",
-      "owner": "Matt"
+      "owner": "Matt",
+      "recommendedAge": "10+",
+      "averageRating": 6.5
     },
     {
       "name": "Cheating Moth",
       "link": {
         "type": "game",
         "bggId": 105593,
-        "url": "https://boardgamegeek.com/boardgame/105593/cheating-moth",
+        "url": "https://boardgamegeek.com/boardgame/105593",
         "verified": true
       },
       "playersMin": 3,
       "playersMax": 5,
       "minutes": {
-        "min": 15,
-        "max": 25
+        "min": 30,
+        "max": 30
       },
-      "weight": 1.1,
+      "weight": 1.2,
       "tags": [
         "competitive",
         "short",
@@ -3012,14 +3245,16 @@
         "real-time"
       ],
       "description": "A clever party game where cheating by dropping, hiding, or flicking away cards is explicitly required to empty your hand—if you don't get caught.",
-      "owner": "Matt"
+      "owner": "Matt",
+      "recommendedAge": "6+",
+      "averageRating": 6.4
     },
     {
       "name": "Dixit",
       "link": {
         "type": "game",
         "bggId": 39856,
-        "url": "https://boardgamegeek.com/boardgame/39856/dixit",
+        "url": "https://boardgamegeek.com/boardgame/39856",
         "verified": true
       },
       "playersMin": 3,
@@ -3040,14 +3275,16 @@
         "gateway"
       ],
       "description": "A storytelling party game where players use abstract clues to guide others to their surreal illustrated cards without making it too obvious.",
-      "owner": "Jill"
+      "owner": "Jill",
+      "recommendedAge": "8+",
+      "averageRating": 7.2
     },
     {
       "name": "Gubs: A Game of Wit and Luck",
       "link": {
         "type": "game",
         "bggId": 31808,
-        "url": "https://boardgamegeek.com/boardgame/31808/gubs-a-game-of-wit-and-luck",
+        "url": "https://boardgamegeek.com/boardgame/31808",
         "verified": true
       },
       "playersMin": 2,
@@ -3056,7 +3293,7 @@
         "min": 20,
         "max": 20
       },
-      "weight": 1.3,
+      "weight": 1.4,
       "tags": [
         "competitive",
         "short",
@@ -3066,14 +3303,16 @@
         "family"
       ],
       "description": "A fast, whimsical card game of building and protecting your colony of small creature Gubs while sabotaging rival players.",
-      "owner": "Jill"
+      "owner": "Jill",
+      "recommendedAge": "8+",
+      "averageRating": 6.1
     },
     {
       "name": "Dragonwood",
       "link": {
         "type": "game",
         "bggId": 172933,
-        "url": "https://boardgamegeek.com/boardgame/172933/dragonwood",
+        "url": "https://boardgamegeek.com/boardgame/172933",
         "verified": true
       },
       "playersMin": 2,
@@ -3092,14 +3331,16 @@
         "family"
       ],
       "description": "Collect card sets to earn dice and roll to capture magical creatures hidden deep within the mythical Dragonwood forest.",
-      "owner": "Jill"
+      "owner": "Jill",
+      "recommendedAge": "6+",
+      "averageRating": 6.6
     },
     {
       "name": "Concept",
       "link": {
         "type": "game",
         "bggId": 147151,
-        "url": "https://boardgamegeek.com/boardgame/147151/concept",
+        "url": "https://boardgamegeek.com/boardgame/147151",
         "verified": true
       },
       "playersMin": 4,
@@ -3118,14 +3359,16 @@
         "family"
       ],
       "description": "Communicate words and phrases without speaking by placing tokens on universal icons on a shared game board.",
-      "owner": "Jill"
+      "owner": "Jill",
+      "recommendedAge": "10+",
+      "averageRating": 6.7
     },
     {
       "name": "Ticket to Ride: Europe",
       "link": {
         "type": "game",
         "bggId": 14996,
-        "url": "https://boardgamegeek.com/boardgame/14996/ticket-ride-europe",
+        "url": "https://boardgamegeek.com/boardgame/14996",
         "verified": true
       },
       "playersMin": 2,
@@ -3144,14 +3387,16 @@
         "gateway"
       ],
       "description": "Claim railway routes connecting iconic European cities while managing tunnels, ferries, and train stations to complete secret tickets.",
-      "owner": "Jill"
+      "owner": "Jill",
+      "recommendedAge": "8+",
+      "averageRating": 7.5
     },
     {
       "name": "Flamecraft",
       "link": {
         "type": "game",
         "bggId": 336986,
-        "url": "https://boardgamegeek.com/boardgame/336986/flamecraft",
+        "url": "https://boardgamegeek.com/boardgame/336986",
         "verified": true
       },
       "playersMin": 1,
@@ -3160,7 +3405,7 @@
         "min": 60,
         "max": 60
       },
-      "weight": 2.1,
+      "weight": 2.2,
       "tags": [
         "competitive",
         "medium-length",
@@ -3169,14 +3414,16 @@
         "family"
       ],
       "description": "Place adorable Artisan Dragons into local village shops to gather goods, enchant storefronts, and build up reputation.",
-      "owner": "Jill"
+      "owner": "Jill",
+      "recommendedAge": "8+",
+      "averageRating": 7.4
     },
     {
       "name": "Dice Forge",
       "link": {
         "type": "game",
         "bggId": 194594,
-        "url": "https://boardgamegeek.com/boardgame/194594/dice-forge",
+        "url": "https://boardgamegeek.com/boardgame/194594",
         "verified": true
       },
       "playersMin": 2,
@@ -3195,14 +3442,16 @@
         "gateway"
       ],
       "description": "Customize your own dice during play by popping off physical faces and upgrading them to gain gold, sun, and moon resources.",
-      "owner": "Jill"
+      "owner": "Jill",
+      "recommendedAge": "8+",
+      "averageRating": 7.2
     },
     {
       "name": "Takenoko",
       "link": {
         "type": "game",
         "bggId": 70919,
-        "url": "https://boardgamegeek.com/boardgame/70919/takenoko",
+        "url": "https://boardgamegeek.com/boardgame/70919",
         "verified": true
       },
       "playersMin": 2,
@@ -3221,23 +3470,25 @@
         "gateway"
       ],
       "description": "Cultivate bamboo plots and manage irrigation while feeding a hungry giant panda to complete secret objective cards.",
-      "owner": "Jill"
+      "owner": "Jill",
+      "recommendedAge": "8+",
+      "averageRating": 7.2
     },
     {
       "name": "Articulate!",
       "link": {
         "type": "game",
         "bggId": 6541,
-        "url": "https://boardgamegeek.com/boardgame/6541/articulate",
+        "url": "https://boardgamegeek.com/boardgame/6541",
         "verified": true
       },
       "playersMin": 4,
-      "playersMax": 20,
+      "playersMax": 8,
       "minutes": {
         "min": 60,
         "max": 60
       },
-      "weight": 1.1,
+      "weight": 1.2,
       "tags": [
         "competitive",
         "medium-length",
@@ -3246,14 +3497,16 @@
         "family"
       ],
       "description": "A fast-paced team party game where players describe as many words from a category as possible against a ticking timer.",
-      "owner": "Jill"
+      "owner": "Jill",
+      "recommendedAge": "10+",
+      "averageRating": 6.5
     },
     {
       "name": "Azul",
       "link": {
         "type": "game",
         "bggId": 230802,
-        "url": "https://boardgamegeek.com/boardgame/230802/azul",
+        "url": "https://boardgamegeek.com/boardgame/230802",
         "verified": true
       },
       "playersMin": 2,
@@ -3272,14 +3525,16 @@
         "gateway"
       ],
       "description": "Draft beautiful Portuguese resin tiles from factory displays to decorate the walls of the Royal Palace of Evora.",
-      "owner": "Jill"
+      "owner": "Jill",
+      "recommendedAge": "8+",
+      "averageRating": 7.7
     },
     {
       "name": "Mysterium",
       "link": {
         "type": "game",
         "bggId": 181304,
-        "url": "https://boardgamegeek.com/boardgame/181304/mysterium",
+        "url": "https://boardgamegeek.com/boardgame/181304",
         "verified": true
       },
       "playersMin": 2,
@@ -3297,14 +3552,16 @@
         "family"
       ],
       "description": "A silent ghost sends abstract vision cards to psychic investigators to help them solve a mansion murder mystery (includes expansion).",
-      "owner": "Jill"
+      "owner": "Jill",
+      "recommendedAge": "8+",
+      "averageRating": 7.2
     },
     {
       "name": "Marvel Champions: The Card Game",
       "link": {
         "type": "game",
         "bggId": 285774,
-        "url": "https://boardgamegeek.com/boardgame/285774/marvel-champions-card-game",
+        "url": "https://boardgamegeek.com/boardgame/285774",
         "verified": true
       },
       "playersMin": 1,
@@ -3313,7 +3570,7 @@
         "min": 45,
         "max": 90
       },
-      "weight": 2.9,
+      "weight": 3.0,
       "tags": [
         "coop",
         "medium-length",
@@ -3322,7 +3579,9 @@
         "asymmetric"
       ],
       "description": "Cooperative living card game where players team up as Marvel heroes to thwart villain schemes and combat threats.",
-      "owner": "Jill"
+      "owner": "Jill",
+      "recommendedAge": "12+",
+      "averageRating": 8.1
     },
     {
       "name": "Labyrinth",
@@ -3336,7 +3595,7 @@
       "playersMax": 4,
       "minutes": {
         "min": 20,
-        "max": 30
+        "max": 20
       },
       "weight": 1.3,
       "tags": [
@@ -3347,14 +3606,16 @@
         "gateway"
       ],
       "description": "Shift maze tiles to create clear paths to secret treasures while blocking opponents in this classic family board game.",
-      "owner": "Jill"
+      "owner": "Jill",
+      "recommendedAge": "6+",
+      "averageRating": 6.4
     },
     {
       "name": "Dungeon Mayhem",
       "link": {
         "type": "game",
         "bggId": 260300,
-        "url": "https://boardgamegeek.com/boardgame/260300/dungeon-mayhem",
+        "url": "https://boardgamegeek.com/boardgame/260300",
         "verified": true
       },
       "playersMin": 2,
@@ -3373,14 +3634,16 @@
         "family"
       ],
       "description": "A fast-paced D&D card brawler where adventurers use action cards to deal damage, block hits, and be the last hero standing (includes expansions).",
-      "owner": "Jill"
+      "owner": "Jill",
+      "recommendedAge": "6+",
+      "averageRating": 6.8
     },
     {
       "name": "Cobra Paw",
       "link": {
         "type": "game",
         "bggId": 220700,
-        "url": "https://boardgamegeek.com/boardgame/220700/cobra-paw",
+        "url": "https://boardgamegeek.com/boardgame/220700",
         "verified": true
       },
       "playersMin": 2,
@@ -3399,20 +3662,22 @@
         "family"
       ],
       "description": "A high-speed tile-snatching game where players roll dice and race to grab the tile with matching symbols using quick reflexes.",
-      "owner": "Jill"
+      "owner": "Jill",
+      "recommendedAge": "5+",
+      "averageRating": 6.3
     },
     {
       "name": "Fluxx",
       "link": {
         "type": "game",
         "bggId": 258,
-        "url": "https://boardgamegeek.com/boardgame/258/fluxx",
+        "url": "https://boardgamegeek.com/boardgame/258",
         "verified": true
       },
       "playersMin": 2,
       "playersMax": 6,
       "minutes": {
-        "min": 10,
+        "min": 5,
         "max": 30
       },
       "weight": 1.4,
@@ -3425,23 +3690,25 @@
         "party"
       ],
       "description": "A changing-rules card game where the rules and winning goal shift as players play cards.",
-      "owner": "Jill"
+      "owner": "Jill",
+      "recommendedAge": "8+",
+      "averageRating": 5.7
     },
     {
       "name": "Fluxx: Marvel",
       "link": {
         "type": "game",
         "bggId": 272541,
-        "url": "https://boardgamegeek.com/boardgame/272541/marvel-fluxx",
+        "url": "https://boardgamegeek.com/boardgame/272541",
         "verified": true
       },
       "playersMin": 2,
       "playersMax": 6,
       "minutes": {
-        "min": 10,
+        "min": 5,
         "max": 30
       },
-      "weight": 1.4,
+      "weight": 1.3,
       "tags": [
         "competitive",
         "short",
@@ -3451,23 +3718,25 @@
         "party"
       ],
       "description": "A Marvel-themed Fluxx game where players change the rules and winning goal by playing cards.",
-      "owner": "Jill"
+      "owner": "Jill",
+      "recommendedAge": "8+",
+      "averageRating": 6.5
     },
     {
       "name": "Fluxx: Astronomy",
       "link": {
         "type": "game",
         "bggId": 290025,
-        "url": "https://boardgamegeek.com/boardgame/290025/astronomy-fluxx",
+        "url": "https://boardgamegeek.com/boardgame/290025",
         "verified": true
       },
       "playersMin": 2,
       "playersMax": 6,
       "minutes": {
-        "min": 10,
+        "min": 5,
         "max": 30
       },
-      "weight": 1.4,
+      "weight": 1.3,
       "tags": [
         "competitive",
         "short",
@@ -3477,23 +3746,25 @@
         "party"
       ],
       "description": "An astronomy-themed Fluxx game where players change the rules and winning goal by playing cards.",
-      "owner": "Jill"
+      "owner": "Jill",
+      "recommendedAge": "8+",
+      "averageRating": 6.6
     },
     {
       "name": "Vantage",
       "link": {
         "type": "game",
         "bggId": 420033,
-        "url": "https://boardgamegeek.com/boardgame/420033/vantage",
+        "url": "https://boardgamegeek.com/boardgame/420033",
         "verified": true
       },
       "playersMin": 1,
       "playersMax": 6,
       "minutes": {
-        "min": 45,
-        "max": 120
+        "min": 120,
+        "max": 180
       },
-      "weight": 2.7,
+      "weight": 2.3,
       "tags": [
         "coop",
         "storytelling",
@@ -3502,7 +3773,9 @@
         "tableau-building"
       ],
       "description": "Explore an entire planet's open world from a first-person vantage point.",
-      "owner": "Chris"
+      "owner": "Chris",
+      "recommendedAge": "10+",
+      "averageRating": 8.2
     }
   ]
 }

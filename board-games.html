@@ -54,15 +54,22 @@
     const fmt = ({ min, max }) => min === max ? min + " min" : min + "–" + max + " min";
     const fmtP = g => g.playersMin === g.playersMax ? "" + g.playersMin : g.playersMin + "–" + g.playersMax;
     const esc = s => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
+    const ageFor = g => {
+      const raw = String(g.recommendedAge ?? "").replace(/[^0-9]/g, "");
+      return raw ? Number(raw) : 0;
+    };
+    const ratingFor = g => Number.isFinite(g.averageRating) ? Number(g.averageRating) : 0;
     const cols = [
       { k: "name", l: "Game", f: (x, y) => x.name.localeCompare(y.name) },
       { k: "owners", l: "Owners" },
       { k: "players", l: "Players", f: (x, y) => x.playersMin - y.playersMin || x.playersMax - y.playersMax },
       { k: "time", l: "Time", f: (x, y) => (x.minutes.min + x.minutes.max) - (y.minutes.min + y.minutes.max) },
       { k: "cx", l: "Complexity", f: (x, y) => x.weight - y.weight },
+      { k: "age", l: "Recommended age", f: (x, y) => ageFor(x) - ageFor(y) },
+      { k: "rating", l: "Average rating", f: (x, y) => ratingFor(x) - ratingFor(y) },
       { k: "about", l: "About" }];
     let games = [], cats = [], tagById = {};
-    const sel = new Set(), exc = new Set(); let players = null, owner = null, page = 1, pageSize = 25; // owner and players are optional filters
+    const sel = new Set(), exc = new Set(); let players = null, owner = null, ageFilter = null, ratingFilter = null, page = 1, pageSize = 25; // owner and players are optional filters
     const pageSizeKey = "board-games-page-size";
     const sort = { k: "time", d: 1 };
     const $ = id => document.getElementById(id);
@@ -80,6 +87,8 @@
       return games.filter(g => {
         if (owner !== null && !ownersOf(g).includes(owner)) return false;
         if (players !== null && (players === "6+" ? g.playersMax < 6 : +players < g.playersMin || +players > g.playersMax)) return false;
+        if (ageFilter !== null && ageFor(g) < Number(ageFilter)) return false;
+        if (ratingFilter !== null && ratingFor(g) < Number(ratingFilter)) return false;
         if (g.tags.some(t => exc.has(t))) return false;
         if (terms.length) { const h = g._h; if (!terms.every(t => h.includes(t))) return false; }
         return cats.every(c => {
@@ -93,7 +102,7 @@
       const col = cols.find(c => c.k === sort.k), rows = visible();
       rows.sort((x, y) => sort.d * col.f(x, y) || x.name.localeCompare(y.name));
       $("count").textContent = rows.length + " of " + games.length + " games";
-      $("clear").hidden = !sel.size && !exc.size && !$("q").value && players === null && owner === null;
+      $("clear").hidden = !sel.size && !exc.size && !$("q").value && players === null && owner === null && ageFilter === null && ratingFilter === null;
       const pageCount = Math.max(1, Math.ceil(rows.length / pageSize));
       page = Math.min(page, pageCount);
       const first = (page - 1) * pageSize;
@@ -117,7 +126,9 @@
         const [c, l] = cx(g.weight);
         const chips = g.tags.filter(t => shown.has(tagById[t].category))
           .map(t => `<button type="button" class="tag tag--sm${sel.has(t) ? " on" : ""}${exc.has(t) ? " not" : ""}" data-tag="${t}" aria-pressed="${sel.has(t) ? "true" : exc.has(t) ? "mixed" : "false"}">${esc(tagById[t].label)}</button>`).join("");
-        return `<tr><td><a href="${esc(g.link.url)}" target="_blank" rel="noopener">${esc(g.name)}</a></td><td class="nw">${esc(ownersOf(g).join(", "))}</td><td class="nw">${fmtP(g)}</td><td class="nw">${fmt(g.minutes)}</td><td class="nw"><span class="pill ${c}">${l} ${g.weight.toFixed(1)}</span></td><td>${esc(g.description)}<div class="tags">${chips}</div></td></tr>`;
+        const ageText = g.recommendedAge ? esc(g.recommendedAge) : "—";
+        const ratingText = g.averageRating ? Number(g.averageRating).toFixed(1) : "—";
+        return `<tr><td><a href="${esc(g.link.url)}" target="_blank" rel="noopener">${esc(g.name)}</a></td><td class="nw">${esc(ownersOf(g).join(", "))}</td><td class="nw">${fmtP(g)}</td><td class="nw">${fmt(g.minutes)}</td><td class="nw"><span class="pill ${c}">${l} ${g.weight.toFixed(1)}</span></td><td class="nw"><span class="stat-pill">${ageText}</span></td><td class="nw"><span class="stat-pill stat-pill--rating">${ratingText}</span></td><td>${esc(g.description)}<div class="tags">${chips}</div></td></tr>`;
       }).join("");
       const head = cols.map(c => c.f ? `<th aria-sort="${sort.k === c.k ? (sort.d > 0 ? "ascending" : "descending") : "none"}"><button data-k="${c.k}">${c.l}<span class="arr">${sort.k === c.k ? (sort.d > 0 ? " ▲" : " ▼") : ""}</span></button></th>` : `<th>${c.l}</th>`).join("");
       $("out").innerHTML = `${pagination}<div class="wrap"><table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
@@ -155,9 +166,27 @@
       });
     }
 
+    function syncAgeFilter() {
+      document.querySelectorAll("button[data-age]").forEach(b => {
+        const on = ageFilter === b.dataset.age;
+        b.classList.toggle("on", on);
+        b.setAttribute("aria-pressed", on ? "true" : "false");
+      });
+    }
+
+    function syncRatingFilter() {
+      document.querySelectorAll("button[data-rating]").forEach(b => {
+        const on = ratingFilter === b.dataset.rating;
+        b.classList.toggle("on", on);
+        b.setAttribute("aria-pressed", on ? "true" : "false");
+      });
+    }
+
     function buildFilters() {
       const owners = [...new Set(games.flatMap(ownersOf))];
       const groupHtml = category => `<div class="fgroup" role="group" aria-label="${esc(category.label)}"><span class="flabel">${esc(category.label)}</span>${category.tags.map(t => `<button type="button" class="tag" data-tag="${t.id}" aria-pressed="false">${esc(t.label)}</button>`).join("")}</div>`;
+      const ageGroups = ["8", "10", "12", "14", "16"];
+      const ratingGroups = ["6", "7", "7.5", "8"];
       const primaryCategories = cats.filter(c => ["mode", "length", "complexity"].includes(c.id));
       const advancedCategories = cats.filter(c => !["mode", "length", "complexity"].includes(c.id));
       $("pcount").innerHTML = [...Array.from({ length: 5 }, (_, i) => String(i + 1)), "6+"]
@@ -165,7 +194,8 @@
       $("filters").innerHTML = `<div class="fgroup" role="group" aria-label="Current owner"><span class="flabel">Owner</span>${owners.map(name => `<button type="button" class="tag" data-owner="${esc(name)}" aria-pressed="false">${esc(name)}</button>`).join("")}</div>`
         + primaryCategories.map(groupHtml).join("")
         + `<button type="button" class="advanced-toggle" aria-expanded="false" aria-controls="advanced-filters">Advanced filters</button>`
-        + `<div id="advanced-filters" hidden>${advancedCategories.map(groupHtml).join("")}</div>`;
+        + `<div id="advanced-filters" hidden><div class="fgroup" role="group" aria-label="Recommended age"><span class="flabel">Age</span>${ageGroups.map(v => `<button type="button" class="tag" data-age="${v}" aria-pressed="false">${v}+</button>`).join("")}</div><div class="fgroup" role="group" aria-label="Average rating"><span class="flabel">Rating</span>${ratingGroups.map(v => `<button type="button" class="tag" data-rating="${v}" aria-pressed="false">${v}+</button>`).join("")}</div>${advancedCategories.map(groupHtml).join("")}</div>`;
+      syncAgeFilter(); syncRatingFilter();
     }
 
     document.addEventListener("click", e => {
@@ -182,6 +212,10 @@
       if (o) { owner = owner === o.dataset.owner ? null : o.dataset.owner; page = 1; syncOwner(); renderTable(); return; }
       const p = e.target.closest("button[data-p]");
       if (p) { players = players === p.dataset.p ? null : p.dataset.p; page = 1; syncPlayers(); renderTable(); return; }
+      const a = e.target.closest("button[data-age]");
+      if (a) { ageFilter = ageFilter === a.dataset.age ? null : a.dataset.age; page = 1; syncAgeFilter(); renderTable(); return; }
+      const r = e.target.closest("button[data-rating]");
+      if (r) { ratingFilter = ratingFilter === r.dataset.rating ? null : r.dataset.rating; page = 1; syncRatingFilter(); renderTable(); return; }
       const pageButton = e.target.closest("button[data-page-action]");
       if (pageButton) {
         page += pageButton.dataset.pageAction === "next" ? 1 : -1;
@@ -260,7 +294,7 @@
       try { localStorage.setItem(pageSizeKey, String(pageSize)); } catch (e) { }
       renderTable();
     });
-    $("clear").addEventListener("click", () => { sel.clear(); exc.clear(); players = null; owner = null; page = 1; $("q").value = ""; syncChips(); syncPlayers(); syncOwner(); renderTable(); $("q").focus(); });
+    $("clear").addEventListener("click", () => { sel.clear(); exc.clear(); players = null; owner = null; ageFilter = null; ratingFilter = null; page = 1; $("q").value = ""; syncChips(); syncPlayers(); syncOwner(); syncAgeFilter(); syncRatingFilter(); renderTable(); $("q").focus(); });
 
     fetch("games.json")
       .then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
