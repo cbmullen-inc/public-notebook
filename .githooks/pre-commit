@@ -3,12 +3,15 @@ set -eu
 
 repo_root=$(git rev-parse --show-toplevel)
 checker="$repo_root/board-games/scripts/check_bgg_reference.py"
+complexity_checker="$repo_root/board-games/scripts/check_complexity_tags.py"
 
 if command -v python >/dev/null 2>&1; then
   python "$checker" --staged
+  python "$complexity_checker" --staged
 elif command -v python3 >/dev/null 2>&1; then
   python3 "$checker" --staged
+  python3 "$complexity_checker" --staged
 else
-  echo "Python is required to check board-games/games.json against the BGG CSV before committing." >&2
+  echo "Python is required to validate board-game data before committing." >&2
   exit 1
 fi

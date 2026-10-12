@@ -45,7 +45,8 @@ Both workflows also support manual runs via **Run workflow** in the Actions tab.
 
 The repository includes Git hooks that validate board-game data. The pre-commit hook
 compares the staged game counts, play times, complexity, recommended ages, and average
-ratings against `board-games/scripts/board-games-bgg-reference.csv`, and reports any
+ratings against `board-games/scripts/board-games-bgg-reference.csv`, and checks that
+each game's complexity tag matches its weight rounded to one decimal place. It reports
 differences before allowing the commit. The pre-push hook validates the structure of
 `board-games/games.json`. Python is required. Enable the hooks once in each clone with:
 
@@ -57,4 +58,16 @@ To run the CSV consistency check manually against working-tree files:
 
 ```sh
 python board-games/scripts/check_bgg_reference.py
+```
+
+Check complexity tags manually with:
+
+```sh
+python board-games/scripts/check_complexity_tags.py
+```
+
+To repair stale complexity tags from the numeric weights:
+
+```sh
+python board-games/scripts/check_complexity_tags.py --fix
 ```

@@ -326,7 +326,7 @@
       "tags": [
         "coop",
         "medium-length",
-        "light",
+        "medium",
         "alpha-player",
         "family",
         "gateway"
@@ -436,7 +436,7 @@
       "tags": [
         "coop",
         "long",
-        "light",
+        "medium",
         "deduction"
       ],
       "description": "Solve cases by reading period newspapers and directories, then answer questions Holmes-style.",
@@ -544,7 +544,7 @@
       "tags": [
         "coop",
         "long",
-        "medium",
+        "heavy",
         "campaign",
         "dice",
         "big-table",
@@ -573,7 +573,7 @@
       "tags": [
         "coop",
         "long",
-        "medium",
+        "heavy",
         "campaign",
         "dice",
         "big-table",
@@ -602,7 +602,7 @@
       "tags": [
         "coop",
         "long",
-        "medium",
+        "heavy",
         "dice",
         "long-setup",
         "big-table",
@@ -774,7 +774,7 @@
       "tags": [
         "competitive",
         "medium-length",
-        "light",
+        "medium",
         "worker-placement",
         "set-collection",
         "family",
@@ -830,7 +830,7 @@
       "tags": [
         "competitive",
         "medium-length",
-        "light",
+        "medium",
         "push-your-luck",
         "family",
         "gateway"
@@ -858,7 +858,7 @@
       "tags": [
         "competitive",
         "medium-length",
-        "medium",
+        "light",
         "deck-building",
         "family",
         "gateway"
@@ -1146,7 +1146,7 @@
       "tags": [
         "competitive",
         "medium-length",
-        "heavy",
+        "medium",
         "deck-building",
         "campaign"
       ],
@@ -1228,7 +1228,7 @@
       "tags": [
         "competitive",
         "medium-length",
-        "heavy",
+        "medium",
         "deck-building",
         "take-that",
         "asymmetric"
@@ -1308,7 +1308,7 @@
       "tags": [
         "competitive",
         "medium-length",
-        "medium",
+        "heavy",
         "take-that"
       ],
       "description": "Tactical magical duelling between apprentice mages.",
@@ -1926,7 +1926,7 @@
       "tags": [
         "competitive",
         "short",
-        "light",
+        "medium",
         "deduction",
         "compact"
       ],
@@ -2065,7 +2065,7 @@
       "tags": [
         "coop",
         "medium-length",
-        "medium",
+        "light",
         "dice",
         "compact",
         "alpha-player"
@@ -2507,7 +2507,7 @@
       "tags": [
         "competitive",
         "medium-length",
-        "light",
+        "medium",
         "tableau-building"
       ],
       "description": "A tile-based strategy game set among Inuit communities and Arctic waters.",
@@ -2617,7 +2617,7 @@
       "tags": [
         "coop",
         "medium-length",
-        "heavy",
+        "medium",
         "deck-building",
         "alpha-player"
       ],
@@ -2930,7 +2930,7 @@
       "tags": [
         "competitive",
         "medium-length",
-        "medium",
+        "light",
         "party",
         "word-game",
         "team-based",
@@ -3464,7 +3464,7 @@
       "tags": [
         "competitive",
         "medium-length",
-        "light",
+        "medium",
         "set-collection",
         "family",
         "gateway"
@@ -3574,7 +3574,7 @@
       "tags": [
         "coop",
         "medium-length",
-        "medium",
+        "heavy",
         "deck-building",
         "asymmetric"
       ],
