@@ -726,6 +726,35 @@
       "averageRating": 6.9
     },
     {
+      "name": "Love Letter",
+      "link": {
+        "type": "game",
+        "bggId": 129622,
+        "url": "https://boardgamegeek.com/boardgame/129622",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 4,
+      "minutes": {
+        "min": 20,
+        "max": 20
+      },
+      "weight": 1.2,
+      "tags": [
+        "competitive",
+        "short",
+        "light",
+        "hand-management",
+        "deduction",
+        "bluffing",
+        "compact"
+      ],
+      "description": "Use deduction and a changing hand of character cards to deliver your love letter and eliminate rivals.",
+      "owner": "Chris",
+      "recommendedAge": "8+",
+      "averageRating": 7.2
+    },
+    {
       "name": "Sushi Go Party!",
       "link": {
         "type": "game",
@@ -2966,7 +2995,10 @@
         "2-player"
       ],
       "description": "A cyberpunk duel where a megacorporation protects secret agendas while a rogue hacker attempts to break through digital ice and steal data.",
-      "owner": "Matt",
+      "owners": [
+        "Chris",
+        "Matt"
+      ],
       "recommendedAge": "12+",
       "averageRating": 7.9
     },
