@@ -351,6 +351,23 @@ td a:focus-visible {
   white-space: nowrap
 }
 
+.stat-pill {
+  display: inline-block;
+  padding: .08rem .55rem;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: .8rem;
+  font-weight: 600;
+  color: var(--ink)
+}
+
+.stat-pill--rating {
+  background: rgba(11, 107, 115, .08);
+  border-color: rgba(11, 107, 115, .22);
+  color: var(--acc)
+}
+
 .L {
   background: var(--l)
 }

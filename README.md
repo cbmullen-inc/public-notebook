@@ -41,11 +41,20 @@ The index workflow watches `index.html`, and the board-games workflow watches
 `board-games/**`. Changes to either page on `main` trigger the corresponding deploy.
 Both workflows also support manual runs via **Run workflow** in the Actions tab.
 
-## Pre-push validation
+## Board-game data validation
 
-The repository includes a Git pre-push hook that validates `board-games/games.json`
-before allowing a push. Python is required. Enable the hook once in each clone with:
+The repository includes Git hooks that validate board-game data. The pre-commit hook
+compares the staged game counts, play times, complexity, recommended ages, and average
+ratings against `board-games/scripts/board-games-bgg-reference.csv`, and reports any
+differences before allowing the commit. The pre-push hook validates the structure of
+`board-games/games.json`. Python is required. Enable the hooks once in each clone with:
 
 ```sh
 git config core.hooksPath .githooks
+```
+
+To run the CSV consistency check manually against working-tree files:
+
+```sh
+python board-games/scripts/check_bgg_reference.py
 ```
