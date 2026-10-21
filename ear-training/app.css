@@ -13,7 +13,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--brass);outline-offs
 .inst{display:grid;justify-items:center;align-content:center;gap:.3rem;padding:.7rem .25rem;min-height:5.75rem;border-radius:14px;background:var(--card);border:1.5px solid var(--line);font-weight:500}
 .inst[aria-pressed=true]{background:var(--brass);border-color:var(--brass);color:var(--on-brass)}
 .who{display:inline-flex;align-items:center;gap:.45rem}.who .ic{color:var(--brass);display:inline-flex}
-.drills{display:grid;gap:.75rem}
+.drills{display:grid;gap:.75rem;margin-top:1.5rem}
 .drill{display:grid;gap:.15rem;text-align:left;padding:1rem;border-radius:14px;background:var(--card);border:1.5px solid var(--line);color:inherit;text-decoration:none}
 .drill strong{font-size:1.15rem}.drill span{color:var(--mute)}.drill em{font-style:normal;color:var(--brass);font-weight:600}
 .daily{display:grid;gap:.55rem;margin-top:1.5rem;padding:1rem;border:1.5px solid var(--line);border-radius:14px;background:var(--card)}
