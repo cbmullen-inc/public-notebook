@@ -3,174 +3,20 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Alto Ear Training</title>
+<title>Ear Training</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-192.png">
 <meta name="theme-color" content="#1f3b3a">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Ear Training">
-<style>
-:root{--bg:#eef1ef;--ink:#16302f;--mute:#566b69;--line:#c9d6d2;--card:#fff;--brass:#a97a1f;--on-brass:#fff;--ok:#2b7a54;--bad:#b3402f;color-scheme:light}
-@media (prefers-color-scheme:dark){:root{--bg:#101c1b;--ink:#e6efec;--mute:#93a9a5;--line:#294341;--card:#172928;--brass:#d6a54a;--on-brass:#1a1405;--ok:#5cc08c;--bad:#ef8a76;color-scheme:dark}}
-*{box-sizing:border-box}
-html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
-main{max-width:34rem;margin:0 auto;padding:1.25rem 1rem 3rem}
-h1,h2{font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;font-weight:600;line-height:1.2;margin:0}
-h1{font-size:2rem}h2{font-size:1.2rem;margin:2rem 0 .5rem}
-.sub{color:var(--mute);margin:.25rem 0 1.5rem}
-button{font:inherit;color:inherit;cursor:pointer;min-height:48px;border-radius:12px;border:1.5px solid var(--line);background:transparent;padding:.5rem 1rem}
-button:focus-visible{outline:3px solid var(--brass);outline-offset:2px}
-.drills{display:grid;gap:.75rem}
-.drill{display:grid;gap:.15rem;text-align:left;padding:1rem;border-radius:14px;background:var(--card);border-color:var(--line)}
-.drill strong{font-size:1.15rem}.drill span{color:var(--mute)}.drill em{font-style:normal;color:var(--brass);font-weight:600}
-.row{display:flex;justify-content:space-between;align-items:center;gap:.75rem;margin:.6rem 0;flex-wrap:wrap}
-.seg{display:flex;border:1.5px solid var(--line);border-radius:12px;overflow:hidden}
-.seg button{border:0;border-radius:0;min-height:44px}
-.seg button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
-.link{border:0;padding:.5rem .25rem;color:var(--mute);min-height:44px}
-.bar{display:flex;justify-content:space-between;align-items:center;color:var(--mute)}
-.play{display:block;margin:1.5rem auto 1rem;width:7.5rem;height:7.5rem;border-radius:50%;border:0;background:var(--brass);color:var(--on-brass);font-size:2.6rem;padding:0 0 0 .4rem;box-shadow:0 0 0 8px color-mix(in srgb,var(--brass) 22%,transparent)}
-.play:active{transform:scale(.96)}
-.prompt{text-align:center;color:var(--mute);margin:0 0 1rem}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
-.ans{background:var(--card);font-weight:500}
-.ans.ok{background:var(--ok);border-color:var(--ok);color:#fff}
-.ans.bad{background:var(--bad);border-color:var(--bad);color:#fff}
-.fb{min-height:3.5rem;margin:1rem 0 .5rem;text-align:center}
-.fb b{font-family:Georgia,serif;font-size:1.15rem}
-.fb small{display:block;color:var(--mute)}
-.next{width:100%;background:var(--ink);color:var(--bg);border-color:var(--ink);font-weight:600}
-.stat{display:grid;grid-template-columns:8.5rem 1fr 3.5rem;gap:.6rem;align-items:center;margin:.35rem 0;font-size:.95rem}
-.meter{height:.6rem;border-radius:.3rem;background:var(--line);overflow:hidden}
-.meter i{display:block;height:100%;background:var(--brass)}
-.stat span:last-child{text-align:right;color:var(--mute)}
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
-</style>
+<link rel="stylesheet" href="app.css">
 </head>
 <body>
 <main id="app"></main>
-<script>
-const NAMES=['C','D♭','D','E♭','E','F','F♯','G','A♭','A','B♭','B'];
-const LO=58,HI=90,OFF=9; // written alto range B♭3–F♯6; sounds a major 6th lower
-const nm=m=>NAMES[((m%12)+12)%12]+(Math.floor(m/12)-1);
-
-const DR={
- intervals:{title:'Intervals',hint:'Hear two notes, name the distance.',q:'What interval did you hear?',items:[
-  {id:'m2',l:'Minor 2nd',o:[0,1]},{id:'M2',l:'Major 2nd',o:[0,2]},{id:'m3',l:'Minor 3rd',o:[0,3],b:1},{id:'M3',l:'Major 3rd',o:[0,4],b:1},
-  {id:'P4',l:'Perfect 4th',o:[0,5],b:1},{id:'TT',l:'Tritone',o:[0,6]},{id:'P5',l:'Perfect 5th',o:[0,7],b:1},{id:'m6',l:'Minor 6th',o:[0,8]},
-  {id:'M6',l:'Major 6th',o:[0,9]},{id:'m7',l:'Minor 7th',o:[0,10]},{id:'M7',l:'Major 7th',o:[0,11]},{id:'P8',l:'Octave',o:[0,12],b:1}]},
- chords:{title:'Chords',hint:'Hear an arpeggio, then the chord. Name the quality.',q:'What chord quality is this?',items:[
-  {id:'maj',l:'Major',o:[0,4,7],b:1},{id:'min',l:'Minor',o:[0,3,7],b:1},{id:'dim',l:'Diminished',o:[0,3,6],b:1},{id:'aug',l:'Augmented',o:[0,4,8],b:1},
-  {id:'dom7',l:'Dominant 7th',o:[0,4,7,10]},{id:'maj7',l:'Major 7th',o:[0,4,7,11]},{id:'min7',l:'Minor 7th',o:[0,3,7,10]},{id:'hdim',l:'Half-diminished',o:[0,3,6,10]}]},
- scales:{title:'Scales and modes',hint:'Hear a scale going up. Name the mode.',q:'Which scale is this?',items:[
-  {id:'ion',l:'Major',o:[0,2,4,5,7,9,11,12],b:1},{id:'aeo',l:'Natural minor',o:[0,2,3,5,7,8,10,12],b:1},
-  {id:'dor',l:'Dorian',o:[0,2,3,5,7,9,10,12],b:1},{id:'mix',l:'Mixolydian',o:[0,2,4,5,7,9,10,12],b:1},
-  {id:'lyd',l:'Lydian',o:[0,2,4,6,7,9,11,12]},{id:'phr',l:'Phrygian',o:[0,1,3,5,7,8,10,12]},
-  {id:'hm',l:'Harmonic minor',o:[0,2,3,5,7,8,11,12]},{id:'mm',l:'Melodic minor',o:[0,2,3,5,7,9,11,12]}]}
-};
-
-const load=(k,d)=>{try{return Object.assign(d,JSON.parse(localStorage.getItem(k))||{})}catch(e){return d}};
-const save=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
-let S=load('alto-settings',{level:'basic',dir:'up',oct:12});
-let ST=load('alto-stats',{});
-let view='home',drill=null,Q=null,sess={c:0,n:0};
-
-/* ---------- sound ---------- */
-let ctx,master;
-function voice(m,t,d,v){
- const f=440*2**((m-69)/12),g=ctx.createGain(),lp=ctx.createBiquadFilter();
- lp.type='lowpass';lp.Q.value=1.5;
- lp.frequency.setValueAtTime(f*2,t);lp.frequency.linearRampToValueAtTime(f*5,t+.07);lp.frequency.linearRampToValueAtTime(f*3,t+d);
- g.gain.setValueAtTime(.0001,t);g.gain.linearRampToValueAtTime(v,t+.04);g.gain.setValueAtTime(v,t+d-.12);g.gain.linearRampToValueAtTime(.0001,t+d);
- lp.connect(g);g.connect(master);
- const lfo=ctx.createOscillator(),lg=ctx.createGain();lfo.frequency.value=5.2;lg.gain.value=7;lfo.connect(lg);
- [['sawtooth',0,1],['square',5,.35]].forEach(([ty,dt,a])=>{
-  const o=ctx.createOscillator(),og=ctx.createGain();o.type=ty;o.frequency.value=f;o.detune.value=dt;og.gain.value=a;
-  lg.connect(o.detune);o.connect(og);og.connect(lp);o.start(t);o.stop(t+d+.05)});
- lfo.start(t);lfo.stop(t+d+.05);
-}
-function play(ev){
- ctx=ctx||new (window.AudioContext||window.webkitAudioContext)();
- if(ctx.state==='suspended')ctx.resume();
- if(master){const old=master;old.gain.setTargetAtTime(0,ctx.currentTime,.03);setTimeout(()=>old.disconnect(),400)}
- master=ctx.createGain();master.gain.value=.5;master.connect(ctx.destination);
- const t0=ctx.currentTime+.05;
- ev.forEach(e=>e.n.forEach(m=>voice(m-OFF+S.oct,t0+e.t,e.d,e.n.length>1?.28:.6)));
-}
-
-/* ---------- questions ---------- */
-const pool=d=>DR[d].items.filter(i=>S.level==='all'||i.b);
-function choose(d){
- const p=pool(d),w=p.map(i=>{const s=ST[d+':'+i.id];return s&&s.n?1+4*(s.n-s.c)/s.n:2});
- let r=Math.random()*w.reduce((a,b)=>a+b,0);
- for(let k=0;k<p.length;k++){r-=w[k];if(r<=0)return p[k]}
- return p[p.length-1];
-}
-function make(d){
- const it=choose(d);let off=it.o.slice();
- if(d==='intervals'){const dir=S.dir==='mixed'?(Math.random()<.5?'up':'down'):S.dir;if(dir==='down')off=off.map(x=>-x)}
- const lo=Math.min(...off),hi=Math.max(...off),min=LO-lo,max=HI-hi;
- const root=min+Math.floor(Math.random()*(max-min+1)),notes=off.map(x=>root+x);
- let ev;
- if(d==='intervals')ev=notes.map((m,i)=>({n:[m],t:i*.8,d:.7}));
- else if(d==='scales')ev=notes.map((m,i)=>({n:[m],t:i*.4,d:.42}));
- else ev=[...notes.map((m,i)=>({n:[m],t:i*.45,d:.42})),{n:notes,t:notes.length*.45+.3,d:1.6}];
- return{it,root,ev,done:false,pick:null};
-}
-function answer(id){
- if(!Q||Q.done)return;
- Q.done=true;Q.pick=id;const ok=id===Q.it.id,k=drill+':'+Q.it.id;
- const s=ST[k]||(ST[k]={c:0,n:0});s.n++;if(ok)s.c++;save('alto-stats',ST);
- sess.n++;if(ok)sess.c++;render();
-}
-function next(){Q=make(drill);view='drill';render();play(Q.ev)}
-
-/* ---------- screens ---------- */
-const acc=d=>{let c=0,n=0;DR[d].items.forEach(i=>{const s=ST[d+':'+i.id];if(s){c+=s.c;n+=s.n}});return{c,n}};
-const seg=(k,opts)=>`<div class="seg" role="group">${opts.map(([v,l])=>`<button data-act="set" data-k="${k}" data-v="${v}" aria-pressed="${String(S[k])===String(v)}">${l}</button>`).join('')}</div>`;
-
-function render(){
- const el=document.getElementById('app');let h='';
- if(view==='home'){
-  h=`<h1>Alto ear training</h1><p class="sub">Notes are written pitch for E♭ alto. Use headphones or turn the volume up.</p>
-  <div class="drills">${Object.entries(DR).map(([k,D])=>{const a=acc(k);return`<button class="drill" data-act="start" data-d="${k}"><strong>${D.title}</strong><span>${D.hint}</span><em>${a.n?Math.round(100*a.c/a.n)+'% correct over '+a.n+' answers':'Not started'}</em></button>`}).join('')}</div>
-  <h2>Settings</h2>
-  <div class="row"><span>Difficulty</span>${seg('level',[['basic','Basic'],['all','All']])}</div>
-  <div class="row"><span>Interval direction</span>${seg('dir',[['up','Up'],['down','Down'],['mixed','Mixed']])}</div>
-  <div class="row"><span>Playback pitch</span>${seg('oct',[[12,'Phone-friendly'],[0,'As alto sounds']])}</div>
-  <button class="link" data-act="stats">View progress</button>`;
- }else if(view==='stats'){
-  h=`<div class="bar"><button class="link" data-act="home">‹ Back</button></div><h1>Progress</h1>`;
-  for(const[k,D]of Object.entries(DR)){h+=`<h2>${D.title}</h2>`+D.items.map(i=>{const s=ST[k+':'+i.id],p=s&&s.n?Math.round(100*s.c/s.n):0;
-   return`<div class="stat"><span>${i.l}</span><div class="meter"><i style="width:${p}%"></i></div><span>${s&&s.n?p+'%':'–'}</span></div>`}).join('')}
-  h+=`<p><button class="link" data-act="reset">Reset progress</button></p>`;
- }else{
-  const D=DR[drill],p=pool(drill);
-  h=`<div class="bar"><button class="link" data-act="home">‹ Back</button><span>${sess.c} of ${sess.n} correct</span></div>
-  <button class="play" data-act="replay" aria-label="Play again">▶</button><p class="prompt">${D.q}</p>
-  <div class="grid">${p.map(i=>`<button class="ans ${Q.done?(i.id===Q.it.id?'ok':i.id===Q.pick?'bad':''):''}" data-act="ans" data-id="${i.id}">${i.l}</button>`).join('')}</div>
-  <div class="fb" aria-live="polite">${Q.done?`<b>${Q.pick===Q.it.id?'Correct':'That was '+Q.it.l}</b><small>Starting note: written ${nm(Q.root)}, concert ${nm(Q.root-OFF)}</small>`:''}</div>
-  ${Q.done?'<button class="next" data-act="next">Next</button>':''}`;
- }
- el.innerHTML=h;
-}
-
-document.getElementById('app').addEventListener('click',e=>{
- const b=e.target.closest('button');if(!b)return;const d=b.dataset;
- if(d.act==='start'){drill=d.d;sess={c:0,n:0};next()}
- else if(d.act==='ans')answer(d.id);
- else if(d.act==='next')next();
- else if(d.act==='replay'){if(Q)play(Q.ev)}
- else if(d.act==='home'){view='home';render()}
- else if(d.act==='stats'){view='stats';render()}
- else if(d.act==='set'){S[d.k]=d.k==='oct'?+d.v:d.v;save('alto-settings',S);render()}
- else if(d.act==='reset'){if(confirm('Clear all progress on this device?')){ST={};save('alto-stats',ST);render()}}
-});
-
-render();
-if('serviceWorker'in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
-</script>
+<script src="instruments.js"></script>
+<script src="audio.js"></script>
+<script src="drills.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
