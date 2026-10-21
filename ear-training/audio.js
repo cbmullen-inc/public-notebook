@@ -7,16 +7,19 @@ function voice(m, t, d, v, tn) {
   lp.frequency.linearRampToValueAtTime(f * tn.cut[1], t + .07);
   lp.frequency.linearRampToValueAtTime(f * tn.cut[2], t + d);
   g.gain.setValueAtTime(.0001, t); g.gain.linearRampToValueAtTime(v, t + tn.atk);
-  g.gain.setValueAtTime(v, t + d - .12); g.gain.linearRampToValueAtTime(.0001, t + d);
+  let end = t + d + .05;
+  if (tn.pluck) { // struck sound: decays on its own, then is damped when the note ends
+    g.gain.setTargetAtTime(.0001, t + tn.atk, tn.pluck); g.gain.setTargetAtTime(0, t + d, .15); end = t + d + 1.2;
+  } else { g.gain.setValueAtTime(v, t + d - .12); g.gain.linearRampToValueAtTime(.0001, t + d); }
   lp.connect(g); g.connect(master);
   const lfo = ctx.createOscillator(), lg = ctx.createGain();
   lfo.frequency.value = tn.vib[0]; lg.gain.value = tn.vib[1]; lfo.connect(lg);
-  tn.waves.forEach(([type, detune, level]) => {
+  tn.waves.forEach(([type, detune, level, mult]) => {
     const o = ctx.createOscillator(), og = ctx.createGain();
-    o.type = type; o.frequency.value = f; o.detune.value = detune; og.gain.value = level;
-    lg.connect(o.detune); o.connect(og); og.connect(lp); o.start(t); o.stop(t + d + .05);
+    o.type = type; o.frequency.value = f * (mult || 1); o.detune.value = detune; og.gain.value = level;
+    lg.connect(o.detune); o.connect(og); og.connect(lp); o.start(t); o.stop(end);
   });
-  lfo.start(t); lfo.stop(t + d + .05);
+  lfo.start(t); lfo.stop(end);
 }
 
 function stop() {
