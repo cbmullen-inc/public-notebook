@@ -22,6 +22,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--brass);outline-offs
 .play:active{transform:scale(.96)}
 .prompt{text-align:center;color:var(--mute);margin:0 0 1rem}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.g3{grid-template-columns:repeat(3,1fr)}
 .ans{background:var(--card);font-weight:500}
 .ans.wait{opacity:.55}
 .ans.ok{background:var(--ok);border-color:var(--ok);color:#fff}
