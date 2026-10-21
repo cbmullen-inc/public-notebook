@@ -1,5 +1,5 @@
 {
-  "_comment": "Board game shelf data. Each game has an array of tag ids (defined in 'tags') and an owners array (legacy owner strings are also supported). Length tag uses max play time: short <=30, medium 31-60, long >60. Complexity tag uses BGG weight: light <2, medium 2-2.9, heavy >=3. Player counts are numeric (playersMin/playersMax); the page filters on 1–5 players individually and '6+' by playersMax >= 6. link.type is 'game' (direct BGG page) or 'search'.",
+  "_comment": "Board game shelf data. Each game has an array of tag ids (defined in 'tags') and an owners array (legacy owner strings are also supported). Length tag uses max play time: short <=30, medium 31-60, long >60. Complexity tag uses BGG weight: light <2, medium 2-2.9, heavy >=3; weight 0 means unrated. Player counts are numeric (playersMin/playersMax); the page filters on 1–5 players individually and '6+' by playersMax >= 6. link.type is 'game' (direct BGG or RPGGeek page) or 'search'.",
   "tagCategories": [
     {
       "id": "mode",
@@ -383,7 +383,7 @@
       "averageRating": 7.1,
       "tags": [
         "coop",
-        "medium-length",
+        "long",
         "medium",
         "deck-building",
         "alpha-player"
@@ -419,7 +419,7 @@
       "owner": "Chris"
     },
     {
-      "name": "Sherlock Holmes Consulting Detective - Thames Murders & Other Cases",
+      "name": "Sherlock Holmes Consulting Detective: The Thames Murders & Other Cases",
       "link": {
         "type": "game",
         "bggId": 2511,
@@ -538,7 +538,7 @@
       "playersMax": 4,
       "minutes": {
         "min": 60,
-        "max": 1200
+        "max": 120
       },
       "weight": 3.3,
       "tags": [
@@ -556,7 +556,7 @@
       "averageRating": 8.1
     },
     {
-      "name": "Sleeping Gods Distant Skies",
+      "name": "Sleeping Gods: Distant Skies",
       "link": {
         "type": "game",
         "bggId": 358320,
@@ -630,10 +630,10 @@
       },
       "weight": 2.1,
       "tags": [
-        "app-driven",
         "coop",
         "long",
-        "medium"
+        "medium",
+        "app-driven"
       ],
       "description": "Fantasy mercenaries take jobs and build their reputation, with story choices along the way.",
       "owner": "Chris",
@@ -641,7 +641,7 @@
       "averageRating": 7.7
     },
     {
-      "name": "Scooby-Doo: Betrayal at Mystery Mansion",
+      "name": "Scooby-Doo!: Betrayal at Mystery Mansion",
       "link": {
         "type": "game",
         "bggId": 302809,
@@ -815,7 +815,7 @@
       "averageRating": 7.6
     },
     {
-      "name": "Clank!",
+      "name": "Clank!: A Deck-Building Adventure",
       "link": {
         "type": "game",
         "bggId": 201808,
@@ -943,7 +943,7 @@
       "weight": 2.5,
       "tags": [
         "competitive",
-        "long",
+        "medium-length",
         "medium",
         "dice",
         "miniatures",
@@ -958,7 +958,7 @@
       "averageRating": 7.6
     },
     {
-      "name": "Bloody Inn",
+      "name": "The Bloody Inn",
       "link": {
         "type": "game",
         "bggId": 180593,
@@ -974,7 +974,7 @@
       "weight": 2.3,
       "tags": [
         "competitive",
-        "long",
+        "medium-length",
         "medium",
         "worker-placement"
       ],
@@ -1174,14 +1174,14 @@
       "weight": 2.7,
       "tags": [
         "competitive",
-        "medium-length",
+        "long",
         "medium",
         "deck-building",
         "campaign"
       ],
       "description": "A linked WWII campaign in which casualties and battlefield choices carry forward.",
       "owner": "Chris",
-      "recommendedAge": "12+",
+      "recommendedAge": "14+",
       "averageRating": 8.5
     },
     {
@@ -1256,7 +1256,7 @@
       "weight": 2.9,
       "tags": [
         "competitive",
-        "medium-length",
+        "long",
         "medium",
         "deck-building",
         "take-that",
@@ -1336,7 +1336,7 @@
       "weight": 3.1,
       "tags": [
         "competitive",
-        "medium-length",
+        "short",
         "heavy",
         "take-that"
       ],
@@ -1427,7 +1427,7 @@
       "averageRating": 8.1
     },
     {
-      "name": "Fluxx: Firefly",
+      "name": "Firefly Fluxx",
       "link": {
         "type": "game",
         "bggId": 183896,
@@ -1455,7 +1455,7 @@
       "averageRating": 6.7
     },
     {
-      "name": "Fluxx: Fairy Tale",
+      "name": "Fairy Tale Fluxx",
       "link": {
         "type": "game",
         "bggId": 255013,
@@ -1483,7 +1483,7 @@
       "averageRating": 6.5
     },
     {
-      "name": "Fluxx: Olympus",
+      "name": "Olympus Fluxx",
       "link": {
         "type": "game",
         "bggId": 356084,
@@ -1647,7 +1647,7 @@
       "averageRating": 8.5
     },
     {
-      "name": "A Game of Thrones: The Living Card Game",
+      "name": "A Game of Thrones: The Card Game (Second Edition)",
       "link": {
         "type": "game",
         "bggId": 169255,
@@ -1848,7 +1848,7 @@
       "averageRating": 6.9
     },
     {
-      "name": "Disney Villainous",
+      "name": "Disney Villainous: The Worst Takes it All",
       "link": {
         "type": "game",
         "bggId": 256382,
@@ -2038,7 +2038,7 @@
       "weight": 1.0,
       "tags": [
         "competitive",
-        "short",
+        "medium-length",
         "light",
         "push-your-luck",
         "dice",
@@ -2048,7 +2048,7 @@
       "description": "A fast family card game about gathering heroes, taking quests and fighting opponents.",
       "owner": "Chris",
       "recommendedAge": "8+",
-      "averageRating": 6.9
+      "averageRating": 6.8
     },
     {
       "name": "Red Rising",
@@ -2093,7 +2093,7 @@
       "weight": 1.8,
       "tags": [
         "coop",
-        "medium-length",
+        "short",
         "light",
         "dice",
         "compact",
@@ -2384,7 +2384,7 @@
       "averageRating": 7.4
     },
     {
-      "name": "The King Is Dead",
+      "name": "The King Is Dead: Second Edition",
       "link": {
         "type": "game",
         "bggId": 319966,
@@ -2454,7 +2454,7 @@
       "weight": 2.1,
       "tags": [
         "competitive",
-        "medium-length",
+        "short",
         "medium",
         "area-control",
         "asymmetric"
@@ -2535,7 +2535,7 @@
       "weight": 2.0,
       "tags": [
         "competitive",
-        "medium-length",
+        "short",
         "medium",
         "tableau-building"
       ],
@@ -2589,7 +2589,6 @@
       "weight": 2.5,
       "tags": [
         "coop",
-        "competitive",
         "long",
         "medium",
         "deck-building",
@@ -2939,7 +2938,7 @@
       "description": "Draft kids to build the ultimate backyard fort, stash pizza and toys, and draft unplayed cards straight out of your rivals' yards.",
       "owner": "Matt",
       "recommendedAge": "10+",
-      "averageRating": 7.1
+      "averageRating": 7.0
     },
     {
       "name": "Decrypto",
@@ -3019,7 +3018,7 @@
       "weight": 3.6,
       "tags": [
         "competitive",
-        "medium-length",
+        "short",
         "heavy",
         "area-control",
         "deck-building",
@@ -3075,7 +3074,7 @@
       "weight": 1.7,
       "tags": [
         "competitive",
-        "short",
+        "medium-length",
         "light",
         "family",
         "roll-and-move"
@@ -3130,7 +3129,7 @@
       "weight": 2.1,
       "tags": [
         "coop",
-        "medium-length",
+        "long",
         "medium",
         "deduction",
         "app-driven"
@@ -3290,7 +3289,7 @@
         "verified": true
       },
       "playersMin": 3,
-      "playersMax": 6,
+      "playersMax": 8,
       "minutes": {
         "min": 30,
         "max": 30
@@ -3312,7 +3311,7 @@
       "averageRating": 7.2
     },
     {
-      "name": "Gubs: A Game of Wit and Luck",
+      "name": "GUBS: A Game of Wit and Luck",
       "link": {
         "type": "game",
         "bggId": 31808,
@@ -3605,7 +3604,7 @@
       "weight": 3.0,
       "tags": [
         "coop",
-        "medium-length",
+        "long",
         "heavy",
         "deck-building",
         "asymmetric"
@@ -3668,7 +3667,7 @@
       "description": "A fast-paced D&D card brawler where adventurers use action cards to deal damage, block hits, and be the last hero standing (includes expansions).",
       "owner": "Jill",
       "recommendedAge": "6+",
-      "averageRating": 6.8
+      "averageRating": 6.9
     },
     {
       "name": "Cobra Paw",
@@ -3727,7 +3726,7 @@
       "averageRating": 5.7
     },
     {
-      "name": "Fluxx: Marvel",
+      "name": "Marvel Fluxx",
       "link": {
         "type": "game",
         "bggId": 272541,
@@ -3755,7 +3754,7 @@
       "averageRating": 6.5
     },
     {
-      "name": "Fluxx: Astronomy",
+      "name": "Astronomy Fluxx",
       "link": {
         "type": "game",
         "bggId": 290025,
@@ -3799,15 +3798,212 @@
       "weight": 2.3,
       "tags": [
         "coop",
-        "storytelling",
+        "long",
         "medium",
+        "storytelling",
         "luck-heavy",
         "tableau-building"
       ],
       "description": "Explore an entire planet's open world from a first-person vantage point.",
       "owner": "Chris",
       "recommendedAge": "10+",
-      "averageRating": 8.2
+      "averageRating": 8.1
+    },
+    {
+      "name": "Dominion",
+      "link": {
+        "type": "game",
+        "bggId": 36218,
+        "url": "https://boardgamegeek.com/boardgame/36218",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 4,
+      "minutes": {
+        "min": 30,
+        "max": 30
+      },
+      "weight": 2.3,
+      "tags": [
+        "competitive",
+        "short",
+        "medium",
+        "deck-building",
+        "hand-management",
+        "gateway"
+      ],
+      "description": "Build a deck of cards, expanding your options until you can buy the most valuable cards.",
+      "owner": "Matt",
+      "recommendedAge": "10+",
+      "averageRating": 7.6
+    },
+    {
+      "name": "King of Tokyo",
+      "link": {
+        "type": "game",
+        "bggId": 70323,
+        "url": "https://boardgamegeek.com/boardgame/70323",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 6,
+      "minutes": {
+        "min": 30,
+        "max": 30
+      },
+      "weight": 1.5,
+      "tags": [
+        "competitive",
+        "short",
+        "light",
+        "dice-rolling",
+        "push-your-luck",
+        "take-that",
+        "family"
+      ],
+      "description": "Roll dice as a giant monster, attack rival monsters, and try to become the King of Tokyo.",
+      "owner": "Matt",
+      "recommendedAge": "6+",
+      "averageRating": 7.1
+    },
+    {
+      "name": "MicroMacro: Crime City",
+      "link": {
+        "type": "game",
+        "bggId": 318977,
+        "url": "https://boardgamegeek.com/boardgame/318977",
+        "verified": true
+      },
+      "playersMin": 1,
+      "playersMax": 4,
+      "minutes": {
+        "min": 15,
+        "max": 45
+      },
+      "weight": 1.1,
+      "tags": [
+        "coop",
+        "medium-length",
+        "light",
+        "deduction",
+        "big-table"
+      ],
+      "description": "Work together to solve crimes by searching a huge illustrated city map for clues.",
+      "owner": "Matt",
+      "recommendedAge": "8+",
+      "averageRating": 7.4
+    },
+    {
+      "name": "Project: ELITE",
+      "link": {
+        "type": "game",
+        "bggId": 256999,
+        "url": "https://boardgamegeek.com/boardgame/256999",
+        "verified": true
+      },
+      "playersMin": 1,
+      "playersMax": 6,
+      "minutes": {
+        "min": 60,
+        "max": 60
+      },
+      "weight": 2.5,
+      "tags": [
+        "coop",
+        "medium-length",
+        "medium",
+        "dice-rolling",
+        "real-time",
+        "miniatures",
+        "team-based"
+      ],
+      "description": "Coordinate as an elite squad in frantic, real-time missions against alien invaders.",
+      "owner": "Matt",
+      "recommendedAge": "10+",
+      "averageRating": 7.9
+    },
+    {
+      "name": "Sonar Family",
+      "link": {
+        "type": "game",
+        "bggId": 259809,
+        "url": "https://boardgamegeek.com/boardgame/259809",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 4,
+      "minutes": {
+        "min": 30,
+        "max": 30
+      },
+      "weight": 1.5,
+      "tags": [
+        "competitive",
+        "short",
+        "light",
+        "deduction",
+        "team-based",
+        "real-time",
+        "family"
+      ],
+      "description": "Two submarine crews use hidden movement and deduction to hunt one another across the ocean.",
+      "owner": "Matt",
+      "recommendedAge": "8+",
+      "averageRating": 6.8
+    },
+    {
+      "name": "Star Wars: Imperial Assault",
+      "link": {
+        "type": "game",
+        "bggId": 164153,
+        "url": "https://boardgamegeek.com/boardgame/164153",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 5,
+      "minutes": {
+        "min": 60,
+        "max": 120
+      },
+      "weight": 3.3,
+      "tags": [
+        "coop",
+        "long",
+        "heavy",
+        "campaign",
+        "miniatures",
+        "dice-rolling",
+        "asymmetric",
+        "long-setup",
+        "big-table"
+      ],
+      "description": "Fight tactical Star Wars missions with miniatures in a campaign or skirmish battles.",
+      "owner": "Matt",
+      "recommendedAge": "12+",
+      "averageRating": 8.0
+    },
+    {
+      "name": "Lovecraftesque: Second Edition",
+      "link": {
+        "type": "game",
+        "rpgGeekId": 400948,
+        "url": "https://rpggeek.com/rpgitem/400948/lovecraftesque-second-edition",
+        "verified": true
+      },
+      "playersMin": 2,
+      "playersMax": 5,
+      "minutes": {
+        "min": 120,
+        "max": 240
+      },
+      "weight": 0,
+      "tags": [
+        "coop",
+        "long",
+        "storytelling"
+      ],
+      "description": "A GM-less horror storytelling game where players take turns building a Lovecraftian mystery.",
+      "owner": "Matt"
     }
   ]
 }
