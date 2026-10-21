@@ -46,6 +46,8 @@ def expected_complexity_tag(weight, game_name):
 
     if not Decimal("0") <= rounded_weight <= Decimal("5"):
         raise ValueError(f"{game_name}: complexity weight must be from 0 to 5")
+    if rounded_weight == Decimal("0"):
+        return None
     if rounded_weight < Decimal("2"):
         return "light"
     if rounded_weight < Decimal("3"):
@@ -67,7 +69,7 @@ def complexity_tag_mismatches(collection):
         if not isinstance(tags, list):
             raise ValueError(f"{name}: tags must be an array")
         actual = [tag for tag in tags if tag in COMPLEXITY_TAGS]
-        if actual != [expected]:
+        if actual != ([expected] if expected else []):
             mismatches.append((game, actual, expected))
     return mismatches
 
@@ -80,7 +82,8 @@ def replace_complexity_tag(game, expected):
     insert_at = min(existing_indexes) if existing_indexes else len(tags)
     retained_tags = [tag for tag in tags if tag not in COMPLEXITY_TAGS]
     insert_at = min(insert_at, len(retained_tags))
-    retained_tags.insert(insert_at, expected)
+    if expected is not None:
+        retained_tags.insert(insert_at, expected)
     game["tags"] = retained_tags
 
 
@@ -136,8 +139,9 @@ def main():
                 ONE_DECIMAL, rounding=ROUND_HALF_UP
             )
             actual_text = ", ".join(actual) if actual else "none"
+            expected_text = f"'{expected}' tag" if expected else "no complexity tag"
             print(
-                f"- {name}: weight {weight:.1f} expects '{expected}' tag; "
+                f"- {name}: weight {weight:.1f} expects {expected_text}; "
                 f"found {actual_text}"
             )
         return 1

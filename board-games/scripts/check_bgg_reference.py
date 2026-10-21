@@ -4,11 +4,13 @@
 import argparse
 import csv
 import json
+import re
 import subprocess
 import sys
 from decimal import Decimal, InvalidOperation, ROUND_HALF_UP
 from io import StringIO
 from pathlib import Path
+from urllib.parse import urlparse
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -121,6 +123,25 @@ def compare_collections(json_text, csv_text):
         link = game.get("link")
         bgg_id = link.get("bggId") if isinstance(link, dict) else None
         if not isinstance(bgg_id, int) or isinstance(bgg_id, bool):
+            rpggeek_id = link.get("rpgGeekId") if isinstance(link, dict) else None
+            url = link.get("url") if isinstance(link, dict) else None
+            parsed_url = urlparse(url) if isinstance(url, str) else None
+            rpggeek_match = (
+                re.match(r"/rpgitem/(\d+)(?:/|$)", parsed_url.path)
+                if parsed_url is not None
+                else None
+            )
+            if (
+                isinstance(rpggeek_id, int)
+                and not isinstance(rpggeek_id, bool)
+                and rpggeek_id > 0
+                and parsed_url is not None
+                and parsed_url.scheme == "https"
+                and parsed_url.hostname in ("rpggeek.com", "www.rpggeek.com")
+                and rpggeek_match is not None
+                and rpggeek_match.group(1) == str(rpggeek_id)
+            ):
+                continue
             differences.append(f"{name}: no valid BGG ID to match against the CSV.")
             continue
 
@@ -222,9 +243,15 @@ def main():
 
     unmatched_reference_count = reference_count - matched_count
     print(
-        f"BGG reference check passed: {game_count} games match "
+        f"BGG reference check passed: {matched_count} BGG-linked games match "
         f"{scope}CSV values."
     )
+    non_bgg_count = game_count - matched_count
+    if non_bgg_count:
+        print(
+            f"Note: {non_bgg_count} non-BGG "
+            f"game{' was' if non_bgg_count == 1 else 's were'} skipped."
+        )
     if unmatched_reference_count:
         print(
             f"Note: {unmatched_reference_count} CSV entr"

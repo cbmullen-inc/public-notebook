@@ -98,6 +98,7 @@ def validate(data):
             error(f"{path}.category", f"unknown category ID {category_id!r}")
 
     seen_bgg_ids = {}
+    seen_rpggeek_ids = {}
     for index, game in enumerate(games):
         path = f"$.games[{index}]"
         if not isinstance(game, dict):
@@ -134,40 +135,70 @@ def validate(data):
                 if parsed_url and (
                     parsed_url.scheme != "https"
                     or parsed_url.hostname
-                    not in ("boardgamegeek.com", "www.boardgamegeek.com")
+                    not in (
+                        "boardgamegeek.com",
+                        "www.boardgamegeek.com",
+                        "rpggeek.com",
+                        "www.rpggeek.com",
+                    )
                 ):
-                    game_error("expected an HTTPS BoardGameGeek URL", f"{path}.link.url")
+                    game_error(
+                        "expected an HTTPS BoardGameGeek or RPGGeek URL",
+                        f"{path}.link.url",
+                    )
 
             if link_type == "game":
-                bgg_id = link.get("bggId")
-                if not is_positive_integer(bgg_id):
-                    game_error("expected a positive integer", f"{path}.link.bggId")
+                is_rpggeek = parsed_url and parsed_url.hostname in (
+                    "rpggeek.com",
+                    "www.rpggeek.com",
+                )
+                id_key = "rpgGeekId" if is_rpggeek else "bggId"
+                id_registry = seen_rpggeek_ids if is_rpggeek else seen_bgg_ids
+                id_pattern = (
+                    r"/rpgitem/(\d+)(?:/|$)"
+                    if is_rpggeek
+                    else r"/boardgame/(\d+)(?:/|$)"
+                )
+                game_id = link.get(id_key)
+                if not is_positive_integer(game_id):
+                    game_error("expected a positive integer", f"{path}.link.{id_key}")
                 else:
-                    previous = seen_bgg_ids.get(bgg_id)
+                    previous = id_registry.get(game_id)
                     if previous is not None:
                         game_error(
-                            f"duplicates BGG ID {bgg_id} used at {previous}",
-                            f"{path}.link.bggId",
+                            (
+                                f"duplicates {'RPGGeek' if is_rpggeek else 'BGG'} "
+                                f"ID {game_id} used at {previous}"
+                            ),
+                            f"{path}.link.{id_key}",
                         )
                     else:
-                        seen_bgg_ids[bgg_id] = path
+                        id_registry[game_id] = path
                     url_game_id = None
                     if parsed_url:
-                        match = re.match(r"/boardgame/(\d+)(?:/|$)", parsed_url.path)
+                        match = re.match(id_pattern, parsed_url.path)
                         if match:
                             url_game_id = match.group(1)
-                    if parsed_url and url_game_id != str(bgg_id):
+                    if parsed_url and url_game_id != str(game_id):
                         game_error(
-                            f"URL game ID must match bggId {bgg_id}",
+                            f"URL game ID must match {id_key} {game_id}",
                             f"{path}.link.url",
                         )
+                other_id_key = "bggId" if is_rpggeek else "rpgGeekId"
+                if other_id_key in link:
+                    game_error(
+                        f"must not include {other_id_key} for this link",
+                        f"{path}.link.{other_id_key}",
+                    )
                 if not isinstance(link.get("verified"), bool):
                     game_error("expected a boolean", f"{path}.link.verified")
-            elif "bggId" in link:
-                game_error(
-                    "search links must not claim a BGG game ID",
-                    f"{path}.link.bggId",
-                )
+            else:
+                for id_key in ("bggId", "rpgGeekId"):
+                    if id_key in link:
+                        game_error(
+                            f"search links must not claim a {id_key}",
+                            f"{path}.link.{id_key}",
+                        )
 
         for key in ("playersMin", "playersMax"):
             if not is_positive_integer(game.get(key)):
@@ -199,7 +230,7 @@ def validate(data):
 
         weight = game.get("weight")
         if not is_number(weight) or not 0 <= weight <= 5:
-            game_error("expected a number from 0 to 5", f"{path}.weight")
+            game_error("expected a number from 0 to 5 (0 means unrated)", f"{path}.weight")
 
         game_tags = game.get("tags")
         if not isinstance(game_tags, list):
