@@ -1,4 +1,6 @@
 const DR = {
+  notes: { title: 'Notes', hint: 'Hear a note and name it, with an optional reference C.', q: 'Which note is this?', items: [
+    { id: 'n0', l: 'C', pc: 0, b: 1 }, { id: 'n1', l: 'C♯ / D♭', pc: 1 }, { id: 'n2', l: 'D', pc: 2, b: 1 }, { id: 'n3', l: 'D♯ / E♭', pc: 3 }, { id: 'n4', l: 'E', pc: 4, b: 1 }, { id: 'n5', l: 'F', pc: 5, b: 1 }, { id: 'n6', l: 'F♯ / G♭', pc: 6 }, { id: 'n7', l: 'G', pc: 7, b: 1 }, { id: 'n8', l: 'G♯ / A♭', pc: 8 }, { id: 'n9', l: 'A', pc: 9, b: 1 }, { id: 'n10', l: 'A♯ / B♭', pc: 10 }, { id: 'n11', l: 'B', pc: 11, b: 1 }] },
   intervals: { title: 'Intervals', hint: 'Hear two notes, name the distance.', q: 'What interval did you hear?', items: [
     { id: 'm2', l: 'Minor 2nd', o: [0, 1] }, { id: 'M2', l: 'Major 2nd', o: [0, 2] }, { id: 'm3', l: 'Minor 3rd', o: [0, 3], b: 1 }, { id: 'M3', l: 'Major 3rd', o: [0, 4], b: 1 },
     { id: 'P4', l: 'Perfect 4th', o: [0, 5], b: 1 }, { id: 'TT', l: 'Tritone', o: [0, 6] }, { id: 'P5', l: 'Perfect 5th', o: [0, 7], b: 1 }, { id: 'm6', l: 'Minor 6th', o: [0, 8] },
@@ -25,7 +27,14 @@ function choose(d, level, ST) {
 
 // Builds one question with every note inside the instrument's written range.
 function make(d, inst, S, ST) {
-  const it = choose(d, S.level, ST); let off = it.o.slice();
+  const it = choose(d, S.level, ST);
+  if (d === 'notes') { // one note (any octave in range); optionally a written C first as a reference
+    const opts = []; for (let m = inst.lo; m <= inst.hi; m++) if (m % 12 === it.pc) opts.push(m);
+    const root = opts[Math.floor(Math.random() * opts.length)], ev = [{ n: [root], t: S.ref ? 1.1 : 0, d: 1.2 }];
+    if (S.ref) { let c = root - root % 12; if (c < inst.lo) c += 12; ev.unshift({ n: [c], t: 0, d: .8 }); }
+    return { it, root, ev, done: false, played: false, pick: null };
+  }
+  let off = it.o.slice();
   if (d === 'intervals') { const dir = S.dir === 'mixed' ? (Math.random() < .5 ? 'up' : 'down') : S.dir; if (dir === 'down') off = off.map(x => -x); }
   const lo = Math.min(...off), hi = Math.max(...off), min = inst.lo - lo, max = inst.hi - hi;
   const root = min + Math.floor(Math.random() * (max - min + 1)), notes = off.map(x => root + x);
