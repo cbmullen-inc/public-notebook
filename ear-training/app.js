@@ -8,6 +8,12 @@ if (oldKeys.length) { ST.alto = ST.alto || {}; oldKeys.forEach(k => { ST.alto[k]
 const stats = () => ST[S.inst] || (ST[S.inst] = {}); // progress is kept separately for each instrument
 let view = 'home', drill = null, Q = null, sess = { c: 0, n: 0 };
 const inst = () => INSTRUMENTS[S.inst];
+const icon = (I, px) => `<svg viewBox="0 0 100 120" width="${px}" height="${Math.round(px * 1.2)}" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${I.icon}</svg>`;
+function applyTheme() { // each instrument has its own colours (see app.css) so you can tell at a glance which is selected
+  document.documentElement.dataset.inst = S.inst;
+  const m = document.querySelector('meta[name=theme-color]');
+  if (m) m.content = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || m.content;
+}
 
 function answer(id) {
   if (!Q || Q.done || !Q.played) return;
@@ -28,11 +34,12 @@ const seg = (k, opts) => `<div class="seg" role="group">${opts.map(([v, l]) => `
 
 function render() {
   const el = document.getElementById('app'), I = inst(); let h = '';
+  applyTheme();
   if (view === 'home') {
     h = `<h1>Ear training</h1><p class="sub">${I.sub} Use headphones or turn the volume up.</p>
+    <div class="insts" role="group" aria-label="Instrument">${Object.entries(INSTRUMENTS).map(([k, v]) => `<button class="inst" data-act="set" data-k="inst" data-v="${k}" aria-pressed="${S.inst === k}">${icon(v, 38)}<span>${v.name}</span></button>`).join('')}</div>
     <div class="drills">${Object.entries(DR).map(([k, D]) => { const a = acc(k); return `<a class="drill" href="#${k}"><strong>${D.title}</strong><span>${D.hint}</span><em>${a.n ? Math.round(100 * a.c / a.n) + '% correct over ' + a.n + ' answers' : 'Not started'}</em></a>`; }).join('')}</div>
     <h2>Settings</h2>
-    <div class="row"><span>Instrument</span>${seg('inst', Object.entries(INSTRUMENTS).map(([k, v]) => [k, v.name]))}</div>
     <div class="row"><span>Difficulty</span>${seg('level', [['basic', 'Basic'], ['all', 'All']])}</div>
     <div class="row"><span>Reference C for notes</span>${seg('ref', [[1, 'On'], [0, 'Off']])}</div>
     <div class="row"><span>Interval direction</span>${seg('dir', [['up', 'Up'], ['down', 'Down'], ['mixed', 'Mixed']])}</div>
@@ -48,7 +55,7 @@ function render() {
   } else {
     const D = DR[drill], p = pool(drill, S.level);
     const where = I.off ? `written ${nm(Q.root)}, concert ${nm(Q.root - I.off)}` : nm(Q.root);
-    h = `<div class="bar"><a class="link" href="#">‹ Back</a><span>${sess.c} of ${sess.n} correct</span></div>
+    h = `<div class="bar"><a class="link" href="#">‹ Back</a><span class="who"><span class="ic">${icon(I, 22)}</span>${I.name}: ${sess.c} of ${sess.n} correct</span></div>
     <button class="play" data-act="replay" aria-label="Play">▶</button><p class="prompt">${Q.played ? (drill === 'notes' && S.ref ? 'You heard a reference C, then the note. Which is it?' : D.q) : 'Tap play to hear the question.'}</p>
     <div class="grid${drill === 'notes' ? ' g3' : ''}">${p.map(i => `<button class="ans ${Q.played ? '' : 'wait '}${Q.done ? (i.id === Q.it.id ? 'ok' : i.id === Q.pick ? 'bad' : '') : ''}" data-act="ans" data-id="${i.id}">${i.l}</button>`).join('')}</div>
     <div class="fb" aria-live="polite">${Q.done ? `<b>${Q.pick === Q.it.id ? 'Correct' : 'That was ' + Q.it.l}</b><small>${drill === 'notes' ? 'The note was' : 'Starting note:'} ${where}</small>` : ''}</div>

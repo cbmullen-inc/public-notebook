@@ -9,6 +9,10 @@ h1{font-size:2rem}h2{font-size:1.2rem;margin:2rem 0 .5rem}
 .sub{color:var(--mute);margin:.25rem 0 1.5rem}
 button{font:inherit;color:inherit;cursor:pointer;min-height:48px;border-radius:12px;border:1.5px solid var(--line);background:transparent;padding:.5rem 1rem}
 a:focus-visible,button:focus-visible{outline:3px solid var(--brass);outline-offset:2px}
+.insts{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin:0 0 1.5rem}
+.inst{display:grid;justify-items:center;align-content:center;gap:.3rem;padding:.7rem .25rem;min-height:5.75rem;border-radius:14px;background:var(--card);border:1.5px solid var(--line);font-weight:500}
+.inst[aria-pressed=true]{background:var(--brass);border-color:var(--brass);color:var(--on-brass)}
+.who{display:inline-flex;align-items:center;gap:.45rem}.who .ic{color:var(--brass);display:inline-flex}
 .drills{display:grid;gap:.75rem}
 .drill{display:grid;gap:.15rem;text-align:left;padding:1rem;border-radius:14px;background:var(--card);border:1.5px solid var(--line);color:inherit;text-decoration:none}
 .drill strong{font-size:1.15rem}.drill span{color:var(--mute)}.drill em{font-style:normal;color:var(--brass);font-weight:600}
@@ -35,4 +39,9 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--brass);outline-offs
 .meter{height:.6rem;border-radius:.3rem;background:var(--line);overflow:hidden}
 .meter i{display:block;height:100%;background:var(--brass)}
 .stat span:last-child{text-align:right;color:var(--mute)}
+:root[data-inst=flute]{--bg:#e6eef6;--ink:#14283d;--mute:#4d6479;--line:#c3d2e0;--brass:#3b6c9c;--on-brass:#fff}
+:root[data-inst=piano]{--bg:#efecec;--ink:#211a1c;--mute:#675c5f;--line:#d6cdce;--brass:#9b2f3f;--on-brass:#fff}
+@media (prefers-color-scheme:dark){
+:root[data-inst=flute]{--bg:#0d1722;--ink:#e3edf6;--mute:#8fa6ba;--line:#243a4f;--card:#142332;--brass:#7fb2e2;--on-brass:#08131f}
+:root[data-inst=piano]{--bg:#171214;--ink:#f1e9ea;--mute:#a89b9e;--line:#352a2d;--card:#211a1c;--brass:#e0808c;--on-brass:#220a0e}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
