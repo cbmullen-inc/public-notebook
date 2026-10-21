@@ -8,6 +8,8 @@ if (oldKeys.length) { ST.alto = ST.alto || {}; oldKeys.forEach(k => { ST.alto[k]
 const stats = () => ST[S.inst] || (ST[S.inst] = {}); // progress is kept separately for each instrument
 let view = 'home', drill = null, Q = null, sess = { c: 0, n: 0 };
 const inst = () => INSTRUMENTS[S.inst];
+const ico = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d}"/></svg>`;
+const IC = { back: 'M15 5l-7 7 7 7', chart: 'M5 20V10M12 20V4M19 20v-7', trash: 'M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3' };
 const icon = (I, px) => `<svg viewBox="0 0 100 120" width="${px}" height="${Math.round(px * 1.2)}" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${I.icon}</svg>`;
 function applyTheme() { // each instrument has its own colours (see app.css) so you can tell at a glance which is selected
   document.documentElement.dataset.inst = S.inst;
@@ -44,18 +46,18 @@ function render() {
     <div class="row"><span>Reference C for notes</span>${seg('ref', [[1, 'On'], [0, 'Off']])}</div>
     <div class="row"><span>Interval direction</span>${seg('dir', [['up', 'Up'], ['down', 'Down'], ['mixed', 'Mixed']])}</div>
     ${I.lift ? `<div class="row"><span>Playback pitch</span>${seg('oct', [[12, 'Phone-friendly'], [0, 'As it sounds']])}</div>` : ''}
-    <div class="row"><a class="link" href="#progress">View progress</a><button class="link" data-act="reset">Clear ${I.name} progress</button></div>`;
+    <div class="actions"><a class="btn" href="#progress">${ico(IC.chart)}View progress</a><button class="btn danger" data-act="reset">${ico(IC.trash)}Clear progress</button></div>`;
   } else if (view === 'stats') {
-    h = `<div class="bar"><a class="link" href="#">‹ Back</a></div><h1>Progress</h1><p class="sub">Showing ${I.name}. Change instrument in settings on the home screen.</p>`;
+    h = `<div class="bar"><a class="btn" href="#">${ico(IC.back)}Back</a></div><h1>Progress</h1><p class="sub">Showing ${I.name}. Change instrument in settings on the home screen.</p>`;
     for (const [k, D] of Object.entries(DR)) {
       h += `<h2>${D.title}</h2>` + D.items.map(i => { const s = stats()[k + ':' + i.id], p = s && s.n ? Math.round(100 * s.c / s.n) : 0;
         return `<div class="stat"><span>${i.l}</span><div class="meter"><i style="width:${p}%"></i></div><span>${s && s.n ? p + '%' : '–'}</span></div>`; }).join('');
     }
-    h += `<p><button class="link" data-act="reset">Clear ${I.name} progress</button></p>`;
+    h += `<div class="actions one"><button class="btn danger" data-act="reset">${ico(IC.trash)}Clear ${I.name} progress</button></div>`;
   } else {
     const D = DR[drill], p = pool(drill, S.level);
     const where = I.off ? `written ${nm(Q.root)}, concert ${nm(Q.root - I.off)}` : nm(Q.root);
-    h = `<div class="bar"><a class="link" href="#">‹ Back</a><span class="who"><span class="ic">${icon(I, 22)}</span>${I.name}: ${sess.c} of ${sess.n} correct</span></div>
+    h = `<div class="bar"><a class="btn" href="#">${ico(IC.back)}Back</a><span class="who"><span class="ic">${icon(I, 22)}</span>${I.name}: ${sess.c} of ${sess.n} correct</span></div>
     <button class="play" data-act="replay" aria-label="Play">▶</button><p class="prompt">${Q.played ? (drill === 'notes' && S.ref ? 'You heard a reference C, then the note. Which is it?' : D.q) : 'Tap play to hear the question.'}</p>
     <div class="grid${drill === 'notes' ? ' g3' : ''}">${p.map(i => `<button class="ans ${Q.played ? '' : 'wait '}${Q.done ? (i.id === Q.it.id ? 'ok' : i.id === Q.pick ? 'bad' : '') : ''}" data-act="ans" data-id="${i.id}">${i.l}</button>`).join('')}</div>
     <div class="fb" aria-live="polite">${Q.done ? `<b>${Q.pick === Q.it.id ? 'Correct' : 'That was ' + Q.it.l}</b><small>${drill === 'notes' ? 'The note was' : 'Starting note:'} ${where}</small>` : ''}</div>

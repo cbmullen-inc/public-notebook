@@ -20,7 +20,15 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--brass);outline-offs
 .seg{display:flex;border:1.5px solid var(--line);border-radius:12px;overflow:hidden}
 .seg button{border:0;border-radius:0;min-height:44px}
 .seg button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
-.link{border:0;padding:.5rem .25rem;color:var(--mute);min-height:44px;display:inline-flex;align-items:center;text-decoration:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;min-height:46px;padding:.5rem 1.1rem;border-radius:999px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);font-weight:500;text-decoration:none}
+.btn svg{width:18px;height:18px;flex:none;color:var(--brass)}
+.btn:active{transform:scale(.97)}
+@media (hover:hover){.btn:hover{border-color:var(--brass)}}
+.btn.danger{color:var(--bad);border-color:color-mix(in srgb,var(--bad) 45%,var(--line))}
+.btn.danger svg{color:currentColor}
+.btn.danger:active{background:color-mix(in srgb,var(--bad) 12%,transparent)}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:1.75rem}
+.actions.one{grid-template-columns:1fr}
 .bar{display:flex;justify-content:space-between;align-items:center;color:var(--mute)}
 .play{display:block;margin:1.5rem auto 1rem;width:7.5rem;height:7.5rem;border-radius:50%;border:0;background:var(--brass);color:var(--on-brass);font-size:2.6rem;padding:0 0 0 .4rem;box-shadow:0 0 0 8px color-mix(in srgb,var(--brass) 22%,transparent)}
 .play:active{transform:scale(.96)}
