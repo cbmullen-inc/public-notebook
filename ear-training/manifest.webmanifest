@@ -1,0 +1,14 @@
+{
+  "name": "Ear Training",
+  "short_name": "Ear Training",
+  "description": "Ear training: intervals, chords and scales.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#1f3b3a",
+  "theme_color": "#1f3b3a",
+  "icons": [
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}
+  ]
+}

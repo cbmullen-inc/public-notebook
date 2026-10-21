@@ -1,0 +1,24 @@
+name: Deploy ear training
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'ear-training/**'
+      - '.github/workflows/deploy-ear-training.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./ear-training
+          destination_dir: ear-training
+          keep_files: true
