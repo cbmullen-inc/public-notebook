@@ -1,7 +1,7 @@
 {
   "name": "Ear Training",
   "short_name": "Ear Training",
-  "description": "Ear training: intervals, chords and scales.",
+  "description": "Ear training drills for alto sax and flute: intervals, chords and scales.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
