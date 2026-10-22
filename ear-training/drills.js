@@ -8,16 +8,13 @@ const DR = {
   chords: { title: 'Chords', hint: 'Hear an arpeggio, then the chord. Name the quality.', q: 'What chord quality is this?', items: [
     { id: 'maj', l: 'Major', o: [0, 4, 7], b: 1 }, { id: 'min', l: 'Minor', o: [0, 3, 7], b: 1 }, { id: 'dim', l: 'Diminished', o: [0, 3, 6], b: 1 }, { id: 'aug', l: 'Augmented', o: [0, 4, 8], b: 1 },
     { id: 'dom7', l: 'Dominant 7th', o: [0, 4, 7, 10] }, { id: 'maj7', l: 'Major 7th', o: [0, 4, 7, 11] }, { id: 'min7', l: 'Minor 7th', o: [0, 3, 7, 10] }, { id: 'hdim', l: 'Half-diminished', o: [0, 3, 6, 10] }] },
-  scales: { title: 'Scales and modes', hint: 'Hear a scale going up. Name the mode.', q: 'Which scale is this?', items: [
-    { id: 'ion', l: 'Major', o: [0, 2, 4, 5, 7, 9, 11, 12], b: 1 }, { id: 'aeo', l: 'Natural minor', o: [0, 2, 3, 5, 7, 8, 10, 12], b: 1 },
-    { id: 'dor', l: 'Dorian', o: [0, 2, 3, 5, 7, 9, 10, 12], b: 1 }, { id: 'mix', l: 'Mixolydian', o: [0, 2, 4, 5, 7, 9, 10, 12], b: 1 },
-    { id: 'lyd', l: 'Lydian', o: [0, 2, 4, 6, 7, 9, 11, 12] }, { id: 'phr', l: 'Phrygian', o: [0, 1, 3, 5, 7, 8, 10, 12] },
-    { id: 'hm', l: 'Harmonic minor', o: [0, 2, 3, 5, 7, 8, 11, 12] }, { id: 'mm', l: 'Melodic minor', o: [0, 2, 3, 5, 7, 9, 11, 12] }] },
-  // Played up and then back down: o = ascending offsets, dn = descending offsets (melodic minor differs on the way down).
-  minors: { title: 'Minor scales', hint: 'Hear a minor scale up and down: natural, harmonic or melodic?', q: 'Which minor scale is this?', items: [
-    { id: 'nat', l: 'Natural minor', o: [0, 2, 3, 5, 7, 8, 10, 12], dn: [12, 10, 8, 7, 5, 3, 2, 0], b: 1, tip: 'Flat 6th and flat 7th, both going up and coming down.' },
-    { id: 'har', l: 'Harmonic minor', o: [0, 2, 3, 5, 7, 8, 11, 12], dn: [12, 11, 8, 7, 5, 3, 2, 0], b: 1, tip: 'Flat 6th but raised 7th, which leaves a big step between them.' },
-    { id: 'mel', l: 'Melodic minor', o: [0, 2, 3, 5, 7, 9, 11, 12], dn: [12, 10, 8, 7, 5, 3, 2, 0], b: 1, tip: 'Raised 6th and 7th going up, natural minor coming back down.' }] }
+  // Every scale is played up and then back down: melodic minor only differs from natural minor on the way up.
+  // o = ascending offsets, dn = descending offsets.
+  scales: { title: 'Scales', hint: 'Hear a scale up and down: major, natural, harmonic or melodic minor?', q: 'Which scale is this?', items: [
+    { id: 'ion', l: 'Major', o: [0, 2, 4, 5, 7, 9, 11, 12], dn: [12, 11, 9, 7, 5, 4, 2, 0], b: 1, tip: 'Major 3rd, 6th and 7th, the same going up and coming down.' },
+    { id: 'aeo', l: 'Natural minor', o: [0, 2, 3, 5, 7, 8, 10, 12], dn: [12, 10, 8, 7, 5, 3, 2, 0], b: 1, tip: 'Flat 3rd, 6th and 7th, the same going up and coming down.' },
+    { id: 'hm', l: 'Harmonic minor', o: [0, 2, 3, 5, 7, 8, 11, 12], dn: [12, 11, 8, 7, 5, 3, 2, 0], b: 1, tip: 'Flat 6th but raised 7th, which leaves a big step between them.' },
+    { id: 'mm', l: 'Melodic minor', o: [0, 2, 3, 5, 7, 9, 11, 12], dn: [12, 10, 8, 7, 5, 3, 2, 0], b: 1, tip: 'Raised 6th and 7th going up, natural minor coming back down.' }] }
 };
 
 const pool = (d, level) => DR[d].items.filter(i => level === 'all' || i.b);
@@ -45,8 +42,7 @@ function make(d, inst, S, ST) {
   const root = min + Math.floor(Math.random() * (max - min + 1)), notes = off.map(x => root + x);
   let ev;
   if (d === 'intervals') ev = notes.map((m, i) => ({ n: [m], t: i * .8, d: .7 }));
-  else if (d === 'scales') ev = notes.map((m, i) => ({ n: [m], t: i * .4, d: .42 }));
-  else if (d === 'minors') ev = notes.map((m, i) => ({ n: [m], t: i * .35, d: i === notes.length - 1 ? .9 : .37 }));
+  else if (d === 'scales') ev = notes.map((m, i) => ({ n: [m], t: i * .35, d: i === notes.length - 1 ? .9 : .37 }));
   else ev = [...notes.map((m, i) => ({ n: [m], t: i * .45, d: .42 })), { n: notes, t: notes.length * .45 + .3, d: 1.6 }];
   return { it, root, ev, done: false, played: false, pick: null };
 }
