@@ -117,8 +117,8 @@ function render() {
     const where = I.off ? `written ${nm(Q.root)}, concert ${nm(Q.root - I.off)}` : nm(Q.root);
     h = `<div class="bar"><a class="btn" href="#">${ico(IC.back)}Back</a><span class="who">${view === 'daily' ? `Daily challenge · ${DAILY.answered} of 10` : `<span class="ic">${icon(I, 22)}</span>${I.name}: ${sess.c} of ${sess.n} correct`}</span></div>
     <button class="play" data-act="replay" aria-label="Play">▶</button><p class="prompt">${Q.played ? (drill === 'notes' && S.ref ? 'You heard a reference C, then the note. Which is it?' : D.q) : 'Tap play to hear the question.'}</p>
-    <div class="grid${drill === 'notes' ? ' g3' : ''}">${p.map(i => `<button class="ans ${Q.played ? '' : 'wait '}${Q.done ? (i.id === Q.it.id ? 'ok' : i.id === Q.pick ? 'bad' : '') : ''}" data-act="ans" data-id="${i.id}">${i.l}</button>`).join('')}</div>
-    <div class="fb" aria-live="polite">${Q.done ? `<b>${Q.pick === Q.it.id ? 'Correct' : 'That was ' + Q.it.l}</b><small>${drill === 'notes' ? 'The note was' : 'Starting note:'} ${where}</small>` : ''}</div>
+    <div class="grid${drill === 'notes' ? ' g3' : drill === 'minors' ? ' g1' : ''}">${p.map(i => `<button class="ans ${Q.played ? '' : 'wait '}${Q.done ? (i.id === Q.it.id ? 'ok' : i.id === Q.pick ? 'bad' : '') : ''}" data-act="ans" data-id="${i.id}">${i.l}</button>`).join('')}</div>
+    <div class="fb" aria-live="polite">${Q.done ? `<b>${Q.pick === Q.it.id ? 'Correct' : 'That was ' + Q.it.l}</b><small>${drill === 'notes' ? 'The note was' : 'Starting note:'} ${where}</small>${Q.it.tip ? '<small>' + Q.it.tip + '</small>' : ''}` : ''}</div>
     ${Q.done && view === 'daily' ? `<p class="daily-result">${DAILY.answered === 10 ? `Challenge complete: ${DAILY.correct} of 10 correct. Streak: ${currentStreak()} ${currentStreak() === 1 ? 'day' : 'days'}.` : `Question ${DAILY.answered} of 10 complete.`}</p>` : ''}
     ${Q.done && !(view === 'daily' && DAILY.complete) ? '<button class="next" data-act="next">Next</button>' : ''}`;
   }
