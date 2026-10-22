@@ -12,12 +12,7 @@ const DR = {
     { id: 'ion', l: 'Major', o: [0, 2, 4, 5, 7, 9, 11, 12], b: 1 }, { id: 'aeo', l: 'Natural minor', o: [0, 2, 3, 5, 7, 8, 10, 12], b: 1 },
     { id: 'dor', l: 'Dorian', o: [0, 2, 3, 5, 7, 9, 10, 12], b: 1 }, { id: 'mix', l: 'Mixolydian', o: [0, 2, 4, 5, 7, 9, 10, 12], b: 1 },
     { id: 'lyd', l: 'Lydian', o: [0, 2, 4, 6, 7, 9, 11, 12] }, { id: 'phr', l: 'Phrygian', o: [0, 1, 3, 5, 7, 8, 10, 12] },
-    { id: 'hm', l: 'Harmonic minor', o: [0, 2, 3, 5, 7, 8, 11, 12] }, { id: 'mm', l: 'Melodic minor', o: [0, 2, 3, 5, 7, 9, 11, 12] }] },
-  // Played up and then back down: o = ascending offsets, dn = descending offsets (melodic minor differs on the way down).
-  minors: { title: 'Minor scales', hint: 'Hear a minor scale up and down: natural, harmonic or melodic?', q: 'Which minor scale is this?', items: [
-    { id: 'nat', l: 'Natural minor', o: [0, 2, 3, 5, 7, 8, 10, 12], dn: [12, 10, 8, 7, 5, 3, 2, 0], b: 1, tip: 'Flat 6th and flat 7th, both going up and coming down.' },
-    { id: 'har', l: 'Harmonic minor', o: [0, 2, 3, 5, 7, 8, 11, 12], dn: [12, 11, 8, 7, 5, 3, 2, 0], b: 1, tip: 'Flat 6th but raised 7th, which leaves a big step between them.' },
-    { id: 'mel', l: 'Melodic minor', o: [0, 2, 3, 5, 7, 9, 11, 12], dn: [12, 10, 8, 7, 5, 3, 2, 0], b: 1, tip: 'Raised 6th and 7th going up, natural minor coming back down.' }] }
+    { id: 'hm', l: 'Harmonic minor', o: [0, 2, 3, 5, 7, 8, 11, 12] }, { id: 'mm', l: 'Melodic minor', o: [0, 2, 3, 5, 7, 9, 11, 12] }] }
 };
 
 const pool = (d, level) => DR[d].items.filter(i => level === 'all' || i.b);
@@ -39,14 +34,13 @@ function make(d, inst, S, ST) {
     if (S.ref) { let c = root - root % 12; if (c < inst.lo) c += 12; ev.unshift({ n: [c], t: 0, d: .8 }); }
     return { it, root, ev, done: false, played: false, pick: null };
   }
-  const seq = it.dn ? it.o.concat(it.dn.slice(1)) : it.o; let off = seq.slice();
+  let off = it.o.slice();
   if (d === 'intervals') { const dir = S.dir === 'mixed' ? (Math.random() < .5 ? 'up' : 'down') : S.dir; if (dir === 'down') off = off.map(x => -x); }
   const lo = Math.min(...off), hi = Math.max(...off), min = inst.lo - lo, max = inst.hi - hi;
   const root = min + Math.floor(Math.random() * (max - min + 1)), notes = off.map(x => root + x);
   let ev;
   if (d === 'intervals') ev = notes.map((m, i) => ({ n: [m], t: i * .8, d: .7 }));
   else if (d === 'scales') ev = notes.map((m, i) => ({ n: [m], t: i * .4, d: .42 }));
-  else if (d === 'minors') ev = notes.map((m, i) => ({ n: [m], t: i * .35, d: i === notes.length - 1 ? .9 : .37 }));
   else ev = [...notes.map((m, i) => ({ n: [m], t: i * .45, d: .42 })), { n: notes, t: notes.length * .45 + .3, d: 1.6 }];
   return { it, root, ev, done: false, played: false, pick: null };
 }
