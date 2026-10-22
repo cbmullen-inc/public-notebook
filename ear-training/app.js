@@ -4,6 +4,8 @@ let S = load('alto-settings', { level: 'basic', dir: 'up', oct: 12, inst: 'alto'
 let ST = load('alto-stats', {});
 let DAILY = load('ear-daily', { date: '', drill: 'notes', answered: 0, correct: 0, complete: false, lastCompleted: '', streak: 0, bestStreak: 0 });
 DAILY.bestStreak = Math.max(DAILY.bestStreak || 0, DAILY.streak || 0);
+if (S.dailyDrill === 'minors') S.dailyDrill = 'scales'; // the old Minor scales drill is now part of Scales
+if (!DR[DAILY.drill]) DAILY.drill = 'scales';
 if (!DR[S.dailyDrill]) S.dailyDrill = 'notes';
 if (!INSTRUMENTS[S.inst]) S.inst = 'alto';
 const oldKeys = Object.keys(ST).filter(k => k.includes(':'));
@@ -117,7 +119,7 @@ function render() {
     const where = I.off ? `written ${nm(Q.root)}, concert ${nm(Q.root - I.off)}` : nm(Q.root);
     h = `<div class="bar"><a class="btn" href="#">${ico(IC.back)}Back</a><span class="who">${view === 'daily' ? `Daily challenge · ${DAILY.answered} of 10` : `<span class="ic">${icon(I, 22)}</span>${I.name}: ${sess.c} of ${sess.n} correct`}</span></div>
     <button class="play" data-act="replay" aria-label="Play">▶</button><p class="prompt">${Q.played ? (drill === 'notes' && S.ref ? 'You heard a reference C, then the note. Which is it?' : D.q) : 'Tap play to hear the question.'}</p>
-    <div class="grid${drill === 'notes' ? ' g3' : drill === 'minors' ? ' g1' : ''}">${p.map(i => `<button class="ans ${Q.played ? '' : 'wait '}${Q.done ? (i.id === Q.it.id ? 'ok' : i.id === Q.pick ? 'bad' : '') : ''}" data-act="ans" data-id="${i.id}">${i.l}</button>`).join('')}</div>
+    <div class="grid${drill === 'notes' ? ' g3' : ''}">${p.map(i => `<button class="ans ${Q.played ? '' : 'wait '}${Q.done ? (i.id === Q.it.id ? 'ok' : i.id === Q.pick ? 'bad' : '') : ''}" data-act="ans" data-id="${i.id}">${i.l}</button>`).join('')}</div>
     <div class="fb" aria-live="polite">${Q.done ? `<b>${Q.pick === Q.it.id ? 'Correct' : 'That was ' + Q.it.l}</b><small>${drill === 'notes' ? 'The note was' : 'Starting note:'} ${where}</small>${Q.it.tip ? '<small>' + Q.it.tip + '</small>' : ''}` : ''}</div>
     ${Q.done && view === 'daily' ? `<p class="daily-result">${DAILY.answered === 10 ? `Challenge complete: ${DAILY.correct} of 10 correct. Streak: ${currentStreak()} ${currentStreak() === 1 ? 'day' : 'days'}.` : `Question ${DAILY.answered} of 10 complete.`}</p>` : ''}
     ${Q.done && !(view === 'daily' && DAILY.complete) ? '<button class="next" data-act="next">Next</button>' : ''}`;
