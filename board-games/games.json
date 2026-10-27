@@ -2795,6 +2795,37 @@
       "averageRating": 7.9
     },
     {
+      "name": "Wingspan Pocket",
+      "link": {
+        "type": "game",
+        "bggId": 473508,
+        "url": "https://boardgamegeek.com/boardgame/473508",
+        "verified": true
+      },
+      "playersMin": 1,
+      "playersMax": 5,
+      "minutes": {
+        "min": 25,
+        "max": 35
+      },
+      "weight": 1.9,
+      "tags": [
+        "competitive",
+        "medium-length",
+        "light",
+        "drafting",
+        "set-collection",
+        "compact",
+        "family",
+        "gateway",
+        "tableau-building"
+      ],
+      "description": "Build a bird sanctuary by playing bird cards into habitats and triggering their abilities.",
+      "owner": "Chris",
+      "recommendedAge": "8+",
+      "averageRating": 7.9
+    },
+    {
       "name": "Discworld: Ankh-Morpork",
       "link": {
         "type": "game",
