@@ -377,7 +377,6 @@
     <section class="summary" aria-label="Active game summary">
       <div class="metric"><strong id="game-count">—</strong><span>active games</span></div>
       <div class="metric"><strong id="pending-count">—</strong><span>players with pending turns</span></div>
-      <div class="metric"><strong id="turn-count">—</strong><span>turns completed</span></div>
     </section>
 
     <div class="filters">
@@ -481,7 +480,6 @@
       const pending = players.filter(player => player.status === "pending").length;
       const stats = element("p", "stats");
       const values = [
-        ["Turns completed", Number.isFinite(game.turnsCompleted) ? game.turnsCompleted : 0],
         ["Players", players.length],
         ["Pending", pending],
         ["Started", formatDate(game.createdAt)],
@@ -523,12 +521,8 @@
           ? game.players.filter(player => player.status === "pending").length
           : 0
       ), 0);
-      const turns = games.reduce((total, game) => total + (
-        Number.isFinite(game.turnsCompleted) ? game.turnsCompleted : 0
-      ), 0);
       document.getElementById("game-count").textContent = String(games.length);
       document.getElementById("pending-count").textContent = String(pendingPlayers);
-      document.getElementById("turn-count").textContent = String(turns);
       document.getElementById("updated").textContent = lastUpdated
         ? `Updated ${formatDate(lastUpdated)}${shown.length === games.length ? "" : ` · Showing ${shown.length} of ${games.length}`}`
         : "Waiting for status data";
@@ -601,7 +595,6 @@
           ));
           document.getElementById("game-count").textContent = "—";
           document.getElementById("pending-count").textContent = "—";
-          document.getElementById("turn-count").textContent = "—";
         }
       } finally {
         refreshButton.disabled = false;
