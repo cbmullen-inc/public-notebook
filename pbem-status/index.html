@@ -234,6 +234,24 @@
       gap: .9rem;
     }
 
+    .server-group {
+      display: grid;
+      gap: .7rem;
+    }
+
+    .server-heading {
+      margin: .55rem 0 0;
+      padding-bottom: .4rem;
+      border-bottom: 1px solid var(--line);
+      font: 700 1.35rem/1.2 Georgia, "Times New Roman", serif;
+      overflow-wrap: anywhere;
+    }
+
+    .server-games {
+      display: grid;
+      gap: .7rem;
+    }
+
     .game {
       padding: 1.1rem;
       border: 1px solid var(--line);
@@ -389,7 +407,7 @@
     <header>
       <div>
         <h1>PBEM Status</h1>
-        <p class="subtitle">A read-only view of active play-by-email games.</p>
+        <p class="subtitle">Active play-by-email games, grouped by Discord server.</p>
       </div>
       <div class="header-tools">
         <span class="health" id="health" data-state="checking" role="status" aria-live="polite">Checking service</span>
@@ -526,8 +544,10 @@
         const playerNames = Array.isArray(game.players)
           ? game.players.map(player => player.username || "").join(" ")
           : "";
-        return `${game.name || ""} ${playerNames}`.toLocaleLowerCase().includes(query);
-      });
+        return `${game.serverName || ""} ${game.name || ""} ${playerNames}`
+          .toLocaleLowerCase()
+          .includes(query);
+        });
 
       gamesNode.replaceChildren();
       if (shown.length === 0) {
@@ -536,7 +556,20 @@
           : "No active games match your search.";
         gamesNode.append(element("p", "message", text));
       } else {
-        for (const game of shown) gamesNode.append(renderGame(game));
+        const groups = new Map();
+        for (const game of shown) {
+          const serverName = game.serverName || "Unavailable server";
+          if (!groups.has(serverName)) groups.set(serverName, []);
+          groups.get(serverName).push(game);
+        }
+        for (const serverName of [...groups.keys()].sort((a, b) => a.localeCompare(b))) {
+          const group = element("div", "server-group");
+          group.append(element("h2", "server-heading", serverName));
+          const serverGames = element("div", "server-games");
+          for (const game of groups.get(serverName)) serverGames.append(renderGame(game));
+          group.append(serverGames);
+          gamesNode.append(group);
+        }
       }
 
       const pendingPlayers = games.reduce((total, game) => total + (
