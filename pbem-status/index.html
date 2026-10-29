@@ -520,10 +520,12 @@
       const players = Array.isArray(game.players) ? game.players : [];
       const pending = players.filter(player => player.status === "pending").length;
       const stats = element("p", "stats");
+      const reminderDays = Number.isInteger(game.reminderDays) ? game.reminderDays : 0;
       const values = [
         ["Players", players.length],
         ["Pending", pending],
         ["Started", formatDate(game.createdAt)],
+        ["Automated reminders", reminderDays > 0 ? `After ${reminderDays} day${reminderDays === 1 ? "" : "s"} pending` : "Off"],
       ];
       for (const [label, value] of values) {
         const item = element("span");

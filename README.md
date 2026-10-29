@@ -15,7 +15,8 @@ Live site: <https://cbmullen-inc.github.io/public-notebook/>
 - **`pbem-status/index.html`** — a read-only dashboard of active games from the
   separate PBEM Discord bot service. `pbem-status/config.js` supplies that service's
   public Vercel origin. The dashboard groups games by server name and displays
-  active game and player status, but does not expose Discord IDs or provide controls.
+  active game and player status, including whether automated reminders are on and
+  their pending-day threshold, but does not expose Discord IDs or provide controls.
 - **`ear-training/`** — the installable saxophone listening-drills app, published
   under `/ear-training/`.
 
