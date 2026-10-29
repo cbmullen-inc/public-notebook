@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Read-only status for active play-by-email games.">
+  <meta name="color-scheme" content="light dark">
+  <title>PBEM Status</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f2f4f1;
+      --card: #fff;
+      --ink: #1d2925;
+      --mute: #64736d;
+      --line: #d9e0db;
+      --accent: #216b54;
+      --accent-soft: #e2efe9;
+      --pending: #9a5d16;
+      --pending-soft: #fff0d9;
+      --done: #39704e;
+      --done-soft: #e6f3e8;
+      --error: #a63e3e;
+      --error-soft: #fde9e7;
+      --shadow: 0 8px 26px rgb(23 41 33 / 6%);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        color-scheme: dark;
+        --bg: #111a17;
+        --card: #1a2621;
+        --ink: #e7eee9;
+        --mute: #a0afa6;
+        --line: #304139;
+        --accent: #75c4a0;
+        --accent-soft: #223b30;
+        --pending: #f0bf75;
+        --pending-soft: #49351e;
+        --done: #8bd19b;
+        --done-soft: #243d2b;
+        --error: #ff9a90;
+        --error-soft: #492927;
+        --shadow: 0 8px 26px rgb(0 0 0 / 12%);
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-width: 20rem;
+      margin: 0;
+      padding: 2rem 1rem 4rem;
+      background: var(--bg);
+      color: var(--ink);
+      font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+
+    main {
+      max-width: 62rem;
+      margin: 0 auto;
+    }
+
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    h1 {
+      margin: 0;
+      font: 700 clamp(2.2rem, 7vw, 3.6rem)/1.05 Georgia, "Times New Roman", serif;
+      letter-spacing: -.025em;
+    }
+
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    .subtitle {
+      margin: .55rem 0 0;
+      color: var(--mute);
+    }
+
+    .header-tools {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: .65rem;
+    }
+
+    .health {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .4rem .7rem;
+      border: 1px solid var(--line);
+      border-radius: 99px;
+      background: var(--card);
+      color: var(--mute);
+      font-size: .88rem;
+      white-space: nowrap;
+    }
+
+    .health::before {
+      width: .55rem;
+      height: .55rem;
+      border-radius: 50%;
+      background: currentColor;
+      content: "";
+    }
+
+    .health[data-state="healthy"] {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .health[data-state="unhealthy"] {
+      border-color: var(--error);
+      color: var(--error);
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      padding: .45rem .8rem;
+      border: 1px solid var(--line);
+      border-radius: .55rem;
+      background: var(--card);
+      color: var(--ink);
+      cursor: pointer;
+    }
+
+    button:hover {
+      border-color: var(--accent);
+    }
+
+    button:focus-visible,
+    input:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    button:disabled {
+      cursor: wait;
+      opacity: .65;
+    }
+
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: .75rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .metric {
+      padding: 1rem;
+      border: 1px solid var(--line);
+      border-radius: .8rem;
+      background: var(--card);
+      box-shadow: var(--shadow);
+    }
+
+    .metric strong {
+      display: block;
+      font: 700 1.8rem/1.1 Georgia, "Times New Roman", serif;
+    }
+
+    .metric span {
+      color: var(--mute);
+      font-size: .9rem;
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: .75rem;
+      margin-bottom: 1rem;
+    }
+
+    .filters input {
+      flex: 1 1 15rem;
+      min-width: 0;
+      padding: .65rem .8rem;
+      border: 1px solid var(--line);
+      border-radius: .55rem;
+      background: var(--card);
+      color: var(--ink);
+    }
+
+    #updated {
+      margin: 0;
+      color: var(--mute);
+      font-size: .85rem;
+    }
+
+    #games {
+      display: grid;
+      gap: .9rem;
+    }
+
+    .game {
+      padding: 1.1rem;
+      border: 1px solid var(--line);
+      border-radius: .85rem;
+      background: var(--card);
+      box-shadow: var(--shadow);
+    }
+
+    .game-heading {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: .6rem 1rem;
+      margin-bottom: .85rem;
+    }
+
+    .game h2 {
+      margin: 0;
+      overflow-wrap: anywhere;
+      font: 700 1.45rem/1.2 Georgia, "Times New Roman", serif;
+    }
+
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .35rem;
+    }
+
+    .badge,
+    .player-state {
+      display: inline-block;
+      padding: .18rem .58rem;
+      border-radius: 99px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: .78rem;
+      font-weight: 650;
+      white-space: nowrap;
+    }
+
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem 1.2rem;
+      margin: 0 0 .85rem;
+      color: var(--mute);
+      font-size: .9rem;
+    }
+
+    .stats strong {
+      color: var(--ink);
+      font-weight: 650;
+    }
+
+    .players {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+      gap: .45rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .player {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: .65rem;
+      min-width: 0;
+      padding: .55rem .65rem;
+      border: 1px solid var(--line);
+      border-radius: .55rem;
+    }
+
+    .player-name {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .player-info {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: .35rem;
+      align-items: center;
+      text-align: right;
+    }
+
+    .player-state[data-state="pending"] {
+      background: var(--pending-soft);
+      color: var(--pending);
+    }
+
+    .player-state[data-state="done"] {
+      background: var(--done-soft);
+      color: var(--done);
+    }
+
+    .elapsed {
+      color: var(--mute);
+      font-size: .78rem;
+      white-space: nowrap;
+    }
+
+    .message {
+      padding: 1.25rem;
+      border: 1px dashed var(--line);
+      border-radius: .8rem;
+      color: var(--mute);
+      text-align: center;
+    }
+
+    .message[data-kind="error"] {
+      border-color: var(--error);
+      background: var(--error-soft);
+      color: var(--error);
+    }
+
+    .disclosure {
+      margin: 1.25rem 0 0;
+      color: var(--mute);
+      font-size: .82rem;
+    }
+
+    @media (max-width: 34rem) {
+      body {
+        padding: 1.25rem .8rem 3rem;
+      }
+
+      .summary {
+        grid-template-columns: 1fr;
+      }
+
+      .metric {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 1rem;
+      }
+
+      .metric strong {
+        font-size: 1.45rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <header>
+      <div>
+        <h1>PBEM Status</h1>
+        <p class="subtitle">A read-only view of active play-by-email games.</p>
+      </div>
+      <div class="header-tools">
+        <span class="health" id="health" data-state="checking" role="status" aria-live="polite">Checking service</span>
+        <button id="refresh" type="button">Refresh</button>
+      </div>
+    </header>
+
+    <section class="summary" aria-label="Active game summary">
+      <div class="metric"><strong id="game-count">—</strong><span>active games</span></div>
+      <div class="metric"><strong id="pending-count">—</strong><span>players with pending turns</span></div>
+      <div class="metric"><strong id="turn-count">—</strong><span>turns completed</span></div>
+    </section>
+
+    <div class="filters">
+      <input id="search" type="search" placeholder="Search games or players" aria-label="Search games or players">
+      <p id="updated">Waiting for status data</p>
+    </div>
+
+    <p class="message" id="warning" role="alert" hidden></p>
+    <section id="games" aria-label="Active games" aria-live="polite">
+      <p class="message" id="message">Loading active games…</p>
+    </section>
+
+    <p class="disclosure">This page is public and read-only. It shows active game names, Discord display names,
+      turn status and pending time. Game and player identifiers, server/channel IDs and control actions are not
+      published here.</p>
+  </main>
+
+  <script src="config.js"></script>
+  <script>
+    "use strict";
+
+    const apiBase = typeof window.PBEM_STATUS_API_BASE === "string"
+      ? window.PBEM_STATUS_API_BASE.trim().replace(/\/+$/, "")
+      : "";
+    const health = document.getElementById("health");
+    const gamesNode = document.getElementById("games");
+    const warning = document.getElementById("warning");
+    const refreshButton = document.getElementById("refresh");
+    const search = document.getElementById("search");
+    let games = [];
+    let lastUpdated = null;
+
+    function setHealth(state, text) {
+      health.dataset.state = state;
+      health.textContent = text;
+    }
+
+    function element(tag, className, text) {
+      const node = document.createElement(tag);
+      if (className) node.className = className;
+      if (text !== undefined) node.textContent = text;
+      return node;
+    }
+
+    function durationSince(value) {
+      const start = Date.parse(value);
+      if (!Number.isFinite(start)) return "time unknown";
+      const minutes = Math.max(0, Math.floor((Date.now() - start) / 60000));
+      if (minutes < 1) return "just now";
+      if (minutes < 60) return `${minutes}m`;
+      const hours = Math.floor(minutes / 60);
+      if (hours < 24) return `${hours}h ${minutes % 60}m`;
+      const days = Math.floor(hours / 24);
+      return `${days}d ${hours % 24}h`;
+    }
+
+    function formatDate(value) {
+      const date = new Date(value);
+      if (!Number.isFinite(date.getTime())) return "date unavailable";
+      return new Intl.DateTimeFormat(undefined, {
+        dateStyle: "medium",
+        timeStyle: "short",
+      }).format(date);
+    }
+
+    function renderPlayer(player) {
+      const row = element("li", "player");
+      row.append(element("span", "player-name", player.username || "Unknown player"));
+      const info = element("span", "player-info");
+      const status = player.status === "pending" ? "pending" : "done";
+      const state = element("span", "player-state", status === "pending" ? "Pending" : "Done");
+      state.dataset.state = status;
+      info.append(state);
+      if (status === "pending") {
+        const timer = element(
+          "span",
+          "elapsed",
+          player.pendingSince ? durationSince(player.pendingSince) : "time unknown",
+        );
+        if (player.pendingSince) timer.dataset.pendingSince = player.pendingSince;
+        timer.setAttribute("aria-label", player.pendingSince
+          ? `Pending for ${durationSince(player.pendingSince)}`
+          : "Pending time unknown");
+        info.append(timer);
+      }
+      row.append(info);
+      return row;
+    }
+
+    function renderGame(game) {
+      const card = element("article", "game");
+      const heading = element("div", "game-heading");
+      heading.append(element("h2", "", game.name || "Unnamed game"));
+      const badges = element("div", "badges");
+      badges.append(element("span", "badge", game.activeMode || "mode unknown"));
+      if (game.mode === "both") badges.append(element("span", "badge", "switchable"));
+      heading.append(badges);
+      card.append(heading);
+
+      const players = Array.isArray(game.players) ? game.players : [];
+      const pending = players.filter(player => player.status === "pending").length;
+      const stats = element("p", "stats");
+      const values = [
+        ["Turns completed", Number.isFinite(game.turnsCompleted) ? game.turnsCompleted : 0],
+        ["Players", players.length],
+        ["Pending", pending],
+        ["Started", formatDate(game.createdAt)],
+      ];
+      for (const [label, value] of values) {
+        const item = element("span");
+        item.append(element("strong", "", `${label}: `), document.createTextNode(String(value)));
+        stats.append(item);
+      }
+      card.append(stats);
+
+      const list = element("ul", "players");
+      for (const player of players) list.append(renderPlayer(player));
+      card.append(list);
+      return card;
+    }
+
+    function render() {
+      const query = search.value.trim().toLocaleLowerCase();
+      const shown = games.filter(game => {
+        const playerNames = Array.isArray(game.players)
+          ? game.players.map(player => player.username || "").join(" ")
+          : "";
+        return `${game.name || ""} ${playerNames}`.toLocaleLowerCase().includes(query);
+      });
+
+      gamesNode.replaceChildren();
+      if (shown.length === 0) {
+        const text = games.length === 0
+          ? "There are no active games right now."
+          : "No active games match your search.";
+        gamesNode.append(element("p", "message", text));
+      } else {
+        for (const game of shown) gamesNode.append(renderGame(game));
+      }
+
+      const pendingPlayers = games.reduce((total, game) => total + (
+        Array.isArray(game.players)
+          ? game.players.filter(player => player.status === "pending").length
+          : 0
+      ), 0);
+      const turns = games.reduce((total, game) => total + (
+        Number.isFinite(game.turnsCompleted) ? game.turnsCompleted : 0
+      ), 0);
+      document.getElementById("game-count").textContent = String(games.length);
+      document.getElementById("pending-count").textContent = String(pendingPlayers);
+      document.getElementById("turn-count").textContent = String(turns);
+      document.getElementById("updated").textContent = lastUpdated
+        ? `Updated ${formatDate(lastUpdated)}${shown.length === games.length ? "" : ` · Showing ${shown.length} of ${games.length}`}`
+        : "Waiting for status data";
+      updatePendingTimers();
+    }
+
+    function updatePendingTimers() {
+      for (const timer of document.querySelectorAll("[data-pending-since]")) {
+        const since = timer.dataset.pendingSince;
+        const elapsed = durationSince(since);
+        timer.textContent = elapsed;
+        timer.setAttribute("aria-label", `Pending for ${elapsed}`);
+      }
+    }
+
+    async function checkHealth() {
+      if (!apiBase) {
+        setHealth("unhealthy", "API URL not configured");
+        return;
+      }
+      try {
+        const response = await fetch(`${apiBase}/api/health`, { cache: "no-store" });
+        const result = await response.json();
+        if (response.ok && result.status === "healthy") {
+          setHealth("healthy", "Service healthy");
+        } else {
+          setHealth("unhealthy", "Service unavailable");
+        }
+      } catch {
+        setHealth("unhealthy", "Service unavailable");
+      }
+    }
+
+    async function loadGames() {
+      if (!apiBase) {
+        warning.dataset.kind = "error";
+        warning.textContent = "The PBEM API URL has not been configured for this page.";
+        warning.hidden = false;
+        gamesNode.replaceChildren(element(
+          "p",
+          "message",
+          "Add the bot's Production Vercel origin to pbem-status/config.js.",
+        ));
+        setHealth("unhealthy", "API URL not configured");
+        return;
+      }
+
+      refreshButton.disabled = true;
+      try {
+        const response = await fetch(`${apiBase}/api/public-games`, { cache: "no-store" });
+        if (!response.ok) throw new Error(`Status API returned ${response.status}`);
+        const result = await response.json();
+        if (!Array.isArray(result.games)) throw new Error("Status API returned an invalid response");
+        games = result.games;
+        lastUpdated = result.generatedAt || new Date().toISOString();
+        warning.hidden = true;
+        render();
+      } catch (error) {
+        console.error("Could not load active game status:", error);
+        warning.dataset.kind = "error";
+        warning.textContent = lastUpdated
+          ? `Could not refresh status. Showing data from ${formatDate(lastUpdated)}.`
+          : "Could not load game status. Check the service badge or try refreshing.";
+        warning.hidden = false;
+        if (games.length === 0) {
+          gamesNode.replaceChildren(element(
+            "p",
+            "message",
+            "Game status is currently unavailable. Try refreshing in a moment.",
+          ));
+          document.getElementById("game-count").textContent = "—";
+          document.getElementById("pending-count").textContent = "—";
+          document.getElementById("turn-count").textContent = "—";
+        }
+      } finally {
+        refreshButton.disabled = false;
+        await checkHealth();
+      }
+    }
+
+    refreshButton.addEventListener("click", loadGames);
+    search.addEventListener("input", render);
+    loadGames();
+    window.setInterval(checkHealth, 600000);
+    window.setInterval(updatePendingTimers, 60000);
+  </script>
+</body>
+
+</html>

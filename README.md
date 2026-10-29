@@ -12,6 +12,10 @@ Live site: <https://cbmullen-inc.github.io/public-notebook/>
 - **`board-games/board-games.html`** (+ `board-games.css`) — "My board game shelf": the
   games I own, grouped by co-op and competitive, sortable by play time, player count
   and complexity. Compiled by Claude. Served at `/board-games.html` on the live site.
+- **`pbem-status/index.html`** — a read-only dashboard of active games from the
+  separate PBEM Discord bot service. `pbem-status/config.js` supplies that service's
+  public Vercel origin. The dashboard displays active game and player status but
+  does not expose Discord IDs or provide controls.
 
 ## Layout
 
@@ -21,14 +25,18 @@ Live site: <https://cbmullen-inc.github.io/public-notebook/>
 ├── board-games/
 │   ├── board-games.html          # board game shelf page
 │   └── board-games.css
+├── pbem-status/
+│   ├── index.html                # read-only active PBEM status dashboard
+│   └── config.js                 # PBEM bot's public Vercel origin
 └── .github/workflows/
     ├── deploy-index.yml          # publishes index.html
-    └── deploy-board-games.yml    # publishes the board-games page
+    ├── deploy-board-games.yml    # publishes the board-games page
+    └── deploy-pbem-status.yml    # publishes the PBEM status page
 ```
 
 ## Publishing
 
-Both workflows copy files from `main` into the root of the `gh-pages` branch using
+Each workflow copies its files from `main` into the `gh-pages` branch using
 `peaceiris/actions-gh-pages` with `keep_files: true` (so each workflow only overwrites
 its own files):
 
@@ -36,10 +44,19 @@ its own files):
 |---|---|
 | `deploy-index.yml` | `index.html` |
 | `deploy-board-games.yml` | `board-games.html`, `board-games.css` |
+| `deploy-pbem-status.yml` | `pbem-status/index.html`, `pbem-status/config.js` |
 
-The index workflow watches `index.html`, and the board-games workflow watches
-`board-games/**`. Changes to either page on `main` trigger the corresponding deploy.
-Both workflows also support manual runs via **Run workflow** in the Actions tab.
+The index workflow watches `index.html`, the board-games workflow watches
+`board-games/**`, and the PBEM status workflow watches `pbem-status/index.html` and
+`pbem-status/config.js`. Changes to a page trigger its corresponding deploy. Each
+workflow also supports manual runs via **Run workflow** in the Actions tab.
+
+The PBEM status deployment copies only the page and its runtime config; the local
+`pbem-status/TODO` file is not published. Set `window.PBEM_STATUS_API_BASE` in
+`pbem-status/config.js` to the production Vercel origin for `pbem-discord-bot`
+(for example, `https://your-project.vercel.app`, with no path). The helper API
+allows cross-origin read-only requests from the public page. Do not put credentials
+or database URLs in this file.
 
 ## Board-game data validation
 

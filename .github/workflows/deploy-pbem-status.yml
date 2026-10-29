@@ -1,0 +1,31 @@
+name: Deploy PBEM Status
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'pbem-status/index.html'
+      - 'pbem-status/config.js'
+      - '.github/workflows/deploy-pbem-status.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare PBEM status page
+        run: |
+          mkdir -p _site/pbem-status
+          cp pbem-status/index.html _site/pbem-status/index.html
+          cp pbem-status/config.js _site/pbem-status/config.js
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./_site
+          destination_dir: .
+          keep_files: true
