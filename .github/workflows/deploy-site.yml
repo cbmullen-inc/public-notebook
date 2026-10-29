@@ -1,25 +1,37 @@
-name: Deploy PBEM Status
+name: Deploy Notebook Site
 
 on:
   push:
     branches: [main]
     paths:
+      - 'index.html'
+      - 'board-games/**'
+      - 'ear-training/**'
       - 'pbem-status/index.html'
       - 'pbem-status/config.js'
-      - '.github/workflows/deploy-pbem-status.yml'
+      - '.github/workflows/deploy-site.yml'
   workflow_dispatch:
 
 permissions:
   contents: write
+
+concurrency:
+  group: github-pages-deploy
+  cancel-in-progress: false
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Prepare PBEM status page
+      - name: Prepare notebook pages
         run: |
-          mkdir -p _site/pbem-status
+          mkdir -p _site/ear-training _site/pbem-status
+          cp index.html _site/index.html
+          cp board-games/board-games.html _site/board-games.html
+          cp board-games/board-games.css _site/board-games.css
+          cp board-games/games.json _site/games.json
+          cp -R ear-training/. _site/ear-training/
           cp pbem-status/index.html _site/pbem-status/index.html
           cp pbem-status/config.js _site/pbem-status/config.js
       - name: Deploy to gh-pages

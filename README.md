@@ -16,6 +16,8 @@ Live site: <https://cbmullen-inc.github.io/public-notebook/>
   separate PBEM Discord bot service. `pbem-status/config.js` supplies that service's
   public Vercel origin. The dashboard displays active game and player status but
   does not expose Discord IDs or provide controls.
+- **`ear-training/`** — the installable saxophone listening-drills app, published
+  under `/ear-training/`.
 
 ## Layout
 
@@ -25,33 +27,29 @@ Live site: <https://cbmullen-inc.github.io/public-notebook/>
 ├── board-games/
 │   ├── board-games.html          # board game shelf page
 │   └── board-games.css
+├── ear-training/                 # installable saxophone drills
 ├── pbem-status/
 │   ├── index.html                # read-only active PBEM status dashboard
 │   └── config.js                 # PBEM bot's public Vercel origin
 └── .github/workflows/
-    ├── deploy-index.yml          # publishes index.html
-    ├── deploy-board-games.yml    # publishes the board-games page
-    └── deploy-pbem-status.yml    # publishes the PBEM status page
+    └── deploy-site.yml           # publishes all pages in one serialized deployment
 ```
 
 ## Publishing
 
-Each workflow copies its files from `main` into the `gh-pages` branch using
-`peaceiris/actions-gh-pages` with `keep_files: true` (so each workflow only overwrites
-its own files):
+The site workflow copies all published pages from `main` into the `gh-pages` branch
+using `peaceiris/actions-gh-pages` with `keep_files: true`:
 
 | Workflow | Copies to gh-pages as |
 |---|---|
-| `deploy-index.yml` | `index.html` |
-| `deploy-board-games.yml` | `board-games.html`, `board-games.css` |
-| `deploy-pbem-status.yml` | `pbem-status/index.html`, `pbem-status/config.js` |
+| `deploy-site.yml` | `index.html`, board-game files, `ear-training/`, and `pbem-status/` |
 
-The index workflow watches `index.html`, the board-games workflow watches
-`board-games/**`, and the PBEM status workflow watches `pbem-status/index.html` and
-`pbem-status/config.js`. Changes to a page trigger its corresponding deploy. Each
-workflow also supports manual runs via **Run workflow** in the Actions tab.
+Changes to any published page trigger the same deployment. Serializing one full-site
+deployment avoids competing pushes to `gh-pages`, and ensures each deployment
+contains all pages. The workflow also supports manual runs via **Run workflow** in
+the Actions tab.
 
-The PBEM status deployment copies only the page and its runtime config; the local
+The deployment copies only the PBEM page and its runtime config; the local
 `pbem-status/TODO` file is not published. Set `window.PBEM_STATUS_API_BASE` in
 `pbem-status/config.js` to the production Vercel origin for `pbem-discord-bot`
 (for example, `https://your-project.vercel.app`, with no path). The helper API
