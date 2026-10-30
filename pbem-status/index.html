@@ -13,13 +13,17 @@
       --bg: #f2f4f1;
       --card: #fff;
       --ink: #1d2925;
-      --mute: #64736d;
+      --mute: #52625b;
       --line: #d9e0db;
       --accent: #216b54;
       --accent-soft: #e2efe9;
       --pending: #9a5d16;
       --pending-soft: #fff0d9;
       --done: #39704e;
+      --warn: #a2480f;
+      --warn-soft: #ffe3cf;
+      --late: #a63e3e;
+      --late-soft: #fde1de;
       --done-soft: #e6f3e8;
       --error: #a63e3e;
       --error-soft: #fde9e7;
@@ -32,13 +36,17 @@
         --bg: #111a17;
         --card: #1a2621;
         --ink: #e7eee9;
-        --mute: #a0afa6;
+        --mute: #b6c4bb;
         --line: #304139;
         --accent: #75c4a0;
         --accent-soft: #223b30;
         --pending: #f0bf75;
         --pending-soft: #49351e;
         --done: #8bd19b;
+        --warn: #ffb17a;
+        --warn-soft: #4f3020;
+        --late: #ff9a90;
+        --late-soft: #5a2a27;
         --done-soft: #243d2b;
         --error: #ff9a90;
         --error-soft: #492927;
@@ -235,16 +243,54 @@
     }
 
     .server-group {
-      display: grid;
-      gap: .7rem;
+      display: block;
+    }
+
+    .server-summary {
+      display: flex;
+      align-items: center;
+      gap: .55rem;
+      margin: .55rem 0 .7rem;
+      padding-bottom: .4rem;
+      border-bottom: 1px solid var(--line);
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .server-summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .server-summary::before {
+      flex: none;
+      width: .5rem;
+      height: .5rem;
+      border-right: 2px solid var(--mute);
+      border-bottom: 2px solid var(--mute);
+      content: "";
+      transform: rotate(45deg) translateY(-2px);
+    }
+
+    .server-group:not([open]) .server-summary::before {
+      transform: rotate(-45deg);
+    }
+
+    .server-summary:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
     }
 
     .server-heading {
-      margin: .55rem 0 0;
-      padding-bottom: .4rem;
-      border-bottom: 1px solid var(--line);
+      margin: 0;
       font: 700 1.35rem/1.2 Georgia, "Times New Roman", serif;
       overflow-wrap: anywhere;
+    }
+
+    .server-count {
+      margin-left: auto;
+      color: var(--mute);
+      font-size: .85rem;
+      white-space: nowrap;
     }
 
     .server-games {
@@ -378,6 +424,49 @@
       font-size: .82rem;
     }
 
+    .progress {
+      height: .4rem;
+      margin: 0 0 .85rem;
+      overflow: hidden;
+      border-radius: 99px;
+      background: var(--line);
+    }
+
+    .progress > span {
+      display: block;
+      height: 100%;
+      background: var(--done);
+    }
+
+    .player-info[data-stall="warn"] .player-state {
+      background: var(--warn-soft);
+      color: var(--warn);
+    }
+
+    .player-info[data-stall="late"] .player-state {
+      background: var(--late-soft);
+      color: var(--late);
+    }
+
+    .player-info[data-stall="warn"] .elapsed {
+      color: var(--warn);
+    }
+
+    .player-info[data-stall="late"] .elapsed {
+      color: var(--late);
+      font-weight: 650;
+    }
+
+    .overdue {
+      color: var(--late);
+      font-size: .78rem;
+      font-weight: 650;
+    }
+
+    .player-info:not([data-stall="late"]) .overdue {
+      display: none;
+    }
+
     @media (max-width: 34rem) {
       body {
         padding: 1.25rem .8rem 3rem;
@@ -417,17 +506,18 @@
 
     <section class="summary" aria-label="Active game summary">
       <div class="metric"><strong id="game-count">—</strong><span>active games</span></div>
-      <div class="metric"><strong id="pending-count">—</strong><span>players with pending turns</span></div>
+      <div class="metric"><strong id="pending-count">—</strong><span>pending turns</span></div>
     </section>
 
     <div class="filters">
-      <input id="search" type="search" placeholder="Search games or players" aria-label="Search games or players">
-      <p id="updated">Waiting for status data</p>
+      <input id="search" type="search" placeholder="Search servers, games or players" aria-label="Search servers, games or players">
+      <p id="updated" role="status" aria-live="polite">Waiting for status data</p>
     </div>
 
     <p class="message" id="warning" role="alert" hidden></p>
-    <section id="games" aria-label="Active games" aria-live="polite">
+    <section id="games" aria-label="Active games">
       <p class="message" id="message">Loading active games…</p>
+      <noscript><p class="message">This page needs JavaScript to load game status.</p></noscript>
     </section>
 
     <p class="disclosure">This page is public and read-only. It shows active game names, Discord display names,
@@ -442,11 +532,17 @@
     const apiBase = typeof window.PBEM_STATUS_API_BASE === "string"
       ? window.PBEM_STATUS_API_BASE.trim().replace(/\/+$/, "")
       : "";
+    const REQUEST_TIMEOUT_MS = 10000;
+    const WAKE_HINT_MS = 4000;
+    const STALL_WARN_RATIO = 0.75;
+    const DAY_MS = 86400000;
+
     const health = document.getElementById("health");
     const gamesNode = document.getElementById("games");
     const warning = document.getElementById("warning");
     const refreshButton = document.getElementById("refresh");
     const search = document.getElementById("search");
+    const collapsedServers = new Set();
     let games = [];
     let lastUpdated = null;
 
@@ -474,6 +570,11 @@
       return `${days}d ${hours % 24}h`;
     }
 
+    function agoText(value) {
+      const elapsed = durationSince(value);
+      return elapsed === "just now" || elapsed === "time unknown" ? elapsed : `${elapsed} ago`;
+    }
+
     function formatDate(value) {
       const date = new Date(value);
       if (!Number.isFinite(date.getTime())) return "date unavailable";
@@ -483,7 +584,23 @@
       }).format(date);
     }
 
-    function renderPlayer(player) {
+    // "none" | "warn" | "late", measured against the game's reminder threshold.
+    // Games with reminders off have no threshold, so they are never flagged.
+    function stallLevel(pendingSince, reminderDays) {
+      if (!(reminderDays > 0)) return "none";
+      const start = Date.parse(pendingSince);
+      if (!Number.isFinite(start)) return "none";
+      const ratio = (Date.now() - start) / (reminderDays * DAY_MS);
+      if (ratio >= 1) return "late";
+      if (ratio >= STALL_WARN_RATIO) return "warn";
+      return "none";
+    }
+
+    function applyStall(info) {
+      info.dataset.stall = stallLevel(info.dataset.pendingSince, Number(info.dataset.reminderDays));
+    }
+
+    function renderPlayer(player, reminderDays) {
       const row = element("li", "player");
       row.append(element("span", "player-name", player.username || "Unknown player"));
       const info = element("span", "player-info");
@@ -492,19 +609,41 @@
       state.dataset.state = status;
       info.append(state);
       if (status === "pending") {
-        const timer = element(
+        info.append(element(
           "span",
           "elapsed",
           player.pendingSince ? durationSince(player.pendingSince) : "time unknown",
-        );
-        if (player.pendingSince) timer.dataset.pendingSince = player.pendingSince;
-        timer.setAttribute("aria-label", player.pendingSince
-          ? `Pending for ${durationSince(player.pendingSince)}`
-          : "Pending time unknown");
-        info.append(timer);
+        ));
+        info.append(element("span", "overdue", "overdue"));
+        if (player.pendingSince) {
+          info.dataset.pendingSince = player.pendingSince;
+          info.dataset.reminderDays = String(reminderDays);
+          applyStall(info);
+        }
       }
       row.append(info);
       return row;
+    }
+
+    function pendingPlayers(game) {
+      return Array.isArray(game.players)
+        ? game.players.filter(player => player.status === "pending")
+        : [];
+    }
+
+    // Longest wait first; games with nobody pending sink to the bottom.
+    function longestPendingMs(game) {
+      let longest = -1;
+      for (const player of pendingPlayers(game)) {
+        const start = Date.parse(player.pendingSince);
+        longest = Math.max(longest, Number.isFinite(start) ? Date.now() - start : 0);
+      }
+      return longest;
+    }
+
+    function compareGames(a, b) {
+      return longestPendingMs(b) - longestPendingMs(a)
+        || (a.name || "").localeCompare(b.name || "");
     }
 
     function renderGame(game) {
@@ -518,15 +657,24 @@
       card.append(heading);
 
       const players = Array.isArray(game.players) ? game.players : [];
-      const pending = players.filter(player => player.status === "pending").length;
-      const stats = element("p", "stats");
+      const pending = pendingPlayers(game).length;
+      const done = players.length - pending;
       const reminderDays = Number.isInteger(game.reminderDays) ? game.reminderDays : 0;
-      const values = [
-        ["Players", players.length],
-        ["Pending", pending],
-        ["Started", formatDate(game.createdAt)],
+      const isSimultaneous = game.activeMode === "simultaneous" && players.length > 0;
+      const started = formatDate(game.createdAt);
+
+      const values = [];
+      if (isSimultaneous) {
+        values.push(["Done", `${done} of ${players.length}`]);
+      } else {
+        values.push(["Players", players.length], ["Pending", pending]);
+      }
+      values.push(
+        ["Started", started === "date unavailable" ? started : `${started} (${agoText(game.createdAt)})`],
         ["Automated reminders", reminderDays > 0 ? `After ${reminderDays} day${reminderDays === 1 ? "" : "s"} pending` : "Off"],
-      ];
+      );
+
+      const stats = element("p", "stats");
       for (const [label, value] of values) {
         const item = element("span");
         item.append(element("strong", "", `${label}: `), document.createTextNode(String(value)));
@@ -534,10 +682,47 @@
       }
       card.append(stats);
 
+      if (isSimultaneous) {
+        const bar = element("div", "progress");
+        bar.setAttribute("role", "progressbar");
+        bar.setAttribute("aria-label", "Players done this round");
+        bar.setAttribute("aria-valuemin", "0");
+        bar.setAttribute("aria-valuemax", String(players.length));
+        bar.setAttribute("aria-valuenow", String(done));
+        const fill = element("span");
+        fill.style.width = `${Math.round((done / players.length) * 100)}%`;
+        bar.append(fill);
+        card.append(bar);
+      }
+
       const list = element("ul", "players");
-      for (const player of players) list.append(renderPlayer(player));
+      for (const player of players) list.append(renderPlayer(player, reminderDays));
       card.append(list);
       return card;
+    }
+
+    function renderServerGroup(serverName, serverGames, searching) {
+      const group = element("details", "server-group");
+      group.open = searching || !collapsedServers.has(serverName);
+      group.addEventListener("toggle", () => {
+        if (searching) return;
+        if (group.open) collapsedServers.delete(serverName);
+        else collapsedServers.add(serverName);
+      });
+
+      const summary = element("summary", "server-summary");
+      summary.append(element("h2", "server-heading", serverName));
+      summary.append(element(
+        "span",
+        "server-count",
+        `${serverGames.length} game${serverGames.length === 1 ? "" : "s"}`,
+      ));
+      group.append(summary);
+
+      const list = element("div", "server-games");
+      for (const game of serverGames.slice().sort(compareGames)) list.append(renderGame(game));
+      group.append(list);
+      return group;
     }
 
     function render() {
@@ -549,7 +734,7 @@
         return `${game.serverName || ""} ${game.name || ""} ${playerNames}`
           .toLocaleLowerCase()
           .includes(query);
-        });
+      });
 
       gamesNode.replaceChildren();
       if (shown.length === 0) {
@@ -565,22 +750,13 @@
           groups.get(serverName).push(game);
         }
         for (const serverName of [...groups.keys()].sort((a, b) => a.localeCompare(b))) {
-          const group = element("div", "server-group");
-          group.append(element("h2", "server-heading", serverName));
-          const serverGames = element("div", "server-games");
-          for (const game of groups.get(serverName)) serverGames.append(renderGame(game));
-          group.append(serverGames);
-          gamesNode.append(group);
+          gamesNode.append(renderServerGroup(serverName, groups.get(serverName), query !== ""));
         }
       }
 
-      const pendingPlayers = games.reduce((total, game) => total + (
-        Array.isArray(game.players)
-          ? game.players.filter(player => player.status === "pending").length
-          : 0
-      ), 0);
+      const pendingTurns = games.reduce((total, game) => total + pendingPlayers(game).length, 0);
       document.getElementById("game-count").textContent = String(games.length);
-      document.getElementById("pending-count").textContent = String(pendingPlayers);
+      document.getElementById("pending-count").textContent = String(pendingTurns);
       document.getElementById("updated").textContent = lastUpdated
         ? `Updated ${formatDate(lastUpdated)}${shown.length === games.length ? "" : ` · Showing ${shown.length} of ${games.length}`}`
         : "Waiting for status data";
@@ -588,11 +764,23 @@
     }
 
     function updatePendingTimers() {
-      for (const timer of document.querySelectorAll("[data-pending-since]")) {
-        const since = timer.dataset.pendingSince;
-        const elapsed = durationSince(since);
-        timer.textContent = elapsed;
-        timer.setAttribute("aria-label", `Pending for ${elapsed}`);
+      for (const info of document.querySelectorAll("[data-pending-since]")) {
+        const timer = info.querySelector(".elapsed");
+        if (timer) timer.textContent = durationSince(info.dataset.pendingSince);
+        applyStall(info);
+      }
+    }
+
+    // Fetch JSON with a hard timeout so a sleeping backend cannot hang the page.
+    async function fetchJson(path) {
+      const controller = new AbortController();
+      const timer = window.setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+      try {
+        const response = await fetch(`${apiBase}${path}`, { cache: "no-store", signal: controller.signal });
+        const body = await response.json();
+        return { ok: response.ok, status: response.status, body };
+      } finally {
+        window.clearTimeout(timer);
       }
     }
 
@@ -602,9 +790,8 @@
         return;
       }
       try {
-        const response = await fetch(`${apiBase}/api/health`, { cache: "no-store" });
-        const result = await response.json();
-        if (response.ok && result.status === "healthy") {
+        const { ok, body } = await fetchJson("/api/health");
+        if (ok && body.status === "healthy") {
           setHealth("healthy", "Service healthy");
         } else {
           setHealth("unhealthy", "Service unavailable");
@@ -629,16 +816,26 @@
       }
 
       refreshButton.disabled = true;
+      // Neon's free compute sleeps when idle; say so if the first load is slow.
+      const wakeHint = window.setTimeout(() => {
+        const message = document.getElementById("message");
+        if (message && games.length === 0) {
+          message.textContent = "Still loading. The database may be waking up…";
+        }
+      }, WAKE_HINT_MS);
+
+      let failed = false;
       try {
-        const response = await fetch(`${apiBase}/api/public-games`, { cache: "no-store" });
-        if (!response.ok) throw new Error(`Status API returned ${response.status}`);
-        const result = await response.json();
-        if (!Array.isArray(result.games)) throw new Error("Status API returned an invalid response");
-        games = result.games;
-        lastUpdated = result.generatedAt || new Date().toISOString();
+        const { ok, status, body } = await fetchJson("/api/public-games");
+        if (!ok) throw new Error(`Status API returned ${status}`);
+        if (!Array.isArray(body.games)) throw new Error("Status API returned an invalid response");
+        games = body.games;
+        lastUpdated = body.generatedAt || new Date().toISOString();
         warning.hidden = true;
+        setHealth("healthy", "Service healthy");
         render();
       } catch (error) {
+        failed = true;
         console.error("Could not load active game status:", error);
         warning.dataset.kind = "error";
         warning.textContent = lastUpdated
@@ -655,15 +852,18 @@
           document.getElementById("pending-count").textContent = "—";
         }
       } finally {
+        window.clearTimeout(wakeHint);
         refreshButton.disabled = false;
-        await checkHealth();
       }
+      // A successful games request already proves the service is up; only
+      // probe /api/health when it failed, to explain why.
+      if (failed) await checkHealth();
     }
 
     refreshButton.addEventListener("click", loadGames);
     search.addEventListener("input", render);
     loadGames();
-    window.setInterval(checkHealth, 600000);
+    // Re-evaluates elapsed text and overdue colouring locally; no network calls.
     window.setInterval(updatePendingTimers, 60000);
   </script>
 </body>
