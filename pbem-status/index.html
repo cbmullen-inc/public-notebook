@@ -339,6 +339,11 @@
       white-space: nowrap;
     }
 
+    .badge[data-kind="away"] {
+      background: var(--warn-soft);
+      color: var(--warn);
+    }
+
     .stats {
       display: flex;
       flex-wrap: wrap;
@@ -521,7 +526,7 @@
     </section>
 
     <p class="disclosure">This page is public and read-only. It shows active game names, Discord display names,
-      turn status and pending time. Game and player identifiers, server/channel IDs and control actions are not
+      turn status, away status and pending time. Game and player identifiers, server/channel IDs and control actions are not
       published here.</p>
   </main>
 
@@ -653,10 +658,17 @@
       const badges = element("div", "badges");
       badges.append(element("span", "badge", game.activeMode || "mode unknown"));
       if (game.mode === "both") badges.append(element("span", "badge", "switchable"));
+
+      const players = Array.isArray(game.players) ? game.players : [];
+      for (const player of players.filter(player => player.away === true)) {
+        const awayBadge = element("span", "badge", `${player.username || "Player"} away`);
+        awayBadge.dataset.kind = "away";
+        awayBadge.title = `${player.username || "A player"} is away`;
+        badges.append(awayBadge);
+      }
       heading.append(badges);
       card.append(heading);
 
-      const players = Array.isArray(game.players) ? game.players : [];
       const pending = pendingPlayers(game).length;
       const done = players.length - pending;
       const reminderDays = Number.isInteger(game.reminderDays) ? game.reminderDays : 0;
