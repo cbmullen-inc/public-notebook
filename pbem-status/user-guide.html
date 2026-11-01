@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="system">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Searchable user guide for the PBEM Discord bot.">
+  <meta name="color-scheme" content="light dark">
+  <title>PBEM Bot Wiki</title>
+  <script>
+    try {
+      const savedTheme = localStorage.getItem("pbem-wiki-theme");
+      if (["system", "light", "dark"].includes(savedTheme)) {
+        document.documentElement.dataset.theme = savedTheme;
+      }
+    } catch (error) {
+      console.warn("Could not read the saved theme preference:", error);
+    }
+  </script>
+  <link rel="stylesheet" href="app.css">
+  <style>
+    .wiki-layout {
+      display: grid;
+      grid-template-columns: minmax(12rem, 17rem) minmax(0, 1fr);
+      align-items: start;
+      gap: 1.25rem;
+    }
+
+    .wiki-toc,
+    .wiki-section {
+      padding: 1rem;
+      border: 1px solid var(--line);
+      border-radius: .8rem;
+      background: var(--card);
+      box-shadow: var(--shadow);
+    }
+
+    .wiki-toc {
+      position: sticky;
+      top: 1rem;
+    }
+
+    .wiki-toc h2 {
+      margin-bottom: .65rem;
+      font: 700 1.2rem/1.2 Georgia, "Times New Roman", serif;
+    }
+
+    .wiki-toc ul {
+      display: grid;
+      gap: .3rem;
+      margin: 0;
+      padding-left: 1.1rem;
+    }
+
+    .wiki-toc a {
+      color: var(--accent);
+      text-decoration-thickness: .08em;
+      text-underline-offset: .15em;
+    }
+
+    .wiki-toc a:focus-visible,
+    .wiki-toc a:hover {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .wiki-content {
+      display: grid;
+      gap: 1rem;
+      min-width: 0;
+    }
+
+    .wiki-section {
+      scroll-margin-top: 1rem;
+    }
+
+    .wiki-section h2 {
+      margin-bottom: .9rem;
+      font: 700 1.65rem/1.2 Georgia, "Times New Roman", serif;
+    }
+
+    .wiki-topic h3 {
+      margin: 1.1rem 0 .45rem;
+      font: 700 1.15rem/1.25 Georgia, "Times New Roman", serif;
+    }
+
+    .wiki-topic:first-of-type h3 {
+      margin-top: 0;
+    }
+
+    .wiki-section p:last-child,
+    .wiki-entry:last-child {
+      margin-bottom: 0;
+    }
+
+    .wiki-section ol,
+    .wiki-section ul {
+      padding-left: 1.35rem;
+    }
+
+    .wiki-section li + li {
+      margin-top: .35rem;
+    }
+
+    .wiki-section code {
+      padding: .08rem .3rem;
+      border-radius: .25rem;
+      background: var(--accent-soft);
+      color: var(--ink);
+      font-size: .9em;
+    }
+
+    .wiki-table-wrap {
+      overflow-x: auto;
+    }
+
+    .wiki-section table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    .wiki-section th,
+    .wiki-section td {
+      padding: .5rem .65rem;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+
+    .wiki-section th {
+      color: var(--mute);
+      white-space: nowrap;
+    }
+
+    #no-results {
+      margin: 0;
+    }
+
+    @media (max-width: 48rem) {
+      .wiki-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .wiki-toc {
+        position: static;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <header>
+      <div>
+        <h1>PBEM Bot Wiki</h1>
+        <p class="subtitle">A searchable guide to creating games, managing turns, teams, reminders and results.</p>
+      </div>
+      <div class="header-tools">
+        <label for="theme-picker">Theme</label>
+        <select id="theme-picker" aria-describedby="theme-storage-status">
+          <option value="system">System</option>
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+        </select>
+        <span id="theme-storage-status" class="subtitle" role="status" aria-live="polite"></span>
+      </div>
+    </header>
+
+    <div class="filters">
+      <input id="wiki-search" type="search" placeholder="Search commands, teams, reminders…" aria-label="Search the user guide">
+      <p id="search-status" role="status" aria-live="polite">Showing all topics</p>
+    </div>
+
+    <p class="message" id="no-results" hidden>No guide content matches your search. Try another keyword.</p>
+
+    <div class="wiki-layout">
+      <nav class="wiki-toc" aria-label="Table of contents">
+        <h2>Contents</h2>
+        <ul id="table-of-contents">
+          <li><a href="#getting-started">Getting started</a></li>
+          <li><a href="#turn-modes">Turn modes</a></li>
+          <li><a href="#creating-games">Creating games and setting up a roster</a></li>
+          <li><a href="#checking-games">Checking and managing games</a></li>
+          <li><a href="#notifications">Notifications and reminders</a></li>
+          <li><a href="#away-status">Away status</a></li>
+          <li><a href="#finishing-games">Finishing or deleting games</a></li>
+          <li><a href="#quick-reference">Quick reference</a></li>
+        </ul>
+      </nav>
+
+      <div class="wiki-content" id="wiki-content">
+        <section class="wiki-section" id="getting-started">
+          <h2>Getting started</h2>
+          <div class="wiki-topic">
+            <p class="wiki-entry">This guide covers creating and running games with the PBEM Discord bot. It assumes the bot is already installed in your server and its slash commands are available. If you are setting up or hosting the bot, see the <a href="https://github.com/cbmullen/pbem-discord-bot#readme">deployment and setup instructions</a>.</p>
+            <p class="wiki-entry">Use the bot in a server channel where it can view the channel and send messages. Start with <code>/pbem</code> to create a database-backed game. The bot responds privately while you configure it, then posts the game board in the channel where you ran the command.</p>
+            <p class="wiki-entry"><strong>Typical setup:</strong></p>
+            <ol>
+              <li class="wiki-entry">Run <code>/pbem</code>, enter a game name, choose a turn mode, and optionally choose the number of days before automated reminders.</li>
+              <li class="wiki-entry">Select players in the private picker. If you want teams or prefer to set up the roster later, choose <strong>Skip for now</strong>.</li>
+              <li class="wiki-entry">If you skipped, use <code>/pbem-teams</code> and <code>/pbem-players</code> to build the roster.</li>
+              <li class="wiki-entry">Check the board. Click a status button to update whose turn it is.</li>
+              <li class="wiki-entry">Use <code>/pbem-status</code> to check a game, <code>/pbem-remind</code> for an immediate channel reminder, or configure scheduled reminders with <code>/pbem-reminders</code> and <code>/pbem-notify</code>.</li>
+            </ol>
+            <p class="wiki-entry">Commands that take a <code>game</code> option offer active games from this server in Discord's autocomplete list. Select the game from that list. Games are separate per server.</p>
+          </div>
+        </section>
+
+        <section class="wiki-section" id="turn-modes">
+          <h2>Turn modes</h2>
+          <div class="wiki-topic">
+            <p class="wiki-entry">Choose a mode when creating a game:</p>
+            <ul>
+              <li class="wiki-entry"><strong>Consecutive:</strong> only one roster entry is pending at a time. The first selected entry starts pending. Clicking another entry makes it the pending turn and marks the others done. In this mode, the pending entry's button is disabled.</li>
+              <li class="wiki-entry"><strong>Simultaneous:</strong> all entries start pending. Clicking a button toggles that entry between pending and done. When everyone is done, a new round starts and everyone becomes pending again.</li>
+              <li class="wiki-entry"><strong>Both (switchable):</strong> starts in consecutive mode and adds a button to switch between consecutive and simultaneous. Switching to simultaneous makes everyone pending. Switching back makes the first currently pending entry the sole pending entry.</li>
+            </ul>
+            <p class="wiki-entry">The board shows each roster entry's status and lists pending members. Anyone in the server can click any enabled player button; the bot updates and reposts the board as the latest message in its channel.</p>
+          </div>
+        </section>
+
+        <section class="wiki-section" id="creating-games">
+          <h2>Creating games and setting up a roster</h2>
+          <div class="wiki-topic">
+            <h3><code>/pbem name mode [reminder-days]</code></h3>
+            <p class="wiki-entry">Creates a database-backed game in the channel where you run the command.</p>
+            <ul>
+              <li class="wiki-entry"><code>name</code>: a 1–80 character game name. It must not already be in use in this server.</li>
+              <li class="wiki-entry"><code>mode</code>: <code>consecutive</code>, <code>simultaneous</code>, or <code>both</code>.</li>
+              <li class="wiki-entry"><code>reminder-days</code>: optional value from 0 to 365. <code>0</code> disables scheduled reminders for this game (the default); a positive number makes a pending player eligible after that many days.</li>
+            </ul>
+            <p class="wiki-entry">After running the command, select non-bot server members in the private picker. Fixed modes support up to 25 roster entries; <code>both</code> supports up to 24 so the mode-switch button fits on the board. You can instead choose <strong>Skip for now</strong> to create an empty game, then add players or teams with the commands below. An empty game has no turn buttons until its roster is populated.</p>
+          </div>
+          <div class="wiki-topic">
+            <h3><code>/pbem-players game action</code></h3>
+            <p class="wiki-entry">Adds individual players to, or removes players from, an active game.</p>
+            <ul>
+              <li class="wiki-entry"><code>game</code>: choose an active game using autocomplete.</li>
+              <li class="wiki-entry"><code>action</code>: choose <strong>Add players</strong> or <strong>Remove players</strong>.</li>
+              <li class="wiki-entry">Adding opens a server-member picker. The selected members must not already be in the game and the game cannot exceed its roster limit.</li>
+              <li class="wiki-entry">Removing offers current roster entries only. Removing the current consecutive player advances the pending turn to the next remaining entry. The last roster entry cannot be removed; use <code>/pbem-delete</code> if you want to discard the game.</li>
+              <li class="wiki-entry">In a simultaneous game, new entries start pending. In a consecutive game, additions join as done, except the first entry added to an empty game starts pending.</li>
+            </ul>
+          </div>
+          <div class="wiki-topic">
+            <h3><code>/pbem-teams game action</code></h3>
+            <p class="wiki-entry">Adds or removes a shared team. A team is one roster entry with one button and one turn, shared by its members.</p>
+            <ul>
+              <li class="wiki-entry"><code>game</code>: choose an active game using autocomplete.</li>
+              <li class="wiki-entry"><code>action</code>: choose <strong>Add team</strong> or <strong>Remove team</strong>.</li>
+              <li class="wiki-entry">Adding opens a picker for 2–8 non-bot server members. Existing game members cannot be added to a team. The board label combines their Discord display names, and board announcements and scheduled reminders notify each team member. The first selected member represents the team's roster entry for away-status purposes.</li>
+              <li class="wiki-entry">Removing offers existing shared teams. Removing a team removes its single roster entry.</li>
+              <li class="wiki-entry">A new team joins pending in simultaneous mode or when it is the first entry in an empty consecutive game; otherwise it joins done.</li>
+            </ul>
+            <p class="wiki-entry">The game roster limit counts a team as one entry, not as the number of people on the team.</p>
+          </div>
+          <div class="wiki-topic">
+            <h3><code>/pbem-nodb name mode</code></h3>
+            <p class="wiki-entry">Creates a board without connecting to the database. It asks for a name, mode, and player selection, then stores the game state only in the Discord board. Button clicks repost the updated board and remove the previous one.</p>
+            <p class="wiki-entry">This is a minimal, temporary board: deleting its board message loses the game. Database-backed commands such as <code>/pbem-players</code>, <code>/pbem-teams</code>, <code>/pbem-status</code>, <code>/pbem-remind</code>, <code>/pbem-away</code>, and <code>/pbem-gameover</code> do not manage no-database games. It does not support the later roster setup workflow available to <code>/pbem</code>.</p>
+          </div>
+        </section>
+
+        <section class="wiki-section" id="checking-games">
+          <h2>Checking and managing games</h2>
+          <div class="wiki-topic">
+            <h3><code>/pbem-list</code></h3>
+            <p class="wiki-entry">Privately lists the server's database-backed games, including game mode, roster and pending counts, reminder threshold, and the channel. Pending setups that have not yet completed player selection are also listed. No-database boards are not included.</p>
+          </div>
+          <div class="wiki-topic">
+            <h3><code>/pbem-status game</code></h3>
+            <p class="wiki-entry">Privately displays the selected active game's roster, pending/done statuses, turn mode, start time, reminder threshold, and any away players or pause status. For a shared team, away status is associated with the first selected member who represents its roster entry.</p>
+          </div>
+          <div class="wiki-topic">
+            <h3><code>/pbem-rematch game name</code></h3>
+            <p class="wiki-entry">Starts a new game using the active game's players and teams. The rematch is created in the original game's channel and keeps its mode and reminder threshold, but resets turn statuses and turn statistics. It needs a new game name that is not already in use in this server. The original game remains active; finish it separately with <code>/pbem-gameover</code> if it is over.</p>
+          </div>
+        </section>
+
+        <section class="wiki-section" id="notifications">
+          <h2>Notifications and reminders</h2>
+          <div class="wiki-topic">
+            <p class="wiki-entry">Scheduled reminders require a positive reminder threshold on a game. The scheduled job checks daily at <strong>09:00 UTC</strong> and considers players whose pending turn has reached that game's threshold. A game is not reminded while any of its players is away.</p>
+          </div>
+          <div class="wiki-topic">
+            <h3><code>/pbem-reminders game days</code></h3>
+            <ul>
+              <li class="wiki-entry"><code>days</code>: 0–365 days pending.</li>
+              <li class="wiki-entry"><code>0</code> disables scheduled reminders for that game.</li>
+              <li class="wiki-entry">A positive value makes pending players eligible once they have been pending at least that long. The daily job may send the reminder at its next run after the threshold is reached.</li>
+            </ul>
+            <p class="wiki-entry">Changes the selected active game's scheduled reminder threshold.</p>
+          </div>
+          <div class="wiki-topic">
+            <h3><code>/pbem-notify delivery quiet-hours [user] [utc-offset]</code></h3>
+            <p class="wiki-entry">Sets scheduled reminder delivery for a member in this server. If <code>user</code> is omitted, the settings apply to the person running the command. Any server member can set or change another member's preferences.</p>
+            <ul>
+              <li class="wiki-entry"><code>delivery</code>: <strong>Direct message</strong>, <strong>Ping in each game channel</strong>, or <strong>None</strong>.</li>
+              <li class="wiki-entry"><code>quiet-hours</code>: <code>off</code> or a local-time range such as <code>22:00-07:00</code> using a 24-hour clock. The range can cross midnight.</li>
+              <li class="wiki-entry"><code>user</code>: optional server member to configure.</li>
+              <li class="wiki-entry"><code>utc-offset</code>: required when quiet hours are enabled, in a fixed-offset format such as <code>-07:00</code> or <code>+05:45</code>. It does not automatically change for daylight saving time. Omit it when quiet hours are <code>off</code>.</li>
+            </ul>
+            <p class="wiki-entry"><strong>Examples:</strong></p>
+            <ul>
+              <li class="wiki-entry"><code>/pbem-notify delivery:Direct message quiet-hours:off</code></li>
+              <li class="wiki-entry"><code>/pbem-notify delivery:Ping in each game channel quiet-hours:22:00-07:00 user:@Alex utc-offset:-07:00</code></li>
+              <li class="wiki-entry"><code>/pbem-notify delivery:None quiet-hours:off user:@Alex</code></li>
+            </ul>
+            <p class="wiki-entry">Users without saved settings get scheduled reminders by DM. A reminder skipped because it falls in quiet hours is not marked as sent; the daily job checks again on its next run. If 09:00 UTC always falls inside a user's recurring quiet-hours window, their scheduled reminders remain skipped until the preference or quiet-hours window changes.</p>
+            <p class="wiki-entry">These settings apply only to scheduled reminders. Board mentions and manual <code>/pbem-remind</code> channel pings do not use them.</p>
+          </div>
+          <div class="wiki-topic">
+            <h3><code>/pbem-remind game</code></h3>
+            <p class="wiki-entry">Immediately posts a channel reminder in the game's channel for currently pending roster entries. You can run the command from any channel in the server. It does not wait for the game's configured day threshold and does not use <code>/pbem-notify</code> preferences. It does nothing if nobody is pending, and is disabled while the game is paused because someone is away.</p>
+          </div>
+        </section>
+
+        <section class="wiki-section" id="away-status">
+          <h2>Away status</h2>
+          <div class="wiki-topic">
+            <p class="wiki-entry">Away status applies to a user across every database-backed game where they represent a roster entry in the server. For a shared team, that is the first selected member. While any roster entry in a game is away, the game is paused for reminders; turn statuses do not change and other players can still use their buttons.</p>
+          </div>
+          <div class="wiki-topic">
+            <h3><code>/pbem-away [player] [until]</code></h3>
+            <p class="wiki-entry">Marks a player as away in every active game they are in (and in games they are added to while still away).</p>
+            <ul>
+              <li class="wiki-entry"><code>player</code>: optional member; defaults to you. Any member can mark another member as away.</li>
+              <li class="wiki-entry"><code>until</code>: optional return date in <code>YYYY-MM-DD</code> format, interpreted as 00:00 UTC at the start of that date. It must be in the future and within 365 days.</li>
+              <li class="wiki-entry">Leave <code>until</code> empty for an indefinite away status.</li>
+            </ul>
+            <p class="wiki-entry">The bot refreshes boards for the affected player's active games. Away players are shown in the board's away section.</p>
+          </div>
+          <div class="wiki-topic">
+            <h3><code>/pbem-back [player]</code></h3>
+            <p class="wiki-entry">Clears a member's away status in this server. The optional <code>player</code> defaults to you; any member can clear another member's status. All of that member's active game boards in the server are refreshed.</p>
+            <p class="wiki-entry">Alternatively, any player can click the grey <strong>Mark [player] back</strong> button on an away player's game board. This uses the same server-wide clear-and-refresh behavior as <code>/pbem-back</code>. Clearing away status does not change the player's pending/done status.</p>
+            <p class="wiki-entry">An away date also ends automatically at 00:00 UTC on the selected return date. The daily job removes expired records and refreshes the affected boards.</p>
+          </div>
+        </section>
+
+        <section class="wiki-section" id="finishing-games">
+          <h2>Finishing or deleting games</h2>
+          <div class="wiki-topic">
+            <h3><code>/pbem-gameover game</code></h3>
+            <p class="wiki-entry">Finishes a game and records the result:</p>
+            <ol>
+              <li class="wiki-entry">Select the active game.</li>
+              <li class="wiki-entry">Review the confirmation. If you want a rematch, run <code>/pbem-rematch</code> before continuing.</li>
+              <li class="wiki-entry">Continue to choose the winning player or team, or cancel.</li>
+            </ol>
+            <p class="wiki-entry">The bot posts a public congratulations message, removes the active board, and archives the game snapshot and available event history. The game is removed from active-game commands and its name becomes available again. Archived games and cumulative stats (wins, games played, completed turns, average turn duration, and average game length) are included in the public games API. Each member of a winning team receives a win in those stats. Historical turn times can only be calculated for turns recorded by the bot; older turns cannot be reconstructed.</p>
+          </div>
+          <div class="wiki-topic">
+            <h3><code>/pbem-delete game</code></h3>
+            <p class="wiki-entry">Permanently deletes one active game without recording a winner or adding it to the archive. Review the confirmation before proceeding. The bot also attempts to remove the game board. Any server member can confirm.</p>
+          </div>
+          <div class="wiki-topic">
+            <h3><code>/pbem-delete-all</code></h3>
+            <p class="wiki-entry">Shows a confirmation before permanently deleting every database-backed game record in this server, including incomplete player-selection setups, and attempts to remove their boards. This does not delete already archived games. Any server member can confirm. This action cannot be undone.</p>
+          </div>
+        </section>
+
+        <section class="wiki-section" id="quick-reference">
+          <h2>Quick reference</h2>
+          <div class="wiki-table-wrap">
+            <table>
+              <thead><tr><th scope="col">What you want to do</th><th scope="col">Command</th></tr></thead>
+              <tbody>
+                <tr class="wiki-entry"><td>Start a database-backed game</td><td><code>/pbem</code></td></tr>
+                <tr class="wiki-entry"><td>Start a board without database storage</td><td><code>/pbem-nodb</code></td></tr>
+                <tr class="wiki-entry"><td>Add/remove individual players</td><td><code>/pbem-players</code></td></tr>
+                <tr class="wiki-entry"><td>Add/remove shared teams</td><td><code>/pbem-teams</code></td></tr>
+                <tr class="wiki-entry"><td>List games or inspect a game</td><td><code>/pbem-list</code>, <code>/pbem-status</code></td></tr>
+                <tr class="wiki-entry"><td>Start a rematch</td><td><code>/pbem-rematch</code></td></tr>
+                <tr class="wiki-entry"><td>Set a game's reminder delay</td><td><code>/pbem-reminders</code></td></tr>
+                <tr class="wiki-entry"><td>Set scheduled delivery or quiet hours</td><td><code>/pbem-notify</code></td></tr>
+                <tr class="wiki-entry"><td>Send an immediate pending-player ping</td><td><code>/pbem-remind</code></td></tr>
+                <tr class="wiki-entry"><td>Mark a player away or back</td><td><code>/pbem-away</code>, <code>/pbem-back</code>, or the board's grey back button</td></tr>
+                <tr class="wiki-entry"><td>Record a winner and archive a game</td><td><code>/pbem-gameover</code></td></tr>
+                <tr class="wiki-entry"><td>Delete one game or all server games</td><td><code>/pbem-delete</code>, <code>/pbem-delete-all</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    "use strict";
+
+    const search = document.getElementById("wiki-search");
+    const status = document.getElementById("search-status");
+    const noResults = document.getElementById("no-results");
+    const sections = [...document.querySelectorAll(".wiki-section")];
+    const entries = [...document.querySelectorAll(".wiki-entry")];
+    const tocLinks = [...document.querySelectorAll("#table-of-contents a")];
+    const themePicker = document.getElementById("theme-picker");
+    const themeStorageStatus = document.getElementById("theme-storage-status");
+
+    themePicker.value = document.documentElement.dataset.theme;
+    themePicker.addEventListener("change", () => {
+      document.documentElement.dataset.theme = themePicker.value;
+      try {
+        localStorage.setItem("pbem-wiki-theme", themePicker.value);
+        themeStorageStatus.textContent = "";
+      } catch (error) {
+        console.warn("Could not save the theme preference:", error);
+        themeStorageStatus.textContent = "Theme changed, but couldn't save your preference.";
+      }
+    });
+
+    function filterGuide() {
+      const query = search.value.trim().toLocaleLowerCase();
+      for (const entry of entries) {
+        entry.hidden = query !== "" && !entry.textContent.toLocaleLowerCase().includes(query);
+      }
+
+      let visibleSections = 0;
+      for (const section of sections) {
+        for (const topic of section.querySelectorAll(".wiki-topic")) {
+          topic.hidden = query !== "" && topic.querySelector(".wiki-entry:not([hidden])") === null;
+        }
+        const hasMatch = section.querySelector(".wiki-entry:not([hidden])") !== null;
+        section.hidden = query !== "" && !hasMatch;
+        if (!section.hidden) visibleSections += 1;
+        const link = tocLinks.find(item => item.hash === `#${section.id}`);
+        if (link) link.parentElement.hidden = section.hidden;
+      }
+
+      noResults.hidden = visibleSections > 0;
+      status.textContent = query
+        ? `${visibleSections} of ${sections.length} topics`
+        : "Showing all topics";
+    }
+
+    search.addEventListener("input", filterGuide);
+  </script>
+</body>
+
+</html>
