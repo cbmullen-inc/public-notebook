@@ -19,6 +19,8 @@ Live site: <https://cbmullen-inc.github.io/public-notebook/>
   their pending-day threshold. Its historical section summarizes completed games,
   server wins, and player win rates and average turn times, without exposing Discord
   IDs or providing controls. `pbem-status/app.css` contains its styles.
+  The separate searchable bot wiki is published at `/pbem-status/user-guide.html`
+  but is intentionally not linked from the notebook home page.
 - **`ear-training/`** — the installable saxophone listening-drills app, published
   under `/ear-training/`.
 
@@ -34,7 +36,9 @@ Live site: <https://cbmullen-inc.github.io/public-notebook/>
 ├── pbem-status/
 │   ├── index.html                # read-only active and historical PBEM dashboard
 │   ├── app.css                   # PBEM dashboard styles
-│   └── config.js                 # PBEM bot's public Vercel origin
+│   ├── config.js                 # PBEM bot's public Vercel origin
+│   ├── user-guide.html           # standalone searchable PBEM bot wiki
+│   └── USER-GUIDE.md             # source guide for the wiki
 └── .github/workflows/
     └── deploy-site.yml           # publishes all pages in one serialized deployment
 ```

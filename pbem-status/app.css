@@ -21,7 +21,7 @@
     }
 
     @media (prefers-color-scheme: dark) {
-      :root {
+      :root:not([data-theme="light"]):not([data-theme="dark"]) {
         color-scheme: dark;
         --bg: #111a17;
         --card: #1a2621;
@@ -42,6 +42,28 @@
         --error-soft: #492927;
         --shadow: 0 8px 26px rgb(0 0 0 / 12%);
       }
+    }
+
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #111a17;
+      --card: #1a2621;
+      --ink: #e7eee9;
+      --mute: #b6c4bb;
+      --line: #304139;
+      --accent: #75c4a0;
+      --accent-soft: #223b30;
+      --pending: #f0bf75;
+      --pending-soft: #49351e;
+      --done: #8bd19b;
+      --warn: #ffb17a;
+      --warn-soft: #4f3020;
+      --late: #ff9a90;
+      --late-soft: #5a2a27;
+      --done-soft: #243d2b;
+      --error: #ff9a90;
+      --error-soft: #492927;
+      --shadow: 0 8px 26px rgb(0 0 0 / 12%);
     }
 
     * {
@@ -149,8 +171,17 @@
     }
 
     button,
-    input {
+    input,
+    select {
       font: inherit;
+    }
+
+    select {
+      padding: .45rem .65rem;
+      border: 1px solid var(--line);
+      border-radius: .55rem;
+      background: var(--card);
+      color: var(--ink);
     }
 
     button {
@@ -167,7 +198,8 @@
     }
 
     button:focus-visible,
-    input:focus-visible {
+    input:focus-visible,
+    select:focus-visible {
       outline: 2px solid var(--accent);
       outline-offset: 2px;
     }
