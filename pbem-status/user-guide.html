@@ -177,6 +177,7 @@
       <nav class="wiki-toc" aria-label="Table of contents">
         <h2>Contents</h2>
         <ul id="table-of-contents">
+          <li><a href="#quick-reference">Quick reference</a></li>
           <li><a href="#getting-started">Getting started</a></li>
           <li><a href="#turn-modes">Turn modes</a></li>
           <li><a href="#creating-games">Creating games and setting up a roster</a></li>
@@ -184,11 +185,33 @@
           <li><a href="#notifications">Notifications and reminders</a></li>
           <li><a href="#away-status">Away status</a></li>
           <li><a href="#finishing-games">Finishing or deleting games</a></li>
-          <li><a href="#quick-reference">Quick reference</a></li>
         </ul>
       </nav>
 
       <div class="wiki-content" id="wiki-content">
+        <section class="wiki-section" id="quick-reference">
+          <h2>Quick reference</h2>
+          <div class="wiki-table-wrap">
+            <table>
+              <thead><tr><th scope="col">What you want to do</th><th scope="col">Command</th></tr></thead>
+              <tbody>
+                <tr class="wiki-entry"><td>Start a database-backed game</td><td><code>/pbem</code></td></tr>
+                <tr class="wiki-entry"><td>Start a board without database storage</td><td><code>/pbem-nodb</code></td></tr>
+                <tr class="wiki-entry"><td>Add/remove individual players</td><td><code>/pbem-players</code></td></tr>
+                <tr class="wiki-entry"><td>Add/remove shared teams</td><td><code>/pbem-teams</code></td></tr>
+                <tr class="wiki-entry"><td>List games or inspect a game</td><td><code>/pbem-list</code>, <code>/pbem-status</code></td></tr>
+                <tr class="wiki-entry"><td>Start a rematch</td><td><code>/pbem-rematch</code></td></tr>
+                <tr class="wiki-entry"><td>Set a game's reminder delay</td><td><code>/pbem-reminders</code></td></tr>
+                <tr class="wiki-entry"><td>Set scheduled delivery or quiet hours</td><td><code>/pbem-notify</code></td></tr>
+                <tr class="wiki-entry"><td>Send an immediate pending-player ping</td><td><code>/pbem-remind</code></td></tr>
+                <tr class="wiki-entry"><td>Mark a player away or back</td><td><code>/pbem-away</code>, <code>/pbem-back</code>, or the board's grey back button</td></tr>
+                <tr class="wiki-entry"><td>Record a winner and archive a game</td><td><code>/pbem-gameover</code></td></tr>
+                <tr class="wiki-entry"><td>Delete one game or all server games</td><td><code>/pbem-delete</code>, <code>/pbem-delete-all</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
         <section class="wiki-section" id="getting-started">
           <h2>Getting started</h2>
           <div class="wiki-topic">
@@ -360,28 +383,6 @@
           </div>
         </section>
 
-        <section class="wiki-section" id="quick-reference">
-          <h2>Quick reference</h2>
-          <div class="wiki-table-wrap">
-            <table>
-              <thead><tr><th scope="col">What you want to do</th><th scope="col">Command</th></tr></thead>
-              <tbody>
-                <tr class="wiki-entry"><td>Start a database-backed game</td><td><code>/pbem</code></td></tr>
-                <tr class="wiki-entry"><td>Start a board without database storage</td><td><code>/pbem-nodb</code></td></tr>
-                <tr class="wiki-entry"><td>Add/remove individual players</td><td><code>/pbem-players</code></td></tr>
-                <tr class="wiki-entry"><td>Add/remove shared teams</td><td><code>/pbem-teams</code></td></tr>
-                <tr class="wiki-entry"><td>List games or inspect a game</td><td><code>/pbem-list</code>, <code>/pbem-status</code></td></tr>
-                <tr class="wiki-entry"><td>Start a rematch</td><td><code>/pbem-rematch</code></td></tr>
-                <tr class="wiki-entry"><td>Set a game's reminder delay</td><td><code>/pbem-reminders</code></td></tr>
-                <tr class="wiki-entry"><td>Set scheduled delivery or quiet hours</td><td><code>/pbem-notify</code></td></tr>
-                <tr class="wiki-entry"><td>Send an immediate pending-player ping</td><td><code>/pbem-remind</code></td></tr>
-                <tr class="wiki-entry"><td>Mark a player away or back</td><td><code>/pbem-away</code>, <code>/pbem-back</code>, or the board's grey back button</td></tr>
-                <tr class="wiki-entry"><td>Record a winner and archive a game</td><td><code>/pbem-gameover</code></td></tr>
-                <tr class="wiki-entry"><td>Delete one game or all server games</td><td><code>/pbem-delete</code>, <code>/pbem-delete-all</code></td></tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
       </div>
     </div>
   </main>
