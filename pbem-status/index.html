@@ -4,495 +4,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Read-only status for active play-by-email games.">
+  <meta name="description" content="Active and historical stats for play-by-email games.">
   <meta name="color-scheme" content="light dark">
   <title>PBEM Status</title>
-  <style>
-    :root {
-      color-scheme: light;
-      --bg: #f2f4f1;
-      --card: #fff;
-      --ink: #1d2925;
-      --mute: #52625b;
-      --line: #d9e0db;
-      --accent: #216b54;
-      --accent-soft: #e2efe9;
-      --pending: #9a5d16;
-      --pending-soft: #fff0d9;
-      --done: #39704e;
-      --warn: #a2480f;
-      --warn-soft: #ffe3cf;
-      --late: #a63e3e;
-      --late-soft: #fde1de;
-      --done-soft: #e6f3e8;
-      --error: #a63e3e;
-      --error-soft: #fde9e7;
-      --shadow: 0 8px 26px rgb(23 41 33 / 6%);
-    }
-
-    @media (prefers-color-scheme: dark) {
-      :root {
-        color-scheme: dark;
-        --bg: #111a17;
-        --card: #1a2621;
-        --ink: #e7eee9;
-        --mute: #b6c4bb;
-        --line: #304139;
-        --accent: #75c4a0;
-        --accent-soft: #223b30;
-        --pending: #f0bf75;
-        --pending-soft: #49351e;
-        --done: #8bd19b;
-        --warn: #ffb17a;
-        --warn-soft: #4f3020;
-        --late: #ff9a90;
-        --late-soft: #5a2a27;
-        --done-soft: #243d2b;
-        --error: #ff9a90;
-        --error-soft: #492927;
-        --shadow: 0 8px 26px rgb(0 0 0 / 12%);
-      }
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      min-width: 20rem;
-      margin: 0;
-      padding: 2rem 1rem 4rem;
-      background: var(--bg);
-      color: var(--ink);
-      font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
-    }
-
-    main {
-      max-width: 62rem;
-      margin: 0 auto;
-    }
-
-    header {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-    }
-
-    h1 {
-      margin: 0;
-      font: 700 clamp(2.2rem, 7vw, 3.6rem)/1.05 Georgia, "Times New Roman", serif;
-      letter-spacing: -.025em;
-    }
-
-    h2,
-    h3,
-    p {
-      margin-top: 0;
-    }
-
-    .subtitle {
-      margin: .55rem 0 0;
-      color: var(--mute);
-    }
-
-    .notebook-home {
-      display: inline-flex;
-      align-items: center;
-      min-height: 2.5rem;
-      margin-bottom: 1rem;
-      padding: .4rem .8rem;
-      border: 1px solid var(--line);
-      border-radius: .55rem;
-      background: var(--card);
-      color: var(--ink);
-      text-decoration: none;
-    }
-
-    .notebook-home:hover {
-      border-color: var(--accent);
-    }
-
-    .notebook-home:focus-visible {
-      outline: 2px solid var(--accent);
-      outline-offset: 2px;
-    }
-
-    .header-tools {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: .65rem;
-    }
-
-    .health {
-      display: inline-flex;
-      align-items: center;
-      gap: .5rem;
-      padding: .4rem .7rem;
-      border: 1px solid var(--line);
-      border-radius: 99px;
-      background: var(--card);
-      color: var(--mute);
-      font-size: .88rem;
-      white-space: nowrap;
-    }
-
-    .health::before {
-      width: .55rem;
-      height: .55rem;
-      border-radius: 50%;
-      background: currentColor;
-      content: "";
-    }
-
-    .health[data-state="healthy"] {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-
-    .health[data-state="unhealthy"] {
-      border-color: var(--error);
-      color: var(--error);
-    }
-
-    button,
-    input {
-      font: inherit;
-    }
-
-    button {
-      padding: .45rem .8rem;
-      border: 1px solid var(--line);
-      border-radius: .55rem;
-      background: var(--card);
-      color: var(--ink);
-      cursor: pointer;
-    }
-
-    button:hover {
-      border-color: var(--accent);
-    }
-
-    button:focus-visible,
-    input:focus-visible {
-      outline: 2px solid var(--accent);
-      outline-offset: 2px;
-    }
-
-    button:disabled {
-      cursor: wait;
-      opacity: .65;
-    }
-
-    .summary {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: .75rem;
-      margin-bottom: 1.25rem;
-    }
-
-    .metric {
-      padding: 1rem;
-      border: 1px solid var(--line);
-      border-radius: .8rem;
-      background: var(--card);
-      box-shadow: var(--shadow);
-    }
-
-    .metric strong {
-      display: block;
-      font: 700 1.8rem/1.1 Georgia, "Times New Roman", serif;
-    }
-
-    .metric span {
-      color: var(--mute);
-      font-size: .9rem;
-    }
-
-    .filters {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: .75rem;
-      margin-bottom: 1rem;
-    }
-
-    .filters input {
-      flex: 1 1 15rem;
-      min-width: 0;
-      padding: .65rem .8rem;
-      border: 1px solid var(--line);
-      border-radius: .55rem;
-      background: var(--card);
-      color: var(--ink);
-    }
-
-    #updated {
-      margin: 0;
-      color: var(--mute);
-      font-size: .85rem;
-    }
-
-    #games {
-      display: grid;
-      gap: .9rem;
-    }
-
-    .server-group {
-      display: block;
-    }
-
-    .server-summary {
-      display: flex;
-      align-items: center;
-      gap: .55rem;
-      margin: .55rem 0 .7rem;
-      padding-bottom: .4rem;
-      border-bottom: 1px solid var(--line);
-      cursor: pointer;
-      list-style: none;
-    }
-
-    .server-summary::-webkit-details-marker {
-      display: none;
-    }
-
-    .server-summary::before {
-      flex: none;
-      width: .5rem;
-      height: .5rem;
-      border-right: 2px solid var(--mute);
-      border-bottom: 2px solid var(--mute);
-      content: "";
-      transform: rotate(45deg) translateY(-2px);
-    }
-
-    .server-group:not([open]) .server-summary::before {
-      transform: rotate(-45deg);
-    }
-
-    .server-summary:focus-visible {
-      outline: 2px solid var(--accent);
-      outline-offset: 2px;
-    }
-
-    .server-heading {
-      margin: 0;
-      font: 700 1.35rem/1.2 Georgia, "Times New Roman", serif;
-      overflow-wrap: anywhere;
-    }
-
-    .server-count {
-      margin-left: auto;
-      color: var(--mute);
-      font-size: .85rem;
-      white-space: nowrap;
-    }
-
-    .server-games {
-      display: grid;
-      gap: .7rem;
-    }
-
-    .game {
-      padding: 1.1rem;
-      border: 1px solid var(--line);
-      border-radius: .85rem;
-      background: var(--card);
-      box-shadow: var(--shadow);
-    }
-
-    .game-heading {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: .6rem 1rem;
-      margin-bottom: .85rem;
-    }
-
-    .game h2 {
-      margin: 0;
-      overflow-wrap: anywhere;
-      font: 700 1.45rem/1.2 Georgia, "Times New Roman", serif;
-    }
-
-    .badges {
-      display: flex;
-      flex-wrap: wrap;
-      gap: .35rem;
-    }
-
-    .badge,
-    .player-state {
-      display: inline-block;
-      padding: .18rem .58rem;
-      border-radius: 99px;
-      background: var(--accent-soft);
-      color: var(--accent);
-      font-size: .78rem;
-      font-weight: 650;
-      white-space: nowrap;
-    }
-
-    .badge[data-kind="away"] {
-      background: var(--warn-soft);
-      color: var(--warn);
-    }
-
-    .stats {
-      display: flex;
-      flex-wrap: wrap;
-      gap: .5rem 1.2rem;
-      margin: 0 0 .85rem;
-      color: var(--mute);
-      font-size: .9rem;
-    }
-
-    .stats strong {
-      color: var(--ink);
-      font-weight: 650;
-    }
-
-    .players {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
-      gap: .45rem;
-      margin: 0;
-      padding: 0;
-      list-style: none;
-    }
-
-    .player {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: .65rem;
-      min-width: 0;
-      padding: .55rem .65rem;
-      border: 1px solid var(--line);
-      border-radius: .55rem;
-    }
-
-    .player-name {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .player-info {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-      gap: .35rem;
-      align-items: center;
-      text-align: right;
-    }
-
-    .player-state[data-state="pending"] {
-      background: var(--pending-soft);
-      color: var(--pending);
-    }
-
-    .player-state[data-state="done"] {
-      background: var(--done-soft);
-      color: var(--done);
-    }
-
-    .elapsed {
-      color: var(--mute);
-      font-size: .78rem;
-      white-space: nowrap;
-    }
-
-    .message {
-      padding: 1.25rem;
-      border: 1px dashed var(--line);
-      border-radius: .8rem;
-      color: var(--mute);
-      text-align: center;
-    }
-
-    .message[data-kind="error"] {
-      border-color: var(--error);
-      background: var(--error-soft);
-      color: var(--error);
-    }
-
-    .disclosure {
-      margin: 1.25rem 0 0;
-      color: var(--mute);
-      font-size: .82rem;
-    }
-
-    .progress {
-      height: .4rem;
-      margin: 0 0 .85rem;
-      overflow: hidden;
-      border-radius: 99px;
-      background: var(--line);
-    }
-
-    .progress > span {
-      display: block;
-      height: 100%;
-      background: var(--done);
-    }
-
-    .player-info[data-stall="warn"] .player-state {
-      background: var(--warn-soft);
-      color: var(--warn);
-    }
-
-    .player-info[data-stall="late"] .player-state {
-      background: var(--late-soft);
-      color: var(--late);
-    }
-
-    .player-info[data-stall="warn"] .elapsed {
-      color: var(--warn);
-    }
-
-    .player-info[data-stall="late"] .elapsed {
-      color: var(--late);
-      font-weight: 650;
-    }
-
-    .overdue {
-      color: var(--late);
-      font-size: .78rem;
-      font-weight: 650;
-    }
-
-    .player-info:not([data-stall="late"]) .overdue {
-      display: none;
-    }
-
-    @media (max-width: 34rem) {
-      body {
-        padding: 1.25rem .8rem 3rem;
-      }
-
-      .summary {
-        grid-template-columns: 1fr;
-      }
-
-      .metric {
-        display: flex;
-        align-items: baseline;
-        justify-content: space-between;
-        gap: 1rem;
-      }
-
-      .metric strong {
-        font-size: 1.45rem;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="app.css">
 </head>
 
 <body>
@@ -525,9 +40,46 @@
       <noscript><p class="message">This page needs JavaScript to load game status.</p></noscript>
     </section>
 
+    <section class="history" aria-labelledby="history-heading">
+      <h2 id="history-heading">Historical stats</h2>
+      <div class="summary history-summary" aria-label="Completed game summary">
+        <div class="metric"><strong id="completed-game-count">—</strong><span>completed games</span></div>
+        <div class="metric"><strong id="average-game-duration">—</strong><span>average game duration</span></div>
+      </div>
+      <div class="history-tables">
+        <section class="history-panel" aria-labelledby="server-stats-heading">
+          <h3 id="server-stats-heading">By server</h3>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th scope="col">Server</th><th scope="col">Games</th><th scope="col">Winning players</th><th scope="col">Wins by player</th></tr></thead>
+              <tbody id="server-stats"><tr><td colspan="4">Waiting for status data…</td></tr></tbody>
+            </table>
+          </div>
+        </section>
+        <section class="history-panel" aria-labelledby="player-stats-heading">
+          <h3 id="player-stats-heading">By player</h3>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th scope="col">Player</th><th scope="col">Games</th><th scope="col">Wins</th><th scope="col">Win rate</th><th scope="col">Turns</th><th scope="col">Avg. time / turn</th></tr></thead>
+              <tbody id="player-stats"><tr><td colspan="6">Waiting for status data…</td></tr></tbody>
+            </table>
+          </div>
+        </section>
+        <section class="history-panel history-games" aria-labelledby="completed-games-heading">
+          <h3 id="completed-games-heading">Completed games</h3>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th scope="col">Game</th><th scope="col">Server</th><th scope="col">Winner</th><th scope="col">Duration</th><th scope="col">Turns</th><th scope="col">Completed</th></tr></thead>
+              <tbody id="completed-games"><tr><td colspan="6">Waiting for status data…</td></tr></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </section>
+
     <p class="disclosure">This page is public and read-only. It shows active game names, Discord display names,
-      turn status, away status and pending time. Game and player identifiers, server/channel IDs and control actions are not
-      published here.</p>
+      turn status, away status and pending time, plus historical winners and aggregate turn statistics. Game and player
+      identifiers, server/channel IDs and control actions are not published here.</p>
   </main>
 
   <script src="config.js"></script>
@@ -549,6 +101,9 @@
     const search = document.getElementById("search");
     const collapsedServers = new Set();
     let games = [];
+    let completedGames = [];
+    let playerStats = [];
+    let totals = {};
     let lastUpdated = null;
 
     function setHealth(state, text) {
@@ -587,6 +142,18 @@
         dateStyle: "medium",
         timeStyle: "short",
       }).format(date);
+    }
+
+    function formatDurationMs(value) {
+      if (!Number.isFinite(value) || value < 0) return "Not recorded";
+      const seconds = Math.round(value / 1000);
+      if (seconds < 60) return `${seconds}s`;
+      const minutes = Math.floor(seconds / 60);
+      if (minutes < 60) return `${minutes}m ${seconds % 60}s`;
+      const hours = Math.floor(minutes / 60);
+      if (hours < 24) return `${hours}h ${minutes % 60}m`;
+      const days = Math.floor(hours / 24);
+      return `${days}d ${hours % 24}h`;
     }
 
     // "none" | "warn" | "late", measured against the game's reminder threshold.
@@ -783,6 +350,91 @@
       }
     }
 
+    function appendTableRow(body, values) {
+      const row = element("tr");
+      for (const value of values) row.append(element("td", "", value));
+      body.append(row);
+    }
+
+    function showEmptyTable(body, columns, message) {
+      const row = element("tr");
+      const cell = element("td", "", message);
+      cell.colSpan = columns;
+      row.append(cell);
+      body.replaceChildren(row);
+    }
+
+    function renderHistory() {
+      const servers = new Map();
+      for (const game of completedGames) {
+        const serverName = game.serverName || "Unavailable server";
+        if (!servers.has(serverName)) servers.set(serverName, { games: 0, winners: new Map() });
+        const server = servers.get(serverName);
+        server.games += 1;
+        if (game.winner) {
+          server.winners.set(game.winner, (server.winners.get(game.winner) || 0) + 1);
+        }
+      }
+
+      const serverBody = document.getElementById("server-stats");
+      const serverRows = [...servers.entries()].sort(([a], [b]) => a.localeCompare(b));
+      if (serverRows.length === 0) {
+        showEmptyTable(serverBody, 4, "No completed games yet.");
+      } else {
+        serverBody.replaceChildren();
+        for (const [serverName, server] of serverRows) {
+          const winnerSummary = [...server.winners.entries()]
+            .sort(([nameA, winsA], [nameB, winsB]) => winsB - winsA || nameA.localeCompare(nameB))
+            .map(([name, wins]) => `${name} (${wins})`)
+            .join(", ") || "No winner recorded";
+          appendTableRow(serverBody, [serverName, String(server.games), String(server.winners.size), winnerSummary]);
+        }
+      }
+
+      const playerBody = document.getElementById("player-stats");
+      if (playerStats.length === 0) {
+        showEmptyTable(playerBody, 6, "No player stats yet.");
+      } else {
+        playerBody.replaceChildren();
+        for (const player of playerStats) {
+          const played = Number.isFinite(player.gamesPlayed) ? player.gamesPlayed : 0;
+          const wins = Number.isFinite(player.wins) ? player.wins : 0;
+          const winRate = played > 0 ? `${Math.round((wins / played) * 100)}%` : "—";
+          appendTableRow(playerBody, [
+            player.username || "Unknown player",
+            String(played),
+            String(wins),
+            winRate,
+            String(Number.isFinite(player.completedTurns) ? player.completedTurns : 0),
+            formatDurationMs(player.averageTurnDurationMs),
+          ]);
+        }
+      }
+
+      const completedBody = document.getElementById("completed-games");
+      if (completedGames.length === 0) {
+        showEmptyTable(completedBody, 6, "No completed games yet.");
+      } else {
+        completedBody.replaceChildren();
+        for (const game of completedGames.slice().sort((a, b) => Date.parse(b.completedAt) - Date.parse(a.completedAt))) {
+          appendTableRow(completedBody, [
+            game.name || "Unnamed game",
+            game.serverName || "Unavailable server",
+            game.winner || "Not recorded",
+            formatDurationMs(game.durationMs),
+            Number.isFinite(game.completedTurns) ? String(game.completedTurns) : "—",
+            formatDate(game.completedAt),
+          ]);
+        }
+      }
+
+      const completedCount = Number.isFinite(totals.completedGames)
+        ? totals.completedGames
+        : completedGames.length;
+      document.getElementById("completed-game-count").textContent = String(completedCount);
+      document.getElementById("average-game-duration").textContent = formatDurationMs(totals.averageGameDurationMs);
+    }
+
     // Fetch JSON with a hard timeout so a sleeping backend cannot hang the page.
     async function fetchJson(path) {
       const controller = new AbortController();
@@ -842,10 +494,14 @@
         if (!ok) throw new Error(`Status API returned ${status}`);
         if (!Array.isArray(body.games)) throw new Error("Status API returned an invalid response");
         games = body.games;
+        completedGames = Array.isArray(body.completedGames) ? body.completedGames : [];
+        playerStats = Array.isArray(body.playerStats) ? body.playerStats : [];
+        totals = body.totals && typeof body.totals === "object" ? body.totals : {};
         lastUpdated = body.generatedAt || new Date().toISOString();
         warning.hidden = true;
         setHealth("healthy", "Service healthy");
         render();
+        renderHistory();
       } catch (error) {
         failed = true;
         console.error("Could not load active game status:", error);

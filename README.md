@@ -16,7 +16,9 @@ Live site: <https://cbmullen-inc.github.io/public-notebook/>
   separate PBEM Discord bot service. `pbem-status/config.js` supplies that service's
   public Vercel origin. The dashboard groups games by server name and displays
   active game and player status, including whether automated reminders are on and
-  their pending-day threshold, but does not expose Discord IDs or provide controls.
+  their pending-day threshold. Its historical section summarizes completed games,
+  server wins, and player win rates and average turn times, without exposing Discord
+  IDs or providing controls. `pbem-status/app.css` contains its styles.
 - **`ear-training/`** — the installable saxophone listening-drills app, published
   under `/ear-training/`.
 
@@ -30,7 +32,8 @@ Live site: <https://cbmullen-inc.github.io/public-notebook/>
 │   └── board-games.css
 ├── ear-training/                 # installable saxophone drills
 ├── pbem-status/
-│   ├── index.html                # read-only active PBEM status dashboard
+│   ├── index.html                # read-only active and historical PBEM dashboard
+│   ├── app.css                   # PBEM dashboard styles
 │   └── config.js                 # PBEM bot's public Vercel origin
 └── .github/workflows/
     └── deploy-site.yml           # publishes all pages in one serialized deployment
@@ -50,7 +53,7 @@ deployment avoids competing pushes to `gh-pages`, and ensures each deployment
 contains all pages. The workflow also supports manual runs via **Run workflow** in
 the Actions tab.
 
-The deployment copies only the PBEM page and its runtime config; the local
+The deployment copies the PBEM page, stylesheet and runtime config; the local
 `pbem-status/TODO` file is not published. Set `window.PBEM_STATUS_API_BASE` in
 `pbem-status/config.js` to the production Vercel origin for `pbem-discord-bot`
 (for example, `https://your-project.vercel.app`, with no path). The helper API

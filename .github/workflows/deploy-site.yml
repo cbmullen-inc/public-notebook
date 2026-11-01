@@ -7,8 +7,7 @@ on:
       - 'index.html'
       - 'board-games/**'
       - 'ear-training/**'
-      - 'pbem-status/index.html'
-      - 'pbem-status/config.js'
+      - 'pbem-status/**'
       - '.github/workflows/deploy-site.yml'
   workflow_dispatch:
 
@@ -33,6 +32,7 @@ jobs:
           cp board-games/games.json _site/games.json
           cp -R ear-training/. _site/ear-training/
           cp pbem-status/index.html _site/pbem-status/index.html
+          cp pbem-status/app.css _site/pbem-status/app.css
           cp pbem-status/config.js _site/pbem-status/config.js
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v4
