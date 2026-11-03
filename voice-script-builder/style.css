@@ -1,0 +1,32 @@
+:root{--ink:#1d2528;--mute:#5d686c;--bg:#f2f4f3;--card:#fff;--line:#d5dbd9;--accent:#0f6b6b;--rec:#c0322a;--ok:#2f7d32}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 16px;background:var(--ink);color:#fff}
+.top h1{font-size:1.05rem;margin:0;font-weight:650;letter-spacing:.01em}
+#who{font-size:.85rem;opacity:.8}
+main{max-width:640px;margin:0 auto;padding:16px}
+h2{font-size:1.25rem;margin:.2rem 0 .8rem}
+h3{font-size:1.05rem;margin:0}
+.muted{color:var(--mute);font-size:.9rem}
+#note{max-width:640px;margin:12px auto 0;padding:10px 14px;background:#e3efe9;border-left:4px solid var(--accent)}
+#note.bad{background:#fbe7e5;border-left-color:var(--rec)}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:14px;margin:0 0 16px}
+.sec{border-left:6px solid var(--c,var(--line))}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+label{display:block;font-size:.9rem;margin:8px 0 2px;color:var(--mute)}
+input,select{width:100%;min-height:44px;padding:8px 10px;font:inherit;border:1px solid var(--line);border-radius:4px;background:#fff}
+button{min-height:44px;padding:8px 16px;font:inherit;font-weight:600;border:1px solid var(--ink);border-radius:4px;background:#fff;color:var(--ink);cursor:pointer}
+button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+button.rec{background:var(--rec);border-color:var(--rec);color:#fff}
+button.link{border:0;background:none;text-decoration:underline;min-height:36px;padding:4px 8px}
+button:disabled{opacity:.5;cursor:wait}
+:focus-visible{outline:3px solid #f5b400;outline-offset:2px}
+.tag{font-size:.8rem;padding:2px 8px;border-radius:10px;border:1px solid var(--line)}
+.tag.done{color:var(--ok);border-color:var(--ok)}
+.dot{display:inline-block;width:.8em;height:.8em;border-radius:50%;margin-right:6px;background:var(--c)}
+.clock{font-variant-numeric:tabular-nums;font-weight:700;color:var(--rec)}
+audio{width:100%;margin-top:8px}
+.code{font:700 1.4rem ui-monospace,Menlo,monospace;letter-spacing:.12em}
+ul{padding:0;margin:0;list-style:none}
+li{padding:6px 0}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}

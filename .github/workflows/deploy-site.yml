@@ -8,6 +8,7 @@ on:
       - 'board-games/**'
       - 'ear-training/**'
       - 'pbem-status/**'
+      - 'voice-script-builder/**'
       - '.github/workflows/deploy-site.yml'
   workflow_dispatch:
 
@@ -25,7 +26,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Prepare notebook pages
         run: |
-          mkdir -p _site/ear-training _site/pbem-status
+          mkdir -p _site/ear-training _site/pbem-status _site/voice-script-builder
           cp index.html _site/index.html
           cp board-games/board-games.html _site/board-games.html
           cp board-games/board-games.css _site/board-games.css
@@ -35,6 +36,7 @@ jobs:
           cp pbem-status/app.css _site/pbem-status/app.css
           cp pbem-status/config.js _site/pbem-status/config.js
           cp pbem-status/user-guide.html _site/pbem-status/user-guide.html
+          cp voice-script-builder/index.html voice-script-builder/style.css voice-script-builder/app.js voice-script-builder/config.js _site/voice-script-builder/
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v4
         with:
