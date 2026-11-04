@@ -80,7 +80,7 @@ async function renderHome() {
   <div class="actions"><button class="primary">Join project</button></div></form></div>`;
 }
 
-let mineOnly = null, statusTab = "todo", summaryEdit = false, summary = { items: [] }, playRun = null;
+let mineOnly = null, statusTab = "todo", summaryEdit = false, peopleOpen = false, summary = { items: [] }, playRun = null;
 const svg = inner => `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${inner}</svg>`;
 const ICON_DONE = svg('<circle cx="12" cy="12" r="10"/><path d="M8 12.5l3 3 5-6"/>');
 const ICON_PENDING = svg('<circle cx="12" cy="12" r="10"/><path d="M12 7v5l3 2"/>');
@@ -156,6 +156,15 @@ async function sectionCount(pid) {   // real sections only, so pauses don't affe
   const { count, error } = await db.from("sections").select("id", { count: "exact", head: true }).eq("project_id", pid).eq("kind", "section");
   if (error) throw error; return count ?? 0;
 }
+function setPeople(open) {
+  peopleOpen = open;
+  $("#drawer")?.classList.toggle("open", open); $("#drawer-back, .drawer-back")?.classList.toggle("open", open);
+  const d = $("#drawer"); if (d) d.inert = !open;
+  const b = $("#people-btn"); if (b) b.setAttribute("aria-expanded", open);
+  if (open) d?.querySelector("button")?.focus(); else b?.focus();
+}
+document.addEventListener("keydown", e => { if (e.key === "Escape" && peopleOpen) setPeople(false); });
+
 async function nextPos(pid) {
   const r = must(await db.from("sections").select("position").eq("project_id", pid).order("position", { ascending: false }).limit(1));
   return r.length ? r[0].position + 1 : 0;
@@ -167,7 +176,7 @@ async function drawInvites(id) {
 }
 
 async function renderProject(id) {
-  if (currentProject !== id) { mineOnly = null; statusTab = "todo"; summaryEdit = false; }
+  if (currentProject !== id) { mineOnly = null; statusTab = "todo"; summaryEdit = false; peopleOpen = false; }
   stopPlay();
   currentProject = id; setUrl(id);
   const uid = (await db.auth.getUser()).data.user.id;
@@ -226,8 +235,11 @@ async function renderProject(id) {
   const inSummary = statusTab === "summary" && real.length > 0;
 
   view.innerHTML = `<button class="link" data-act="home">‹ All projects</button>
-  <h2>${esc(p.name)}</h2><p class="muted">${done} of ${real.length} sections recorded</p>
-  <div class="panel"><h3>People</h3><ul>${members.map(m => `<li><span class="dot" style="--c:${m.color}"></span>${esc(m.display_name)} <span class="muted">${m.role}</span>
+  <div class="row"><h2>${esc(p.name)}</h2><button id="people-btn" data-act="people" aria-expanded="${peopleOpen}" aria-controls="drawer">People (${members.length})</button></div>
+  <p class="muted">${done} of ${real.length} sections recorded</p>
+  <div class="drawer-back ${peopleOpen ? "open" : ""}" data-act="people-close"></div>
+  <aside id="drawer" class="drawer ${peopleOpen ? "open" : ""}" aria-label="People" ${peopleOpen ? "" : "inert"}>
+  <div class="row"><h3>People</h3><button data-act="people-close" aria-label="Close people panel">✕</button></div><ul>${members.map(m => `<li><span class="dot" style="--c:${m.color}"></span>${esc(m.display_name)} <span class="muted">${m.role}</span>
     ${owner && m.role === "cast" ? `<button class="link" data-act="remove" data-id="${m.id}" data-name="${esc(m.display_name)}">Remove</button>` : ""}
     ${m.user_id === uid && m.role === "cast" ? `<button class="link" data-act="leave" data-id="${m.id}">Leave project</button>` : ""}</li>`).join("")}</ul>
   ${me ? `<details class="edit"><summary>Your name and color</summary><form data-form="profile" data-id="${me.id}">
@@ -237,7 +249,7 @@ async function renderProject(id) {
   ${owner ? `<details class="edit"><summary>Invite codes</summary>
     <label>Code is valid for<select id="inv-hours"><option value="24">1 day</option><option value="168" selected>7 days</option><option value="720">30 days</option></select></label>
     <div class="actions"><button data-act="invite" data-id="${id}">Create invite code</button></div><p id="invite-out"></p>
-    <p class="muted">Codes can't be shown again after you leave this screen. Revoke any you no longer need.</p><ul id="invite-list"></ul></details>` : ""}</div>
+    <p class="muted">Codes can't be shown again after you leave this screen. Revoke any you no longer need.</p><ul id="invite-list"></ul></details>` : ""}</aside>
   ${owner ? `<div class="panel"><h3>Script</h3><form data-form="import">
     <label>Paste your script, or load a .txt file<textarea id="script" name="text" rows="8" placeholder="Paste script here…"></textarea></label>
     <input type="file" accept=".txt,text/plain">
@@ -344,6 +356,8 @@ document.addEventListener("click", e => {
     }
     else if (act === "revoke") { must(await db.rpc("revoke_invite", { p_id: b.dataset.id })); await drawInvites(currentProject); }
     else if (act === "tab") { statusTab = b.dataset.v; await renderProject(currentProject); }
+    else if (act === "people") setPeople(!peopleOpen);
+    else if (act === "people-close") setPeople(false);
     else if (act === "playall") await playAll();
     else if (act === "playfrom") await playAll(b.dataset.id);
     else if (act === "stopplay") stopPlay();
