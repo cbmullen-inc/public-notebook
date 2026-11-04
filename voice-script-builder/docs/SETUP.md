@@ -6,7 +6,7 @@
    Leave "Allow new users to sign up" on.
 3. **SQL Editor:** paste and run `supabase/schema.sql` once. If it errors partway, tell me the message rather than re-running (tables aren't `if not exists`).
 4. **Keys:** in Project Settings → API:
-   - `SUPABASE_URL` = the **API URL** under Data API (looks like `https://abcdefgh.supabase.co`).
+   - `SUPABASE_URL` = the root address only, like `https://abcdefgh.supabase.co`. If the Data API page shows it with `/rest/v1` on the end, delete that part.
    - `SUPABASE_ANON_KEY` = the **Publishable key** (`sb_publishable_...`) from the API Keys page. Legacy projects may show an `anon` key instead; that works too.
    - Never use the **Secret key** (`sb_secret_...`) or `service_role` key anywhere in this repository.
 5. **Try it locally:** `python3 -m http.server 8000` in this folder, then open `http://localhost:8000` (localhost allows the microphone; other hosts need HTTPS).
