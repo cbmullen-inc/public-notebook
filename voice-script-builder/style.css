@@ -34,3 +34,10 @@ li{padding:6px 0}
 .pw input{padding-right:52px}
 button.eye{position:absolute;right:2px;top:0;min-width:48px;height:100%;padding:0;border:0;background:none;display:flex;align-items:center;justify-content:center;color:var(--mute)}
 .panel.danger{border-color:var(--rec)}
+textarea{width:100%;padding:8px 10px;font:inherit;border:1px solid var(--line);border-radius:4px;background:#fff;resize:vertical}
+.script{white-space:pre-wrap;margin:8px 0;padding:10px 12px;border-radius:4px;background:color-mix(in srgb,var(--c) 12%,#fff);max-width:70ch}
+details.edit{margin-top:10px}
+details.edit summary{cursor:pointer;font-weight:600;min-height:44px;display:flex;align-items:center}
+button[aria-pressed="true"]{background:var(--ink);color:#fff}
+input[type=color]{padding:2px;width:80px}
+input[type=file]{min-height:0;border:0;padding:6px 0}

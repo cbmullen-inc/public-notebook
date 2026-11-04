@@ -59,40 +59,79 @@ async function renderHome() {
   <div class="actions"><button class="primary">Join project</button></div></form></div>`;
 }
 
+let mineOnly = null;
+async function nextPos(pid) {
+  const r = must(await db.from("sections").select("position").eq("project_id", pid).order("position", { ascending: false }).limit(1));
+  return r.length ? r[0].position + 1 : 0;
+}
+async function drawInvites(id) {
+  const el = $("#invite-list"); if (!el) return;
+  const rows = must(await db.rpc("list_invites", { p_project: id }));
+  el.innerHTML = rows.length ? rows.map(r => `<li class="row"><span class="muted">Unused code, expires ${esc(new Date(r.expires_at).toLocaleString([], { dateStyle: "medium", timeStyle: "short" }))}</span><button class="link" data-act="revoke" data-id="${r.id}">Revoke</button></li>`).join("") : `<li class="muted">No unused codes.</li>`;
+}
+
 async function renderProject(id) {
+  if (currentProject !== id) mineOnly = null;
   currentProject = id;
   const uid = (await db.auth.getUser()).data.user.id;
   const [p, members, sections, takes] = await Promise.all([
     db.from("projects").select("id,name").eq("id", id).single().then(must),
     db.from("members").select("id,user_id,role,display_name,color").eq("project_id", id).then(must),
-    db.from("sections").select("id,title,assignee_id").eq("project_id", id).order("position").then(must),
+    db.from("sections").select("id,position,title,body,assignee_id").eq("project_id", id).order("position").order("id").then(must),
     db.from("recordings").select("section_id,storage_path,duration_ms,uploader_id").eq("project_id", id).eq("is_current", true).then(must),
   ]);
   const me = members.find(m => m.user_id === uid), owner = me?.role === "owner";
+  if (mineOnly === null) mineOnly = !owner;
   const byId = Object.fromEntries(members.map(m => [m.id, m]));
   const take = Object.fromEntries(takes.map(t => [t.section_id, t]));
   const done = sections.filter(s => take[s.id]).length;
+  const shown = mineOnly ? sections.filter(s => s.assignee_id === me?.id) : sections;
+
+  const card = s => {
+    const a = byId[s.assignee_id], t = take[s.id], canRec = owner || a?.user_id === uid, i = sections.indexOf(s);
+    return `<article class="panel sec" data-sec="${s.id}" style="--c:${a?.color || "#d5dbd9"}">
+    <div class="row"><h3>${esc(s.title)}</h3><span class="tag ${t ? "done" : ""}">${t ? "Recorded" : "Not recorded"}</span></div>
+    <p class="muted">${a ? `<span class="dot" style="--c:${a.color}"></span>${esc(a.display_name)}` : "Not assigned"}</p>
+    ${s.body ? `<div class="script">${esc(s.body)}</div>` : ""}
+    ${owner ? `<label>Assigned to<select data-assign="${s.id}"><option value="">Nobody</option>${members.map(m => `<option value="${m.id}" ${m.id === s.assignee_id ? "selected" : ""}>${esc(m.display_name)}</option>`).join("")}</select></label>` : ""}
+    ${t ? `<div class="take"><button data-act="play" data-path="${esc(t.storage_path)}">Play current take (${clock(t.duration_ms)})</button>
+      ${owner || t.uploader_id === uid ? `<button class="link" data-act="deltake">Delete take</button>` : ""}<audio controls hidden></audio></div>` : ""}
+    ${canRec ? `<div data-rec data-has="${t ? 1 : 0}">${idleHTML(!!t)}</div>` : ""}
+    ${owner ? `<details class="edit"><summary>Edit section</summary><form data-form="editsec" data-id="${s.id}">
+      <label>Title<input name="title" value="${esc(s.title)}" maxlength="100" required></label>
+      <label>Script text<textarea name="body" rows="6" maxlength="20000">${esc(s.body)}</textarea></label>
+      <div class="actions"><button class="primary">Save changes</button>
+      <button type="button" data-act="up" ${i === 0 ? "disabled" : ""}>Move up</button><button type="button" data-act="down" ${i === sections.length - 1 ? "disabled" : ""}>Move down</button>
+      <button type="button" class="link" data-act="delsec">Delete section</button></div></form></details>` : ""}</article>`;
+  };
+
   view.innerHTML = `<button class="link" data-act="home">‹ All projects</button>
   <h2>${esc(p.name)}</h2><p class="muted">${done} of ${sections.length} sections recorded</p>
   <div class="panel"><h3>People</h3><ul>${members.map(m => `<li><span class="dot" style="--c:${m.color}"></span>${esc(m.display_name)} <span class="muted">${m.role}</span>
     ${owner && m.role === "cast" ? `<button class="link" data-act="remove" data-id="${m.id}" data-name="${esc(m.display_name)}">Remove</button>` : ""}
     ${m.user_id === uid && m.role === "cast" ? `<button class="link" data-act="leave" data-id="${m.id}">Leave project</button>` : ""}</li>`).join("")}</ul>
-  ${owner ? `<div class="actions"><button data-act="invite" data-id="${id}">Create invite code</button></div><p id="invite-out"></p>` : ""}</div>
-  ${sections.map(s => {
-    const a = byId[s.assignee_id], t = take[s.id], canRec = owner || a?.user_id === uid;
-    return `<article class="panel sec" data-sec="${s.id}" style="--c:${a?.color || "#d5dbd9"}">
-    <div class="row"><h3>${esc(s.title)}</h3><span class="tag ${t ? "done" : ""}">${t ? "Recorded" : "Not recorded"}</span></div>
-    ${owner ? `<label>Assigned to<select data-assign="${s.id}"><option value="">Nobody</option>${members.map(m => `<option value="${m.id}" ${m.id === s.assignee_id ? "selected" : ""}>${esc(m.display_name)}</option>`).join("")}</select></label>`
-            : `<p class="muted">Assigned to ${a ? esc(a.display_name) : "nobody"}</p>`}
-    ${t ? `<div class="take"><button data-act="play" data-path="${esc(t.storage_path)}">Play current take (${clock(t.duration_ms)})</button>
-      ${owner || t.uploader_id === uid ? `<button class="link" data-act="deltake">Delete take</button>` : ""}<audio controls hidden></audio></div>` : ""}
-    ${canRec ? `<div data-rec data-has="${t ? 1 : 0}">${idleHTML(!!t)}</div>` : ""}</article>`;
-  }).join("") || `<p class="muted">No sections yet.</p>`}
+  ${me ? `<details class="edit"><summary>Your name and color</summary><form data-form="profile" data-id="${me.id}">
+    <label>Name<input name="name" value="${esc(me.display_name)}" maxlength="50" required></label>
+    <label>Highlight color<input name="color" type="color" value="${esc(me.color)}"></label>
+    <div class="actions"><button class="primary">Save</button></div></form></details>` : ""}
+  ${owner ? `<details class="edit"><summary>Invite codes</summary>
+    <label>Code is valid for<select id="inv-hours"><option value="24">1 day</option><option value="168" selected>7 days</option><option value="720">30 days</option></select></label>
+    <div class="actions"><button data-act="invite" data-id="${id}">Create invite code</button></div><p id="invite-out"></p>
+    <p class="muted">Codes can't be shown again after you leave this screen. Revoke any you no longer need.</p><ul id="invite-list"></ul></details>` : ""}</div>
+  ${owner ? `<div class="panel"><h3>Script</h3><form data-form="import">
+    <label>Paste your script, or load a .txt file<textarea id="script" name="text" rows="8" placeholder="Paste script here…"></textarea></label>
+    <input type="file" accept=".txt,text/plain">
+    <p class="muted">Put the cursor where a new section should start and tap Insert split. Sections are cut at lines containing only ---</p>
+    <div class="actions"><button type="button" data-act="splitmark">Insert split</button><button class="primary">Create sections</button></div></form></div>` : ""}
+  ${sections.length && me ? `<div class="actions" role="group" aria-label="Which sections to show">
+    <button data-act="filter" data-v="mine" aria-pressed="${mineOnly}">My sections</button><button data-act="filter" data-v="all" aria-pressed="${!mineOnly}">All sections</button></div>` : ""}
+  ${shown.map(card).join("") || `<p class="muted">${mineOnly ? "No sections are assigned to you yet." : "No sections yet."}</p>`}
   ${owner ? `<div class="panel"><h3>Add a section</h3><form data-form="section"><label for="st">Title</label><input id="st" name="title" maxlength="100" required>
-  <div class="actions"><button class="primary">Add section</button></div></form></div>` : ""}
-  ${owner ? `<div class="panel danger"><h3>Delete this project</h3><p class="muted">Permanently deletes the sections and every recording, for everyone. This can't be undone.</p>
+  <div class="actions"><button class="primary">Add section</button></div></form></div>
+  <div class="panel danger"><h3>Delete this project</h3><p class="muted">Permanently deletes the sections and every recording, for everyone. This can't be undone.</p>
   <form data-form="delproject" data-name="${esc(p.name)}"><label for="dc">Type the project name to confirm</label><input id="dc" name="confirm" autocomplete="off" required>
   <div class="actions"><button class="rec">Delete project</button></div></form></div>` : ""}`;
+  if (owner) await drawInvites(id);
 }
 
 // ---------- Actions ----------
@@ -119,15 +158,30 @@ view.addEventListener("submit", e => {
     } else if (f.dataset.form === "delproject") {
       if (d.confirm.trim() !== f.dataset.name) throw new Error("That doesn't match the project name. Nothing was deleted.");
       await deleteProject(currentProject);
+    } else if (f.dataset.form === "import") {
+      const parts = d.text.split(/^[ \t]*---[ \t]*$/m).map(x => x.trim()).filter(Boolean);
+      if (!parts.length) throw new Error("Paste or load some script text first.");
+      const pos = await nextPos(currentProject);
+      must(await db.from("sections").insert(parts.map((body, i) => ({ project_id: currentProject, position: pos + i, title: `Section ${pos + i + 1}`, body }))));
+      await renderProject(currentProject); say(`${parts.length} section${parts.length > 1 ? "s" : ""} created. Rename them under Edit section.`);
+    } else if (f.dataset.form === "editsec") {
+      must(await db.from("sections").update({ title: d.title.trim(), body: d.body }).eq("id", f.dataset.id).select("id"));
+      await renderProject(currentProject); say("Section saved.");
+    } else if (f.dataset.form === "profile") {
+      must(await db.from("members").update({ display_name: d.name.trim(), color: d.color }).eq("id", f.dataset.id).select("id"));
+      await renderProject(currentProject); say("Saved.");
     } else if (f.dataset.form === "section") {
-      const { count } = await db.from("sections").select("id", { count: "exact", head: true }).eq("project_id", currentProject);
-      must(await db.from("sections").insert({ project_id: currentProject, title: d.title, position: count ?? 0 }));
+      must(await db.from("sections").insert({ project_id: currentProject, title: d.title.trim(), position: await nextPos(currentProject) }));
       await renderProject(currentProject);
     }
   });
 });
 
 view.addEventListener("change", e => {
+  if (e.target.type === "file") {
+    const file = e.target.files[0]; if (!file) return;
+    return guard(async () => { if (file.size > 200000) throw new Error("That file is too large for a script (200 KB max)."); $("#script").value = await file.text(); });
+  }
   const sid = e.target.dataset.assign; if (!sid) return;
   guard(async () => { must(await db.from("sections").update({ assignee_id: e.target.value || null }).eq("id", sid)); await renderProject(currentProject); });
 });
@@ -151,7 +205,22 @@ document.addEventListener("click", e => {
     else if (act === "signout") { cancelRec(); await db.auth.signOut(); }
     else if (act === "open") await renderProject(b.dataset.id);
     else if (act === "home") { cancelRec(); currentProject = null; await renderHome(); }
-    else if (act === "invite") { const c = must(await db.rpc("create_invite", { p_project: b.dataset.id })); $("#invite-out").innerHTML = `Share this code directly with one person (single use, valid 7 days):<br><span class="code">${esc(c)}</span>`; }
+    else if (act === "invite") {
+      const c = must(await db.rpc("create_invite", { p_project: b.dataset.id, p_hours: Number($("#inv-hours").value) }));
+      $("#invite-out").innerHTML = `Share this code directly with one person:<br><span class="code">${esc(c)}</span>`; await drawInvites(currentProject);
+    }
+    else if (act === "revoke") { must(await db.rpc("revoke_invite", { p_id: b.dataset.id })); await drawInvites(currentProject); }
+    else if (act === "filter") { mineOnly = b.dataset.v === "mine"; await renderProject(currentProject); }
+    else if (act === "splitmark") {
+      const t = $("#script"), i = t.selectionStart ?? t.value.length;
+      t.value = t.value.slice(0, i).replace(/[ \t]+$/, "") + "\n---\n" + t.value.slice(i).replace(/^\s+/, ""); t.focus();
+    }
+    else if (act === "up" || act === "down") await moveSection(sec, act === "up" ? -1 : 1);
+    else if (act === "delsec") {
+      if (!confirm("Delete this section and all of its recordings? This can't be undone.")) return;
+      await removeTakes(sec, true); must(await db.from("sections").delete().eq("id", sec));
+      await renderProject(currentProject); say("Section deleted.");
+    }
     else if (act === "play") {
       const url = must(await db.storage.from("recordings").createSignedUrl(b.dataset.path, 300)).signedUrl;
       const a = b.parentElement.querySelector("audio"); a.src = url; a.hidden = false; await a.play();
@@ -168,18 +237,24 @@ document.addEventListener("click", e => {
 });
 
 // ---------- Deleting ----------
-async function deleteTakes(sectionId) {
-  // Removes the current take and any older takes you're allowed to delete (owner: all; cast: their own).
+async function removeTakes(sectionId, allowEmpty = false) {
+  // Removes the section's takes you're allowed to delete (owner: all; cast: their own), audio first.
   const uid = (await db.auth.getUser()).data.user.id;
   let rows = must(await db.from("recordings").select("id,storage_path,uploader_id").eq("section_id", sectionId));
-  const owner = must(await db.rpc("is_owner", { pid: currentProject }));
-  if (!owner) rows = rows.filter(r => r.uploader_id === uid);
-  if (!rows.length) throw new Error("There's nothing here you can delete.");
+  if (!must(await db.rpc("is_owner", { pid: currentProject }))) rows = rows.filter(r => r.uploader_id === uid);
+  if (!rows.length) { if (allowEmpty) return; throw new Error("There's nothing here you can delete."); }
   const paths = rows.map(r => r.storage_path);
   const gone = must(await db.storage.from("recordings").remove(paths));
-  if (gone.length < paths.length) throw new Error("Couldn't delete all of the audio, so the take was kept. Try again.");
+  if (gone.length < paths.length) throw new Error("Couldn't delete all of the audio, so nothing was deleted. Try again.");
   must(await db.from("recordings").delete().in("id", rows.map(r => r.id)));
-  await renderProject(currentProject); say("Take deleted.");
+}
+async function deleteTakes(sectionId) { await removeTakes(sectionId); await renderProject(currentProject); say("Take deleted."); }
+async function moveSection(sid, dir) {
+  const rows = must(await db.from("sections").select("id,position").eq("project_id", currentProject).order("position").order("id"));
+  const i = rows.findIndex(r => r.id === sid), j = i + dir; if (i < 0 || j < 0 || j >= rows.length) return;
+  [rows[i], rows[j]] = [rows[j], rows[i]];
+  await Promise.all(rows.map((r, k) => r.position === k ? null : db.from("sections").update({ position: k }).eq("id", r.id).then(must)));
+  await renderProject(currentProject);
 }
 
 async function deleteProject(id) {
