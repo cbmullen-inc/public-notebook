@@ -22,15 +22,13 @@ const clock = ms => { const s = Math.floor(ms / 1000); return `${Math.floor(s / 
 
 // ---------- Routing ----------
 // The open project lives in the URL hash (#p-<id>) so refresh, back and bookmarks keep your place.
-const HASH_RE = /^#p-([0-9a-f-]{36})$/i;
-function setUrl(id) {
-  const want = id ? `#p-${id}` : "";
+const HASH_RE = /^#p-([0-9a-f-]{36})(?:\/(scripts|section-([0-9a-f-]{36})))?$/i;
+function setUrl(id, page = null) {
+  const want = id ? `#p-${id}${page ? `/${page}` : ""}` : "";
   if (location.hash !== want) history.pushState(null, "", location.pathname + location.search + want);
 }
 window.addEventListener("popstate", () => {
   cancelRec();
-  const m = location.hash.match(HASH_RE);
-  currentProject = m ? m[1].toLowerCase() : null;
   guard(route);
 });
 
@@ -39,9 +37,12 @@ async function route() {
   $("#who").innerHTML = session ? `${esc((session.user.email || "").split("@")[0])} <button class="link" data-act="signout" style="color:#fff">Sign out</button>` : "";
   if (!session) return renderAuth();
   const m = location.hash.match(HASH_RE);
-  if (!currentProject && m) currentProject = m[1].toLowerCase();
+  currentProject = m ? m[1].toLowerCase() : null;
   if (currentProject) {
-    try { return await renderProject(currentProject); }
+    try {
+      if (m[2] === "scripts") return await renderScripts(currentProject);
+      return await renderProject(currentProject, m[3]?.toLowerCase());
+    }
     catch (e) { console.error(e); currentProject = null; say("Couldn't open that project. It may have been deleted, or you may not be a member.", true); }
   }
   return renderHome();
@@ -178,10 +179,10 @@ async function drawInvites(id) {
   el.innerHTML = rows.length ? rows.map(r => `<li class="row"><span class="muted">Unused code, expires ${esc(new Date(r.expires_at).toLocaleString([], { dateStyle: "medium", timeStyle: "short" }))}</span><button class="link" data-act="revoke" data-id="${r.id}">Revoke</button></li>`).join("") : `<li class="muted">No unused codes.</li>`;
 }
 
-async function renderProject(id) {
+async function renderProject(id, sectionId = null) {
   if (currentProject !== id) { castFilter = null; statusFilter = "all"; page = 0; summaryEdit = false; peopleOpen = false; }
   stopPlay();
-  currentProject = id; setUrl(id);
+  currentProject = id; setUrl(id, sectionId ? `section-${sectionId}` : null);
   const uid = (await db.auth.getUser()).data.user.id;
   const [p, members, sections, takes] = await Promise.all([
     db.from("projects").select("id,name").eq("id", id).single().then(must),
@@ -196,6 +197,10 @@ async function renderProject(id) {
   const done = real.filter(s => take[s.id]).length;
   summary = { items: sections.map(s => s.kind === "pause" ? { id: s.id, kind: "pause", pause_ms: s.pause_ms } : { id: s.id, kind: "section", title: s.title, path: take[s.id]?.storage_path || null }) };
 
+  if (sectionId) {
+    castFilter = "all"; statusFilter = "all";
+    page = Math.floor(Math.max(0, sections.findIndex(s => s.id === sectionId)) / 10);
+  }
   if (castFilter === null) castFilter = owner ? "all" : (me?.id || "all");
   if (castFilter !== "all" && castFilter !== "none" && !byId[castFilter]) castFilter = "all";
   const filtering = castFilter !== "all" || statusFilter !== "all";
@@ -213,7 +218,7 @@ async function renderProject(id) {
          <button class="link" data-act="pup" data-id="${s.id}">Move up</button><button class="link" data-act="pdown" data-id="${s.id}">Move down</button><button class="link" data-act="delpause" data-id="${s.id}">Remove</button>`
       : `<span>${s.pause_ms / 1000} s</span>`}</div>${addBtn(s.id)}`;
     const a = byId[s.assignee_id], t = take[s.id], canRec = owner || a?.user_id === uid, i = real.indexOf(s);
-    return `<article class="sum-item" data-sec="${s.id}" data-item="${s.id}" style="--c:${a?.color || "#d5dbd9"}">
+    return `<article id="section-${s.id}" class="sum-item" data-sec="${s.id}" data-item="${s.id}" style="--c:${a?.color || "#d5dbd9"}">
       <div class="row"><span class="sum-title"><span class="ico ${t ? "done" : "pending"}">${t ? ICON_DONE : ICON_PENDING}<span class="sr">${t ? "Recorded" : "Pending"}</span></span> <strong>${esc(s.title)}</strong></span>
       <span class="muted">${a ? `<span class="dot" style="--c:${a.color}"></span>${esc(a.display_name)}` : "Unassigned"}</span></div>
       ${s.body ? `<div class="script">${esc(s.body)}</div>` : ""}
@@ -235,7 +240,7 @@ async function renderProject(id) {
   };
 
   view.innerHTML = `<button class="link" data-act="home">‹ All projects</button>
-  <div class="row"><h2>${esc(p.name)}</h2><button id="people-btn" data-act="people" aria-expanded="${peopleOpen}" aria-controls="drawer">People (${members.length})</button></div>
+  <div class="row"><h2>${esc(p.name)}</h2><div class="actions"><a class="button-link" href="#p-${id}/scripts" data-act="scripts">Scripts</a><button id="people-btn" data-act="people" aria-expanded="${peopleOpen}" aria-controls="drawer">People (${members.length})</button></div></div>
   <p class="muted">${done} of ${real.length} sections recorded</p>
   <div class="drawer-back ${peopleOpen ? "open" : ""}" data-act="people-close"></div>
   <aside id="drawer" class="drawer ${peopleOpen ? "open" : ""}" aria-label="People" ${peopleOpen ? "" : "inert"}>
@@ -260,19 +265,41 @@ async function renderProject(id) {
   ${page === 0 ? addBtn("start") : ""}
   ${pageItems.map(itemHTML).join("") || `<p class="muted">${real.length ? "No sections match these filters." : "No sections yet."}</p>`}
   ${pages > 1 ? `<div class="pager"><button data-act="page" data-v="-1" ${page === 0 ? "disabled" : ""}>‹ Previous</button><span class="muted">Page ${page + 1} of ${pages}</span><button data-act="page" data-v="1" ${page >= pages - 1 ? "disabled" : ""}>Next ›</button></div>` : ""}
-  ${owner ? `<details class="panel edit" ${real.length ? "" : "open"}><summary>Script tools</summary>
-    <h3>Import a script</h3><form data-form="import">
-    <label>Paste your script, or load a .txt file<textarea id="script" name="text" rows="8" placeholder="Paste script here…"></textarea></label>
-    <input type="file" accept=".txt,text/plain">
-    <p class="muted">Put the cursor where a new section should start and tap Insert split. Sections are cut at lines containing only ---</p>
-    <div class="actions"><button type="button" data-act="splitmark">Insert split</button><button class="primary">Create sections</button></div></form>
-    <h3>Add a section</h3><form data-form="section"><label for="st">Title (optional)</label><input id="st" name="title" maxlength="100" placeholder="Section name">
-    <label for="sb">Script text</label><textarea id="sb" name="body" rows="4" maxlength="20000" required></textarea>
-    <div class="actions"><button class="primary">Add section</button></div></form>
-    <div class="danger-box"><h3>Delete this project</h3><p class="muted">Permanently deletes the sections and every recording, for everyone. This can't be undone.</p>
+  ${owner ? `<details class="panel edit"><summary>Project settings</summary><div class="danger-box"><h3>Delete this project</h3><p class="muted">Permanently deletes the sections and every recording, for everyone. This can't be undone.</p>
     <form data-form="delproject" data-name="${esc(p.name)}"><label for="dc">Type the project name to confirm</label><input id="dc" name="confirm" autocomplete="off" required>
     <div class="actions"><button class="rec">Delete project</button></div></form></div></details>` : ""}`;
   if (owner) await drawInvites(id);
+  if (sectionId) document.getElementById(`section-${sectionId}`)?.scrollIntoView();
+}
+
+async function renderScripts(id) {
+  stopPlay();
+  currentProject = id; setUrl(id, "scripts");
+  const uid = (await db.auth.getUser()).data.user.id;
+  const [p, members, scripts, sections] = await Promise.all([
+    db.from("projects").select("id,name").eq("id", id).single().then(must),
+    db.from("members").select("id,user_id,role").eq("project_id", id).then(must),
+    db.from("scripts").select("id,title,source_name,source_text,created_at").eq("project_id", id).order("created_at").then(must),
+    db.from("sections").select("id,title,body,script_id,script_position").eq("project_id", id).not("script_id", "is", null).order("script_position").then(must),
+  ]);
+  const owner = members.some(m => m.user_id === uid && m.role === "owner");
+  const grouped = sections.reduce((out, s) => ((out[s.script_id] ||= []).push(s), out), {});
+  view.innerHTML = `<div class="row"><h2>${esc(p.name)} scripts</h2><a class="button-link" href="#p-${id}" data-act="open-project">‹ Record sections</a></div>
+  <p class="muted">Script sections show the current text; edits on the recording page appear here. The original import is kept for reference.</p>
+  ${owner ? `<div class="panel"><h3>Import a script</h3><form data-form="import">
+    <label for="script-title">Script name</label><input id="script-title" name="title" maxlength="100" value="Imported script" required>
+    <label for="script">Paste your script, or load a .txt file<textarea id="script" name="text" rows="8" placeholder="Paste script here…"></textarea></label>
+    <input type="hidden" name="source_name" value="Pasted text"><input type="file" accept=".txt,text/plain">
+    <p class="muted">Put the cursor where a new section should start and tap Insert split. Sections are cut at lines containing only ---</p>
+    <div class="actions"><button type="button" data-act="splitmark">Insert split</button><button class="primary">Save script and create sections</button></div></form></div>
+  <div class="panel"><h3>Add a section</h3><form data-form="section"><label for="st">Title (optional)</label><input id="st" name="title" maxlength="100" placeholder="Section name">
+    <label for="sb">Script text</label><textarea id="sb" name="body" rows="4" maxlength="20000" required></textarea>
+    <div class="actions"><button class="primary">Add section</button></div></form></div>` : ""}
+  ${scripts.length ? scripts.map(script => `<article class="panel"><h3>${esc(script.title)}</h3>
+    <p class="muted">${esc(script.source_name)} · Imported ${esc(new Date(script.created_at).toLocaleDateString())}</p>
+    ${(grouped[script.id] || []).length ? (grouped[script.id] || []).map(s => `<section class="script-part">
+      <h4><a href="#p-${id}/section-${s.id}" data-act="open-section">${esc(s.title)} ↗</a></h4><div class="script">${esc(s.body)}</div></section>`).join("") : `<p class="muted">No sections remain linked to this script.</p>`}
+    <details><summary>Original imported text</summary><pre class="source-text">${esc(script.source_text)}</pre></details></article>`).join("") : `<p class="muted">No imported scripts yet.</p>`}`;
 }
 
 // ---------- Actions ----------
@@ -302,9 +329,13 @@ view.addEventListener("submit", e => {
     } else if (f.dataset.form === "import") {
       const parts = d.text.split(/^[ \t]*---[ \t]*$/m).map(x => x.trim()).filter(Boolean);
       if (!parts.length) throw new Error("Paste or load some script text first.");
-      const pos = await nextPos(currentProject), n = await sectionCount(currentProject);
-      must(await db.from("sections").insert(parts.map((body, i) => ({ project_id: currentProject, position: pos + i, title: `Section ${n + i + 1}`, body }))));
-      await renderProject(currentProject); say(`${parts.length} section${parts.length > 1 ? "s" : ""} created. Rename them under Edit section.`);
+      if (new Blob([d.text]).size > 200000) throw new Error("That script is too large (200 KB max).");
+      if (parts.some(body => body.length > 20000)) throw new Error("Each section must be no more than 20,000 characters.");
+      must(await db.rpc("import_script", {
+        p_project: currentProject, p_title: d.title.trim(), p_source_name: d.source_name,
+        p_source_text: d.text, p_sections: parts,
+      }));
+      await renderScripts(currentProject); say(`${parts.length} section${parts.length > 1 ? "s" : ""} created and saved.`);
     } else if (f.dataset.form === "editsec" || f.dataset.form === "edittext") {
       if (rec) throw new Error("Finish or discard your recording first.");
       const id = f.dataset.id, newBody = d.body.trim();
@@ -335,7 +366,12 @@ view.addEventListener("submit", e => {
 view.addEventListener("change", e => {
   if (e.target.type === "file") {
     const file = e.target.files[0]; if (!file) return;
-    return guard(async () => { if (file.size > 200000) throw new Error("That file is too large for a script (200 KB max)."); $("#script").value = await file.text(); });
+    return guard(async () => {
+      if (file.size > 200000) throw new Error("That file is too large for a script (200 KB max).");
+      $("#script").value = await file.text();
+      $('input[name="source_name"]').value = file.name;
+      $("#script-title").value = file.name.replace(/\.txt$/i, "").slice(0, 100) || "Imported script";
+    });
   }
   if (e.target.dataset.filter) {
     const which = e.target.dataset.filter;
@@ -361,6 +397,10 @@ view.addEventListener("change", e => {
 document.addEventListener("click", e => {
   const b = e.target.closest("[data-act]"); if (!b) return;
   const act = b.dataset.act, sec = b.closest("[data-sec]")?.dataset.sec;
+  if (act === "scripts" || act === "open-project" || act === "open-section") {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    e.preventDefault();
+  }
   guard(async () => {
     if (act === "togglepw") {
       const i = b.parentElement.querySelector("input"), show = i.type === "password";
@@ -385,6 +425,9 @@ document.addEventListener("click", e => {
     else if (act === "people") setPeople(!peopleOpen);
     else if (act === "people-close") setPeople(false);
     else if (act === "page") { busy(); page = Math.max(0, page + Number(b.dataset.v)); await renderProject(currentProject); scrollTo(0, 0); }
+    else if (act === "scripts") { busy(); await renderScripts(currentProject); }
+    else if (act === "open-project") await renderProject(currentProject);
+    else if (act === "open-section") await renderProject(currentProject, b.hash.match(/section-([0-9a-f-]{36})$/i)[1].toLowerCase());
     else if (act === "playall") await playAll();
     else if (act === "playfrom") await playAll(b.dataset.id);
     else if (act === "stopplay") stopPlay();
