@@ -282,17 +282,40 @@ begin
   return sid;
 end $$;
 
+create function public.assign_sections(p_project uuid, p_member uuid, p_sections uuid[]) returns int
+language plpgsql security definer set search_path = '' as $$
+declare matched int; assigned int;
+begin
+  if not public.is_owner(p_project) then raise exception 'Only the project owner can assign sections'; end if;
+  if not exists (
+    select 1 from public.members where id = p_member and project_id = p_project and role = 'cast'
+  ) then raise exception 'Choose a cast member in this project'; end if;
+  if p_sections is null or cardinality(p_sections) = 0 or exists (
+    select 1 from unnest(p_sections) as selected(section_id) where section_id is null
+  ) then raise exception 'Select at least one section'; end if;
+  select count(*) into matched from public.sections
+  where project_id = p_project and kind = 'section' and id = any(p_sections);
+  if matched <> cardinality(p_sections) then raise exception 'One or more selected sections are invalid'; end if;
+
+  update public.sections set assignee_id = p_member
+  where project_id = p_project and kind = 'section' and id = any(p_sections);
+  get diagnostics assigned = row_count;
+  return assigned;
+end $$;
+
 revoke execute on function public.create_invite(uuid, int), public.list_invites(uuid), public.revoke_invite(uuid),
   public.redeem_invite(text, text), public.save_take(uuid, text, text, int, int),
-  public.import_script(uuid, text, text, text, text[]) from public, anon;
+  public.import_script(uuid, text, text, text, text[]), public.assign_sections(uuid, uuid, uuid[]) from public, anon;
 grant execute on function public.create_invite(uuid, int), public.list_invites(uuid), public.revoke_invite(uuid),
   public.redeem_invite(text, text), public.save_take(uuid, text, text, int, int),
-  public.import_script(uuid, text, text, text, text[]) to authenticated;
+  public.import_script(uuid, text, text, text, text[]), public.assign_sections(uuid, uuid, uuid[]) to authenticated;
 
 create or replace function public.update_section_text(p_section uuid, p_body text) returns void
 language plpgsql security definer set search_path = '' as $$
 begin
-  if not public.can_record(p_section) then raise exception 'You cannot edit this section'; end if;
+  if not exists (
+    select 1 from public.sections where id = p_section and public.is_owner(project_id)
+  ) then raise exception 'Only the project owner can edit this section'; end if;
   if char_length(p_body) > 20000 then raise exception 'That text is too long'; end if;
   update public.sections set body = p_body where id = p_section;
   update public.recordings set is_current = false where section_id = p_section and is_current;

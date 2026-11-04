@@ -42,6 +42,12 @@ details.edit summary{cursor:pointer;font-weight:600;min-height:44px;display:flex
 button[aria-pressed="true"]{background:var(--ink);color:#fff}
 input[type=color]{padding:2px;width:80px}
 input[type=file]{min-height:0;border:0;padding:6px 0}
+input[type=checkbox]{width:24px;min-height:24px;accent-color:var(--accent)}
+.section-choices{max-height:360px;overflow-y:auto;margin-top:8px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.section-choice{display:flex;align-items:center;gap:10px;padding:8px 4px;margin:0;border-bottom:1px solid var(--line);color:var(--ink)}
+.section-choice:last-child{border-bottom:0}
+.section-choice span{display:flex;flex-direction:column}
+.section-choice small{color:var(--mute)}
 .summary{padding:6px 14px}
 .sum-item{border-left:6px solid var(--c);background:color-mix(in srgb,var(--c) 12%,#fff);padding:10px 12px;margin:8px 0;border-radius:4px}
 .sum-item .script{background:none;padding:6px 0;margin:0}

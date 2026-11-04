@@ -13,7 +13,6 @@ function toEmail(u) {
   if (!/^[a-z0-9_]{3,20}$/.test(u)) throw new Error("Usernames are 3 to 20 letters, numbers or underscores.");
   return `${u}@${EMAIL_DOMAIN}`;
 }
-
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 function say(msg, bad = false) { note.textContent = msg; note.className = bad ? "bad" : ""; note.hidden = !msg; }
 async function guard(fn) { try { say(""); await fn(); } catch (e) { say(e.message || String(e), true); console.error(e); } }
@@ -257,6 +256,7 @@ async function renderProject(id, sectionId = null) {
     db.from("recordings").select("section_id,storage_path,duration_ms,mime_type,uploader_id").eq("project_id", id).eq("is_current", true).then(must),
   ]);
   const me = members.find(m => m.user_id === uid), owner = me?.role === "owner";
+  const castMembers = members.filter(m => m.role === "cast");
   const byId = Object.fromEntries(members.map(m => [m.id, m]));
   const take = Object.fromEntries(takes.map(t => [t.section_id, t]));
   const real = sections.filter(s => s.kind === "section");
@@ -288,14 +288,9 @@ async function renderProject(id, sectionId = null) {
       <div class="row"><span class="sum-title"><span class="ico ${t ? "done" : "pending"}">${t ? ICON_DONE : ICON_PENDING}<span class="sr">${t ? "Recorded" : "Pending"}</span></span> <strong>${esc(s.title)}</strong></span>
       <span class="muted">${a ? `<span class="dot" style="--c:${a.color}"></span>${esc(a.display_name)}` : "Unassigned"}</span></div>
       ${s.body ? `<div class="script">${esc(s.body)}</div>` : ""}
-      ${owner ? `<label>Assigned to<select data-assign="${s.id}"><option value="">Nobody</option>${members.map(m => `<option value="${m.id}" ${m.id === s.assignee_id ? "selected" : ""}>${esc(m.display_name)}</option>`).join("")}</select></label>` : ""}
       ${t ? `<div class="take"><button data-act="play" data-path="${esc(t.storage_path)}" data-total="${clock(t.duration_ms)}" data-label="Play take (${clock(t.duration_ms)})">Play take (${clock(t.duration_ms)})</button>
         ${owner || t.uploader_id === uid ? `<button class="link" data-act="deltake">Delete take</button>` : ""}<audio hidden></audio></div>` : ""}
       ${canRec ? `<div data-rec data-has="${t ? 1 : 0}">${idleHTML(!!t)}</div>` : ""}
-      ${canRec && !owner ? `<details class="edit"><summary>Edit text</summary><form data-form="edittext" data-id="${s.id}">
-        <label>Script text<textarea name="body" rows="6" maxlength="20000" required>${esc(s.body)}</textarea></label>
-        <p class="muted">Changing the text deletes your current take for this section.</p>
-        <div class="actions"><button class="primary">Save text</button></div></form></details>` : ""}
       ${owner ? `<details class="edit"><summary>Edit section</summary><form data-form="editsec" data-id="${s.id}">
         <label>Title<input name="title" value="${esc(s.title)}" maxlength="100" required></label>
         <label>Script text<textarea name="body" rows="6" maxlength="20000">${esc(s.body)}</textarea></label>
@@ -308,6 +303,14 @@ async function renderProject(id, sectionId = null) {
   view.innerHTML = `<button class="link" data-act="home">‹ All projects</button>
   <div class="row"><h2>${esc(p.name)}</h2><div class="actions"><a class="button-link" href="#p-${id}/scripts" data-act="scripts">Scripts</a><button id="people-btn" data-act="people" aria-expanded="${peopleOpen}" aria-controls="drawer">People (${members.length})</button></div></div>
   <p class="muted">${done} of ${real.length} sections recorded</p>
+  ${owner && castMembers.length && real.length ? `<details class="panel edit"><summary>Assign sections to a cast member</summary>
+    <form data-form="assignsections">
+      <label for="assign-member">Cast member</label><select id="assign-member" name="member" required><option value="">Choose a cast member</option>${castMembers.map(m => `<option value="${m.id}">${esc(m.display_name)}</option>`).join("")}</select>
+      <p class="muted">Choose a member to select their current sections. Applying assigns checked sections; unselected sections stay unchanged.</p>
+      <div class="actions"><button type="button" class="link" data-act="selectsections" data-selected="all" disabled>Select all</button><button type="button" class="link" data-act="selectsections" data-selected="none" disabled>Clear selection</button></div>
+      <div class="section-choices">${real.map(s => `<label class="section-choice"><input type="checkbox" name="sections" value="${s.id}" data-assignment-section data-assignee="${s.assignee_id || ""}" disabled><span><strong>${esc(s.title)}</strong><small>Currently: ${esc(byId[s.assignee_id]?.display_name || "Unassigned")}</small></span></label>`).join("")}</div>
+      <div class="actions"><button class="primary">Apply assignment</button></div>
+    </form></details>` : ""}
   <div class="drawer-back ${peopleOpen ? "open" : ""}" data-act="people-close"></div>
   <aside id="drawer" class="drawer ${peopleOpen ? "open" : ""}" aria-label="People" ${peopleOpen ? "" : "inert"}>
   <div class="row"><h3>People</h3><button data-act="people-close" aria-label="Close people panel">✕</button></div><ul>${members.map(m => `<li><span class="dot" style="--c:${m.color}"></span>${esc(m.display_name)} <span class="muted">${m.role}</span>
@@ -403,7 +406,16 @@ view.addEventListener("submit", e => {
         p_source_text: d.text, p_sections: parts,
       }));
       await renderScripts(currentProject); say(`${parts.length} section${parts.length > 1 ? "s" : ""} created and saved.`);
-    } else if (f.dataset.form === "editsec" || f.dataset.form === "edittext") {
+    } else if (f.dataset.form === "assignsections") {
+      busy();
+      const selected = new FormData(f).getAll("sections");
+      if (!d.member) throw new Error("Choose a cast member first.");
+      if (!selected.length) throw new Error("Select at least one section.");
+      const count = must(await db.rpc("assign_sections", {
+        p_project: currentProject, p_member: d.member, p_sections: selected,
+      }));
+      await renderProject(currentProject); say(`${count} section${count === 1 ? "" : "s"} assigned.`);
+    } else if (f.dataset.form === "editsec") {
       if (rec) throw new Error("Finish or discard your recording first.");
       const id = f.dataset.id, newBody = d.body.trim();
       const cur = must(await db.from("sections").select("title,body").eq("id", id).single());
@@ -415,7 +427,7 @@ view.addEventListener("submit", e => {
         await removeTakes(id, true);                                           // audio first; stops here if a file can't be deleted
         must(await db.rpc("update_section_text", { p_section: id, p_body: newBody }));   // saves text and retires any take left over
       }
-      if (f.dataset.form === "editsec" && d.title.trim() !== cur.title)
+      if (d.title.trim() !== cur.title)
         must(await db.from("sections").update({ title: d.title.trim() }).eq("id", id).select("id"));
       await renderProject(currentProject);
       say(changed ? (had ? "Text saved. The take was deleted, so this section needs recording again." : "Text saved.") : "Section saved.");
@@ -440,6 +452,15 @@ view.addEventListener("change", e => {
       $("#script-title").value = file.name.replace(/\.txt$/i, "").slice(0, 100) || "Imported script";
     });
   }
+  if (e.target.id === "assign-member") {
+    const form = e.target.closest("form");
+    form.querySelectorAll("[data-assignment-section]").forEach(input => {
+      input.disabled = !e.target.value;
+      input.checked = !!e.target.value && input.dataset.assignee === e.target.value;
+    });
+    form.querySelectorAll("[data-act=selectsections]").forEach(button => { button.disabled = !e.target.value; });
+    return;
+  }
   if (e.target.dataset.filter) {
     const which = e.target.dataset.filter;
     return guard(async () => {
@@ -457,8 +478,6 @@ view.addEventListener("change", e => {
       say("Pause saved.");
     });
   }
-  const sid = e.target.dataset.assign; if (!sid) return;
-  guard(async () => { must(await db.from("sections").update({ assignee_id: e.target.value || null }).eq("id", sid)); await renderProject(currentProject); });
 });
 
 document.addEventListener("click", e => {
@@ -500,6 +519,10 @@ document.addEventListener("click", e => {
       b.disabled = true;
       try { await downloadAllTakes(b.dataset.projectName); }
       finally { if (b.isConnected) b.disabled = false; }
+    }
+    else if (act === "selectsections") {
+      const form = b.closest("form");
+      form.querySelectorAll("[data-assignment-section]").forEach(input => { input.checked = b.dataset.selected === "all"; });
     }
     else if (act === "playfrom") await playAll(b.dataset.id);
     else if (act === "stopplay") stopPlay();
