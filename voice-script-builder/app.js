@@ -218,8 +218,8 @@ async function renderProject(id) {
       <span class="muted">${a ? `<span class="dot" style="--c:${a.color}"></span>${esc(a.display_name)}` : "Unassigned"}</span></div>
       ${s.body ? `<div class="script">${esc(s.body)}</div>` : ""}
       ${owner ? `<label>Assigned to<select data-assign="${s.id}"><option value="">Nobody</option>${members.map(m => `<option value="${m.id}" ${m.id === s.assignee_id ? "selected" : ""}>${esc(m.display_name)}</option>`).join("")}</select></label>` : ""}
-      ${t ? `<div class="take"><button data-act="play" data-path="${esc(t.storage_path)}">Play take (${clock(t.duration_ms)})</button>
-        ${owner || t.uploader_id === uid ? `<button class="link" data-act="deltake">Delete take</button>` : ""}<audio controls hidden></audio></div>` : ""}
+      ${t ? `<div class="take"><button data-act="play" data-path="${esc(t.storage_path)}" data-total="${clock(t.duration_ms)}" data-label="Play take (${clock(t.duration_ms)})">Play take (${clock(t.duration_ms)})</button>
+        ${owner || t.uploader_id === uid ? `<button class="link" data-act="deltake">Delete take</button>` : ""}<audio hidden></audio></div>` : ""}
       ${canRec ? `<div data-rec data-has="${t ? 1 : 0}">${idleHTML(!!t)}</div>` : ""}
       ${owner ? `<details class="edit"><summary>Edit section</summary><form data-form="editsec" data-id="${s.id}">
         <label>Title<input name="title" value="${esc(s.title)}" maxlength="100" required></label>
@@ -386,8 +386,17 @@ document.addEventListener("click", e => {
     }
     else if (act === "play") {
       stopPlay();
-      const url = must(await db.storage.from("recordings").createSignedUrl(b.dataset.path, 300)).signedUrl;
-      const a = b.parentElement.querySelector("audio"); a.src = url; a.hidden = false; await a.play();
+      const a = b.parentElement.querySelector("audio");
+      document.querySelectorAll("audio").forEach(o => { if (o !== a) o.pause(); });
+      if (a.src && !a.paused) { a.pause(); return; }
+      if (!a.src) {
+        a.src = b.dataset.src || must(await db.storage.from("recordings").createSignedUrl(b.dataset.path, 300)).signedUrl;
+        const total = b.dataset.total, base = b.dataset.label;
+        a.ontimeupdate = () => { b.textContent = `Pause (${clock(a.currentTime * 1000)} of ${total})`; };
+        a.onpause = () => { if (!a.ended) b.textContent = `Resume (${clock(a.currentTime * 1000)} of ${total})`; };
+        a.onended = () => { a.currentTime = 0; b.textContent = base; };
+      }
+      await a.play();
     }
     else if (act === "deltake") {
       if (!confirm("Delete this take? The section goes back to Not recorded. This can't be undone.")) return;
@@ -434,7 +443,7 @@ const drawIdle = sid => { const p = panelFor(sid); if (p) p.innerHTML = idleHTML
 function drawPanel() {
   const p = panelFor(rec.sid); if (!p) return;
   p.innerHTML = rec.blob
-    ? `<audio controls src="${rec.url}"></audio><p class="muted">Take length ${clock(rec.durationMs)}. Listen, then save or discard.</p>
+    ? `<div class="take"><button data-act="play" data-src="${rec.url}" data-total="${clock(rec.durationMs)}" data-label="Play preview (${clock(rec.durationMs)})">Play preview (${clock(rec.durationMs)})</button><audio hidden></audio></div><p class="muted">Listen, then save or discard.</p>
        <div class="actions"><button class="primary" data-act="save">Save take</button><button data-act="discard">Discard</button></div>`
     : `<p><span class="clock" data-clock>0:00</span> recording…</p><div class="actions"><button class="rec" data-act="stop">Stop</button></div>`;
 }
