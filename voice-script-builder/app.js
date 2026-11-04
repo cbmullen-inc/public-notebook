@@ -229,15 +229,24 @@ async function startRec(sid) {
   }, 250);
   drawPanel();
 }
-function stopRec() { if (rec?.recorder.state === "recording") rec.recorder.stop(); }
-function finishRec() {
-  if (!rec || rec.blob) return;
-  clearInterval(rec.timer); rec.stream.getTracks().forEach(t => t.stop());
-  rec.durationMs = Date.now() - rec.t0;
-  const blob = new Blob(rec.chunks, { type: rec.mime.split(";")[0] });
-  if (!blob.size) { say("Nothing was recorded.", true); const s = rec.sid; rec = null; return drawIdle(s); }
-  if (blob.size > MAX_BYTES) { say(`That take is over the ${MAX_BYTES / 1048576} MB limit. Try a shorter take.`, true); const s = rec.sid; rec = null; return drawIdle(s); }
-  rec.blob = blob; rec.url = URL.createObjectURL(blob); drawPanel();
+function stopRec() {
+  if (rec?.recorder.state === "recording") { rec.stopAt ??= Date.now(); rec.recorder.stop(); }
+}
+async function finishRec() {
+  const r = rec; if (!r || r.blob) return;
+  clearInterval(r.timer); r.stream.getTracks().forEach(t => t.stop());
+  const fail = msg => { say(msg, true); rec = null; drawIdle(r.sid); };
+  const blob = new Blob(r.chunks, { type: r.mime.split(";")[0] });
+  if (!blob.size) return fail("Nothing was recorded.");
+  if (blob.size > MAX_BYTES) return fail(`That take is over the ${MAX_BYTES / 1048576} MB limit. Try a shorter take.`);
+  r.durationMs = (r.stopAt ?? Date.now()) - r.t0;         // timer estimate...
+  try {                                                     // ...replaced by the real audio length when the browser can decode it
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const buf = await ctx.decodeAudioData(await blob.arrayBuffer()); ctx.close();
+    if (buf.duration > 0) r.durationMs = Math.round(buf.duration * 1000);
+  } catch (e) { console.warn("Could not measure audio length; using timer", e); }
+  if (rec !== r) return;                                    // discarded while measuring
+  r.blob = blob; r.url = URL.createObjectURL(blob); drawPanel();
 }
 function cancelRec() {
   if (!rec) return;
