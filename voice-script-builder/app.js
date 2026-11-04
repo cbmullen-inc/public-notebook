@@ -80,7 +80,7 @@ async function renderHome() {
   <div class="actions"><button class="primary">Join project</button></div></form></div>`;
 }
 
-let mineOnly = null, statusTab = "todo", summaryEdit = false, peopleOpen = false, summary = { items: [] }, playRun = null;
+let castFilter = null, statusFilter = "all", page = 0, summaryEdit = false, peopleOpen = false, summary = { items: [] }, playRun = null;
 const svg = inner => `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${inner}</svg>`;
 const ICON_DONE = svg('<circle cx="12" cy="12" r="10"/><path d="M8 12.5l3 3 5-6"/>');
 const ICON_PENDING = svg('<circle cx="12" cy="12" r="10"/><path d="M12 7v5l3 2"/>');
@@ -109,6 +109,7 @@ function stopPlay() {
 async function playAll(startId) {
   stopPlay();
   const audio = $("#pa-audio");
+  document.querySelectorAll(".take audio").forEach(a => a.pause());
   audio.src = SILENT; audio.play().catch(() => {});      // unlock audio inside the tap (iOS Safari needs this)
   const items = summary.items, first = startId ? items.findIndex(i => i.id === startId) : 0;
   const todo = items.slice(first).filter(i => i.path);
@@ -165,6 +166,8 @@ function setPeople(open) {
 }
 document.addEventListener("keydown", e => { if (e.key === "Escape" && peopleOpen) setPeople(false); });
 
+function busy() { if (rec) throw new Error("Finish or discard your recording first."); }
+
 async function nextPos(pid) {
   const r = must(await db.from("sections").select("position").eq("project_id", pid).order("position", { ascending: false }).limit(1));
   return r.length ? r[0].position + 1 : 0;
@@ -176,7 +179,7 @@ async function drawInvites(id) {
 }
 
 async function renderProject(id) {
-  if (currentProject !== id) { mineOnly = null; statusTab = "todo"; summaryEdit = false; peopleOpen = false; }
+  if (currentProject !== id) { castFilter = null; statusFilter = "all"; page = 0; summaryEdit = false; peopleOpen = false; }
   stopPlay();
   currentProject = id; setUrl(id);
   const uid = (await db.auth.getUser()).data.user.id;
@@ -187,52 +190,44 @@ async function renderProject(id) {
     db.from("recordings").select("section_id,storage_path,duration_ms,uploader_id").eq("project_id", id).eq("is_current", true).then(must),
   ]);
   const me = members.find(m => m.user_id === uid), owner = me?.role === "owner";
-  if (mineOnly === null) mineOnly = !owner;
   const byId = Object.fromEntries(members.map(m => [m.id, m]));
   const take = Object.fromEntries(takes.map(t => [t.section_id, t]));
   const real = sections.filter(s => s.kind === "section");
   const done = real.filter(s => take[s.id]).length;
-  const pool = mineOnly ? real.filter(s => s.assignee_id === me?.id) : real;
-  const nDone = pool.filter(s => take[s.id]).length, nTodo = pool.length - nDone;
-  const shown = pool.filter(s => statusTab === "done" ? take[s.id] : !take[s.id]);
-
-  const card = s => {
-    const a = byId[s.assignee_id], t = take[s.id], canRec = owner || a?.user_id === uid, i = real.indexOf(s);
-    return `<article class="panel sec" data-sec="${s.id}" style="--c:${a?.color || "#d5dbd9"}">
-    <div class="row"><h3>${esc(s.title)}</h3><span class="tag ${t ? "done" : ""}">${t ? "Recorded" : "Not recorded"}</span></div>
-    <p class="muted">${a ? `<span class="dot" style="--c:${a.color}"></span>${esc(a.display_name)}` : "Not assigned"}</p>
-    ${s.body ? `<div class="script">${esc(s.body)}</div>` : ""}
-    ${owner ? `<label>Assigned to<select data-assign="${s.id}"><option value="">Nobody</option>${members.map(m => `<option value="${m.id}" ${m.id === s.assignee_id ? "selected" : ""}>${esc(m.display_name)}</option>`).join("")}</select></label>` : ""}
-    ${t ? `<div class="take"><button data-act="play" data-path="${esc(t.storage_path)}">Play current take (${clock(t.duration_ms)})</button>
-      ${owner || t.uploader_id === uid ? `<button class="link" data-act="deltake">Delete take</button>` : ""}<audio controls hidden></audio></div>` : ""}
-    ${canRec ? `<div data-rec data-has="${t ? 1 : 0}">${idleHTML(!!t)}</div>` : ""}
-    ${owner ? `<details class="edit"><summary>Edit section</summary><form data-form="editsec" data-id="${s.id}">
-      <label>Title<input name="title" value="${esc(s.title)}" maxlength="100" required></label>
-      <label>Script text<textarea name="body" rows="6" maxlength="20000">${esc(s.body)}</textarea></label>
-      <div class="actions"><button class="primary">Save changes</button>
-      <button type="button" data-act="up" ${i === 0 ? "disabled" : ""}>Move up</button><button type="button" data-act="down" ${i === real.length - 1 ? "disabled" : ""}>Move down</button>
-      <button type="button" class="link" data-act="delsec">Delete section</button></div></form></details>` : ""}</article>`;
-  };
-
   summary = { items: sections.map(s => s.kind === "pause" ? { id: s.id, kind: "pause", pause_ms: s.pause_ms } : { id: s.id, kind: "section", title: s.title, path: take[s.id]?.storage_path || null }) };
-  const addBtn = after => owner && summaryEdit ? `<div class="sum-add"><button class="link" data-act="addpause" data-after="${after}">＋ Add pause here</button></div>` : "";
-  const summaryHTML = () => `<div class="panel"><div class="row"><h3>Whole script</h3><span class="muted">${done} of ${real.length} recorded</span></div>
-    <div class="actions"><button class="primary" id="pa-go" data-act="playall">▶ Play all recorded</button><button id="pa-stop" data-act="stopplay" hidden>■ Stop</button>
-    ${owner ? `<button data-act="sumedit" aria-pressed="${summaryEdit}">Edit pauses</button>` : ""}</div>
-    <p id="pa-status" class="muted" role="status"></p><audio id="pa-audio" hidden></audio></div>
-    <div class="panel summary">${addBtn("start")}${sections.map(s => {
-      if (s.kind === "pause") return `<div class="sum-pause" data-item="${s.id}">${ICON_PAUSE}<span>Pause</span>${owner && summaryEdit
-        ? `<label class="inl">seconds <input type="number" min="0.1" max="60" step="0.1" value="${s.pause_ms / 1000}" data-pause="${s.id}"></label>
-           <button class="link" data-act="pup" data-id="${s.id}">Move up</button><button class="link" data-act="pdown" data-id="${s.id}">Move down</button><button class="link" data-act="delpause" data-id="${s.id}">Remove</button>`
-        : `<span>${s.pause_ms / 1000} s</span>`}</div>${addBtn(s.id)}`;
-      const a = byId[s.assignee_id], t = take[s.id];
-      return `<div class="sum-item" data-item="${s.id}" style="--c:${a?.color || "#d5dbd9"}">
-        <div class="row"><span class="sum-title"><span class="ico ${t ? "done" : "pending"}">${t ? ICON_DONE : ICON_PENDING}<span class="sr">${t ? "Recorded" : "Pending"}</span></span> <strong>${esc(s.title)}</strong></span>
-        <span class="muted">${a ? `<span class="dot" style="--c:${a.color}"></span>${esc(a.display_name)}` : "Unassigned"}</span></div>
-        ${s.body ? `<div class="script">${esc(s.body)}</div>` : ""}
-        ${t ? `<button class="link" data-act="playfrom" data-id="${s.id}">Play from here</button>` : ""}</div>${addBtn(s.id)}`;
-    }).join("")}</div>`;
-  const inSummary = statusTab === "summary" && real.length > 0;
+
+  if (castFilter === null) castFilter = owner ? "all" : (me?.id || "all");
+  if (castFilter !== "all" && castFilter !== "none" && !byId[castFilter]) castFilter = "all";
+  const filtering = castFilter !== "all" || statusFilter !== "all";
+  const list = !filtering ? sections : real.filter(s =>
+    (castFilter === "all" || (castFilter === "none" ? !s.assignee_id : s.assignee_id === castFilter)) &&
+    (statusFilter === "all" || (statusFilter === "pending" ? !take[s.id] : !!take[s.id])));
+  const PAGE = 10, pages = Math.max(1, Math.ceil(list.length / PAGE));
+  page = Math.min(page, pages - 1);
+  const pageItems = list.slice(page * PAGE, page * PAGE + PAGE);
+
+  const addBtn = after => owner && summaryEdit && !filtering ? `<div class="sum-add"><button class="link" data-act="addpause" data-after="${after}">＋ Add pause here</button></div>` : "";
+  const itemHTML = s => {
+    if (s.kind === "pause") return `<div class="sum-pause" data-item="${s.id}">${ICON_PAUSE}<span>Pause</span>${owner && summaryEdit
+      ? `<label class="inl">seconds <input type="number" min="0.1" max="60" step="0.1" value="${s.pause_ms / 1000}" data-pause="${s.id}"></label>
+         <button class="link" data-act="pup" data-id="${s.id}">Move up</button><button class="link" data-act="pdown" data-id="${s.id}">Move down</button><button class="link" data-act="delpause" data-id="${s.id}">Remove</button>`
+      : `<span>${s.pause_ms / 1000} s</span>`}</div>${addBtn(s.id)}`;
+    const a = byId[s.assignee_id], t = take[s.id], canRec = owner || a?.user_id === uid, i = real.indexOf(s);
+    return `<article class="sum-item" data-sec="${s.id}" data-item="${s.id}" style="--c:${a?.color || "#d5dbd9"}">
+      <div class="row"><span class="sum-title"><span class="ico ${t ? "done" : "pending"}">${t ? ICON_DONE : ICON_PENDING}<span class="sr">${t ? "Recorded" : "Pending"}</span></span> <strong>${esc(s.title)}</strong></span>
+      <span class="muted">${a ? `<span class="dot" style="--c:${a.color}"></span>${esc(a.display_name)}` : "Unassigned"}</span></div>
+      ${s.body ? `<div class="script">${esc(s.body)}</div>` : ""}
+      ${owner ? `<label>Assigned to<select data-assign="${s.id}"><option value="">Nobody</option>${members.map(m => `<option value="${m.id}" ${m.id === s.assignee_id ? "selected" : ""}>${esc(m.display_name)}</option>`).join("")}</select></label>` : ""}
+      ${t ? `<div class="take"><button data-act="play" data-path="${esc(t.storage_path)}">Play take (${clock(t.duration_ms)})</button>
+        ${owner || t.uploader_id === uid ? `<button class="link" data-act="deltake">Delete take</button>` : ""}<audio controls hidden></audio></div>` : ""}
+      ${canRec ? `<div data-rec data-has="${t ? 1 : 0}">${idleHTML(!!t)}</div>` : ""}
+      ${owner ? `<details class="edit"><summary>Edit section</summary><form data-form="editsec" data-id="${s.id}">
+        <label>Title<input name="title" value="${esc(s.title)}" maxlength="100" required></label>
+        <label>Script text<textarea name="body" rows="6" maxlength="20000">${esc(s.body)}</textarea></label>
+        <div class="actions"><button class="primary">Save changes</button>
+        <button type="button" data-act="up" ${i === 0 ? "disabled" : ""}>Move up</button><button type="button" data-act="down" ${i === real.length - 1 ? "disabled" : ""}>Move down</button>
+        <button type="button" class="link" data-act="delsec">Delete section</button></div></form></details>` : ""}</article>${addBtn(s.id)}`;
+  };
 
   view.innerHTML = `<button class="link" data-act="home">‹ All projects</button>
   <div class="row"><h2>${esc(p.name)}</h2><button id="people-btn" data-act="people" aria-expanded="${peopleOpen}" aria-controls="drawer">People (${members.length})</button></div>
@@ -250,22 +245,28 @@ async function renderProject(id) {
     <label>Code is valid for<select id="inv-hours"><option value="24">1 day</option><option value="168" selected>7 days</option><option value="720">30 days</option></select></label>
     <div class="actions"><button data-act="invite" data-id="${id}">Create invite code</button></div><p id="invite-out"></p>
     <p class="muted">Codes can't be shown again after you leave this screen. Revoke any you no longer need.</p><ul id="invite-list"></ul></details>` : ""}</aside>
-  ${owner ? `<div class="panel"><h3>Script</h3><form data-form="import">
+  <div class="panel"><div class="actions"><button class="primary" id="pa-go" data-act="playall">▶ Play all recorded</button><button id="pa-stop" data-act="stopplay" hidden>■ Stop</button>
+    ${owner ? `<button data-act="sumedit" aria-pressed="${summaryEdit}">Edit pauses</button>` : ""}</div>
+    <p id="pa-status" class="muted" role="status"></p><audio id="pa-audio" hidden></audio>
+    ${real.length ? `<div class="filters">
+      <label>Cast<select data-filter="cast"><option value="all">Everyone</option>${members.map(m => `<option value="${m.id}" ${castFilter === m.id ? "selected" : ""}>${esc(m.display_name)}</option>`).join("")}<option value="none" ${castFilter === "none" ? "selected" : ""}>Unassigned</option></select></label>
+      <label>Status<select data-filter="status"><option value="all">All</option><option value="pending" ${statusFilter === "pending" ? "selected" : ""}>Pending recording</option><option value="recorded" ${statusFilter === "recorded" ? "selected" : ""}>Recorded</option></select></label></div>` : ""}
+    ${owner && summaryEdit && filtering ? `<p class="muted">Clear the filters to add or move pauses.</p>` : ""}</div>
+  ${page === 0 ? addBtn("start") : ""}
+  ${pageItems.map(itemHTML).join("") || `<p class="muted">${real.length ? "No sections match these filters." : "No sections yet."}</p>`}
+  ${pages > 1 ? `<div class="pager"><button data-act="page" data-v="-1" ${page === 0 ? "disabled" : ""}>‹ Previous</button><span class="muted">Page ${page + 1} of ${pages}</span><button data-act="page" data-v="1" ${page >= pages - 1 ? "disabled" : ""}>Next ›</button></div>` : ""}
+  ${owner ? `<details class="panel edit" ${real.length ? "" : "open"}><summary>Script tools</summary>
+    <h3>Import a script</h3><form data-form="import">
     <label>Paste your script, or load a .txt file<textarea id="script" name="text" rows="8" placeholder="Paste script here…"></textarea></label>
     <input type="file" accept=".txt,text/plain">
     <p class="muted">Put the cursor where a new section should start and tap Insert split. Sections are cut at lines containing only ---</p>
-    <div class="actions"><button type="button" data-act="splitmark">Insert split</button><button class="primary">Create sections</button></div></form></div>` : ""}
-  ${real.length && me ? `<div class="actions" role="group" aria-label="View">
-    <button data-act="tab" data-v="todo" aria-pressed="${statusTab === "todo"}">To record (${nTodo})</button><button data-act="tab" data-v="done" aria-pressed="${statusTab === "done"}">Completed (${nDone})</button><button data-act="tab" data-v="summary" aria-pressed="${inSummary}">Summary</button></div>` : ""}
-  ${inSummary ? summaryHTML() : `${real.length && me ? `<div class="actions" role="group" aria-label="Which sections to show">
-    <button data-act="filter" data-v="mine" aria-pressed="${mineOnly}">My sections</button><button data-act="filter" data-v="all" aria-pressed="${!mineOnly}">All sections</button></div>` : ""}
-  ${shown.map(card).join("") || `<p class="muted">${!pool.length ? (mineOnly ? "No sections are assigned to you yet." : "No sections yet.") : statusTab === "done" ? "No completed sections yet." : "Everything here is recorded."}</p>`}`}
-  ${owner ? `<div class="panel"><h3>Add a section</h3><form data-form="section"><label for="st">Title (optional)</label><input id="st" name="title" maxlength="100" placeholder="Section name">
-  <label for="sb">Script text</label><textarea id="sb" name="body" rows="4" maxlength="20000" required></textarea>
-  <div class="actions"><button class="primary">Add section</button></div></form></div>
-  <div class="panel danger"><h3>Delete this project</h3><p class="muted">Permanently deletes the sections and every recording, for everyone. This can't be undone.</p>
-  <form data-form="delproject" data-name="${esc(p.name)}"><label for="dc">Type the project name to confirm</label><input id="dc" name="confirm" autocomplete="off" required>
-  <div class="actions"><button class="rec">Delete project</button></div></form></div>` : ""}`;
+    <div class="actions"><button type="button" data-act="splitmark">Insert split</button><button class="primary">Create sections</button></div></form>
+    <h3>Add a section</h3><form data-form="section"><label for="st">Title (optional)</label><input id="st" name="title" maxlength="100" placeholder="Section name">
+    <label for="sb">Script text</label><textarea id="sb" name="body" rows="4" maxlength="20000" required></textarea>
+    <div class="actions"><button class="primary">Add section</button></div></form>
+    <div class="danger-box"><h3>Delete this project</h3><p class="muted">Permanently deletes the sections and every recording, for everyone. This can't be undone.</p>
+    <form data-form="delproject" data-name="${esc(p.name)}"><label for="dc">Type the project name to confirm</label><input id="dc" name="confirm" autocomplete="off" required>
+    <div class="actions"><button class="rec">Delete project</button></div></form></div></details>` : ""}`;
   if (owner) await drawInvites(id);
 }
 
@@ -318,6 +319,14 @@ view.addEventListener("change", e => {
     const file = e.target.files[0]; if (!file) return;
     return guard(async () => { if (file.size > 200000) throw new Error("That file is too large for a script (200 KB max)."); $("#script").value = await file.text(); });
   }
+  if (e.target.dataset.filter) {
+    const which = e.target.dataset.filter;
+    return guard(async () => {
+      try { busy(); } catch (err) { e.target.value = which === "cast" ? castFilter : statusFilter; throw err; }
+      if (which === "cast") castFilter = e.target.value; else statusFilter = e.target.value;
+      page = 0; await renderProject(currentProject);
+    });
+  }
   if (e.target.dataset.pause) {
     const v = parseFloat(e.target.value), id = e.target.dataset.pause;
     return guard(async () => {
@@ -355,17 +364,16 @@ document.addEventListener("click", e => {
       $("#invite-out").innerHTML = `Share this code directly with one person:<br><span class="code">${esc(c)}</span>`; await drawInvites(currentProject);
     }
     else if (act === "revoke") { must(await db.rpc("revoke_invite", { p_id: b.dataset.id })); await drawInvites(currentProject); }
-    else if (act === "tab") { statusTab = b.dataset.v; await renderProject(currentProject); }
     else if (act === "people") setPeople(!peopleOpen);
     else if (act === "people-close") setPeople(false);
+    else if (act === "page") { busy(); page = Math.max(0, page + Number(b.dataset.v)); await renderProject(currentProject); scrollTo(0, 0); }
     else if (act === "playall") await playAll();
     else if (act === "playfrom") await playAll(b.dataset.id);
     else if (act === "stopplay") stopPlay();
-    else if (act === "sumedit") { summaryEdit = !summaryEdit; await renderProject(currentProject); }
+    else if (act === "sumedit") { busy(); summaryEdit = !summaryEdit; await renderProject(currentProject); }
     else if (act === "addpause") await insertPause(b.dataset.after);
     else if (act === "pup" || act === "pdown") await moveItem(b.dataset.id, act === "pup" ? -1 : 1, false);
     else if (act === "delpause") { must(await db.from("sections").delete().eq("id", b.dataset.id).select("id")); await renderProject(currentProject); }
-    else if (act === "filter") { mineOnly = b.dataset.v === "mine"; await renderProject(currentProject); }
     else if (act === "splitmark") {
       const t = $("#script"), i = t.selectionStart ?? t.value.length;
       t.value = t.value.slice(0, i).replace(/[ \t]+$/, "") + "\n---\n" + t.value.slice(i).replace(/^\s+/, ""); t.focus();
@@ -377,6 +385,7 @@ document.addEventListener("click", e => {
       await renderProject(currentProject); say("Section deleted.");
     }
     else if (act === "play") {
+      stopPlay();
       const url = must(await db.storage.from("recordings").createSignedUrl(b.dataset.path, 300)).signedUrl;
       const a = b.parentElement.querySelector("audio"); a.src = url; a.hidden = false; await a.play();
     }
@@ -491,7 +500,7 @@ async function saveRec() {
     btn.disabled = false; btn.textContent = "Save take";   // keep the local take so the user can retry; old take untouched
     throw new Error(`Couldn't save your take: ${e.message}. Your recording is still here; try again.`);
   }
-  cancelRec(); await renderProject(currentProject); say("Take saved. Find it under Completed.");
+  cancelRec(); await renderProject(currentProject); say("Take saved.");
 }
 
 window.addEventListener("offline", () => say("You're offline. Recording and saving need a connection.", true));
