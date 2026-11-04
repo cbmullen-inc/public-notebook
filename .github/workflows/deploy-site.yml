@@ -36,7 +36,7 @@ jobs:
           cp pbem-status/app.css _site/pbem-status/app.css
           cp pbem-status/config.js _site/pbem-status/config.js
           cp pbem-status/user-guide.html _site/pbem-status/user-guide.html
-          cp voice-script-builder/index.html voice-script-builder/style.css voice-script-builder/app.js voice-script-builder/config.js _site/voice-script-builder/
+          cp voice-script-builder/index.html voice-script-builder/style.css voice-script-builder/app.js voice-script-builder/config.js voice-script-builder/manifest.webmanifest voice-script-builder/sw.js voice-script-builder/icon.svg voice-script-builder/icon-192.png voice-script-builder/icon-512.png _site/voice-script-builder/
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v4
         with:

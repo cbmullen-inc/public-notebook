@@ -9,16 +9,15 @@
    - `SUPABASE_URL` = the root address only, like `https://abcdefgh.supabase.co`. If the Data API page shows it with `/rest/v1` on the end, delete that part.
    - `SUPABASE_ANON_KEY` = the **Publishable key** (`sb_publishable_...`) from the API Keys page. Legacy projects may show an `anon` key instead; that works too.
    - Never use the **Secret key** (`sb_secret_...`) or `service_role` key anywhere in this repository.
-5. **Try it locally:** `python3 -m http.server 8000` in this folder, then open `http://localhost:8000` (localhost allows the microphone; other hosts need HTTPS).
-6. **Phase 2 exit check, on real phones (iOS Safari + Android Chrome):**
+5. **Install the PWA:** deploy the site over HTTPS and open the Voice Script Builder page in Chrome. Choose **Install app** from the browser menu. On iPhone/iPad, use Safari's **Share → Add to Home Screen**. The app is separate from Ear Training and can be installed alongside it. Sign-in, recording uploads, and playback require an internet connection.
+6. **Try it locally:** `python3 -m http.server 8000` in this folder, then open `http://localhost:8000` (localhost allows the microphone; other hosts need HTTPS).
+7. **Phase 2 exit check, on real phones (iOS Safari + Android Chrome):**
    - Account A: create an account, create a project, record a take on "Test clip", play it back.
    - A: Create invite code. Account B (second device): create an account, join with the code, play A's take.
    - Account C (not invited): confirm it sees no project and can't play the take.
    - Also try: deny mic permission, lose connection mid-upload, record past 2 minutes, record again and make the upload fail (the old take must survive).
 
 Imported scripts are saved in the project database. Open **Scripts** from a project to view them; each section links to its recording page, and text edits there appear in the linked script. Existing installs need `migration-006-script-library.sql`.
-
-Not wired into `deploy-site.yml` yet.
 
 ## How usernames work
 

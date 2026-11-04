@@ -23,6 +23,8 @@ Live site: <https://cbmullen-inc.github.io/public-notebook/>
   but is intentionally not linked from the notebook home page.
 - **`ear-training/`** — the installable saxophone listening-drills app, published
   under `/ear-training/`.
+- **`voice-script-builder/`** — a separate installable voice-recording PWA,
+  published under `/voice-script-builder/`.
 
 ## Layout
 
@@ -33,6 +35,7 @@ Live site: <https://cbmullen-inc.github.io/public-notebook/>
 │   ├── board-games.html          # board game shelf page
 │   └── board-games.css
 ├── ear-training/                 # installable saxophone drills
+├── voice-script-builder/          # installable script and recording app
 ├── pbem-status/
 │   ├── index.html                # read-only active and historical PBEM dashboard
 │   ├── app.css                   # PBEM dashboard styles
@@ -50,7 +53,7 @@ using `peaceiris/actions-gh-pages` with `keep_files: true`:
 
 | Workflow | Copies to gh-pages as |
 |---|---|
-| `deploy-site.yml` | `index.html`, board-game files, `ear-training/`, and `pbem-status/` |
+| `deploy-site.yml` | `index.html`, board-game files, `ear-training/`, `pbem-status/`, and `voice-script-builder/` |
 
 Changes to any published page trigger the same deployment. Serializing one full-site
 deployment avoids competing pushes to `gh-pages`, and ensures each deployment
