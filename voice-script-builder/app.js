@@ -107,6 +107,72 @@ function stopPlay() {
   const a = $("#pa-audio"); if (a) { a.onerror = null; a.pause(); }
   r.resolve?.(); setPlayUI(false, "Stopped.");
 }
+const CRC_TABLE = Uint32Array.from({ length: 256 }, (_, n) => {
+  for (let k = 0; k < 8; k++) n = n & 1 ? 0xedb88320 ^ (n >>> 1) : n >>> 1;
+  return n >>> 0;
+});
+async function zipCrc32(blob) {
+  let crc = 0xffffffff;
+  for (let offset = 0; offset < blob.size; offset += 1024 * 1024) {
+    const bytes = new Uint8Array(await blob.slice(offset, offset + 1024 * 1024).arrayBuffer());
+    for (const byte of bytes) crc = CRC_TABLE[(crc ^ byte) & 0xff] ^ (crc >>> 8);
+  }
+  return (crc ^ 0xffffffff) >>> 0;
+}
+async function makeZip(files) {
+  if (files.length > 65535) throw new Error("Too many sections for one ZIP download.");
+  const encoder = new TextEncoder(), chunks = [], directory = [];
+  let offset = 0;
+  for (const file of files) {
+    const name = encoder.encode(file.name), size = file.blob.size;
+    if (name.length > 65535 || size > 0xffffffff || offset + 30 + name.length + size > 0xffffffff)
+      throw new Error("The download is too large for a ZIP archive.");
+    const crc = await zipCrc32(file.blob), header = new Uint8Array(30 + name.length), data = new DataView(header.buffer);
+    data.setUint32(0, 0x04034b50, true); data.setUint16(4, 20, true); data.setUint16(6, 0x0800, true);
+    data.setUint16(12, 0x21, true); data.setUint32(14, crc, true); data.setUint32(18, size, true); data.setUint32(22, size, true);
+    data.setUint16(26, name.length, true); header.set(name, 30);
+    chunks.push(header, file.blob);
+
+    const entry = new Uint8Array(46 + name.length), central = new DataView(entry.buffer);
+    central.setUint32(0, 0x02014b50, true); central.setUint16(4, 20, true); central.setUint16(6, 20, true);
+    central.setUint16(8, 0x0800, true); central.setUint16(14, 0x21, true); central.setUint32(16, crc, true);
+    central.setUint32(20, size, true); central.setUint32(24, size, true);
+    central.setUint16(28, name.length, true); central.setUint32(42, offset, true); entry.set(name, 46);
+    directory.push(entry); offset += header.length + size;
+  }
+  const directorySize = directory.reduce((sum, entry) => sum + entry.length, 0);
+  if (offset + directorySize + 22 > 0xffffffff) throw new Error("The download is too large for a ZIP archive.");
+  const end = new Uint8Array(22), endView = new DataView(end.buffer);
+  endView.setUint32(0, 0x06054b50, true); endView.setUint16(8, files.length, true); endView.setUint16(10, files.length, true);
+  endView.setUint32(12, directorySize, true); endView.setUint32(16, offset, true);
+  return new Blob([...chunks, ...directory, end], { type: "application/zip" });
+}
+async function downloadAllTakes(projectName) {
+  const items = summary.items.filter(item => item.kind === "section" && item.path);
+  if (!items.length) throw new Error("There are no recorded sections to download yet.");
+  const signedByPath = {};
+  for (let i = 0; i < items.length; i += 100) {
+    const signed = must(await db.storage.from("recordings").createSignedUrls(items.slice(i, i + 100).map(item => item.path), 3600));
+    for (const file of signed) {
+      if (!file.signedUrl) throw new Error(`Couldn't prepare a download${file.error?.message ? `: ${file.error.message}` : "."}`);
+      signedByPath[file.path] = file.signedUrl;
+    }
+  }
+  const files = [];
+  for (const [i, item] of items.entries()) {
+    say(`Downloading section ${i + 1} of ${items.length}…`);
+    const response = await fetch(signedByPath[item.path]);
+    if (!response.ok) throw new Error(`Couldn't download "${item.title}" (${response.status}).`);
+    const ext = item.mime?.includes("mp4") ? "m4a" : item.mime?.includes("ogg") ? "ogg" : item.mime?.includes("mpeg") ? "mp3" : item.mime?.includes("wav") ? "wav" : "webm";
+    const title = item.title.replace(/[<>:"/\\|?*\u0000-\u001f]/g, "_").trim().replace(/[. ]+$/g, "").slice(0, 100) || `Section ${i + 1}`;
+    files.push({ name: `${String(i + 1).padStart(3, "0")} - ${title}.${ext}`, blob: await response.blob() });
+  }
+  const archive = await makeZip(files), url = URL.createObjectURL(archive), link = document.createElement("a");
+  const archiveName = projectName.replace(/[<>:"/\\|?*\u0000-\u001f]/g, "_").trim().replace(/[. ]+$/g, "").slice(0, 100) || "project";
+  link.href = url; link.download = `${archiveName}-recordings.zip`;
+  link.click(); setTimeout(() => URL.revokeObjectURL(url), 60000);
+  say(`${items.length} recorded section${items.length === 1 ? "" : "s"} downloaded.`);
+}
 async function playAll(startId) {
   stopPlay();
   const audio = $("#pa-audio");
@@ -188,14 +254,14 @@ async function renderProject(id, sectionId = null) {
     db.from("projects").select("id,name").eq("id", id).single().then(must),
     db.from("members").select("id,user_id,role,display_name,color").eq("project_id", id).then(must),
     db.from("sections").select("id,position,title,body,assignee_id,kind,pause_ms").eq("project_id", id).order("position").order("id").then(must),
-    db.from("recordings").select("section_id,storage_path,duration_ms,uploader_id").eq("project_id", id).eq("is_current", true).then(must),
+    db.from("recordings").select("section_id,storage_path,duration_ms,mime_type,uploader_id").eq("project_id", id).eq("is_current", true).then(must),
   ]);
   const me = members.find(m => m.user_id === uid), owner = me?.role === "owner";
   const byId = Object.fromEntries(members.map(m => [m.id, m]));
   const take = Object.fromEntries(takes.map(t => [t.section_id, t]));
   const real = sections.filter(s => s.kind === "section");
   const done = real.filter(s => take[s.id]).length;
-  summary = { items: sections.map(s => s.kind === "pause" ? { id: s.id, kind: "pause", pause_ms: s.pause_ms } : { id: s.id, kind: "section", title: s.title, path: take[s.id]?.storage_path || null }) };
+  summary = { items: sections.map(s => s.kind === "pause" ? { id: s.id, kind: "pause", pause_ms: s.pause_ms } : { id: s.id, kind: "section", title: s.title, path: take[s.id]?.storage_path || null, mime: take[s.id]?.mime_type }) };
 
   if (sectionId) {
     castFilter = "all"; statusFilter = "all";
@@ -255,8 +321,9 @@ async function renderProject(id, sectionId = null) {
     <label>Code is valid for<select id="inv-hours"><option value="24">1 day</option><option value="168" selected>7 days</option><option value="720">30 days</option></select></label>
     <div class="actions"><button data-act="invite" data-id="${id}">Create invite code</button></div><p id="invite-out"></p>
     <p class="muted">Codes can't be shown again after you leave this screen. Revoke any you no longer need.</p><ul id="invite-list"></ul></details>` : ""}</aside>
-  <div class="panel"><div class="actions"><button class="primary" id="pa-go" data-act="playall">▶ Play all recorded</button><button id="pa-stop" data-act="stopplay" hidden>■ Stop</button>
+  <div class="panel"><div class="actions"><button class="primary" id="pa-go" data-act="playall">▶ Play all recorded</button><button id="download-all" data-act="downloadall" data-project-name="${esc(p.name)}" ${done ? "" : "disabled"}>Download recorded sections (.zip)</button><button id="pa-stop" data-act="stopplay" hidden>■ Stop</button>
     ${owner ? `<button data-act="sumedit" aria-pressed="${summaryEdit}">Edit pauses</button>` : ""}</div>
+    ${done ? `<p class="muted">Downloads the current take for each recorded section in project order.</p>` : ""}
     <p id="pa-status" class="muted" role="status"></p><audio id="pa-audio" hidden></audio>
     ${real.length ? `<div class="filters">
       <label>Cast<select data-filter="cast"><option value="all">Everyone</option>${members.map(m => `<option value="${m.id}" ${castFilter === m.id ? "selected" : ""}>${esc(m.display_name)}</option>`).join("")}<option value="none" ${castFilter === "none" ? "selected" : ""}>Unassigned</option></select></label>
@@ -429,6 +496,11 @@ document.addEventListener("click", e => {
     else if (act === "open-project") await renderProject(currentProject);
     else if (act === "open-section") await renderProject(currentProject, b.hash.match(/section-([0-9a-f-]{36})$/i)[1].toLowerCase());
     else if (act === "playall") await playAll();
+    else if (act === "downloadall") {
+      b.disabled = true;
+      try { await downloadAllTakes(b.dataset.projectName); }
+      finally { if (b.isConnected) b.disabled = false; }
+    }
     else if (act === "playfrom") await playAll(b.dataset.id);
     else if (act === "stopplay") stopPlay();
     else if (act === "sumedit") { busy(); summaryEdit = !summaryEdit; await renderProject(currentProject); }
