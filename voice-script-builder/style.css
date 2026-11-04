@@ -41,3 +41,15 @@ details.edit summary{cursor:pointer;font-weight:600;min-height:44px;display:flex
 button[aria-pressed="true"]{background:var(--ink);color:#fff}
 input[type=color]{padding:2px;width:80px}
 input[type=file]{min-height:0;border:0;padding:6px 0}
+.summary{padding:6px 14px}
+.sum-item{border-left:6px solid var(--c);background:color-mix(in srgb,var(--c) 12%,#fff);padding:10px 12px;margin:8px 0;border-radius:4px}
+.sum-item .script{background:none;padding:6px 0;margin:0}
+.sum-title{display:inline-flex;align-items:center;gap:6px}
+.ico.done{color:var(--ok)}.ico.pending{color:var(--mute)}
+.ico svg{display:block}
+.sum-pause{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:6px 12px;margin:8px 0;border:1px dashed var(--mute);border-radius:4px;color:var(--mute)}
+.now{outline:3px solid var(--ink);outline-offset:1px}
+.sum-add{text-align:center}
+label.inl{display:inline-flex;align-items:center;gap:6px;margin:0}
+label.inl input{width:84px;min-height:36px}
+.sr{position:absolute;left:-9999px}

@@ -68,6 +68,7 @@ function renderAuth() {
 }
 
 async function renderHome() {
+  stopPlay();
   currentProject = null; setUrl(null);
   const projects = must(await db.from("projects").select("id,name").order("created_at"));
   view.innerHTML = `<h2>Your projects</h2>
@@ -79,7 +80,78 @@ async function renderHome() {
   <div class="actions"><button class="primary">Join project</button></div></form></div>`;
 }
 
-let mineOnly = null, statusTab = "todo";
+let mineOnly = null, statusTab = "todo", summaryEdit = false, summary = { items: [] }, playRun = null;
+const svg = inner => `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${inner}</svg>`;
+const ICON_DONE = svg('<circle cx="12" cy="12" r="10"/><path d="M8 12.5l3 3 5-6"/>');
+const ICON_PENDING = svg('<circle cx="12" cy="12" r="10"/><path d="M12 7v5l3 2"/>');
+const ICON_PAUSE = svg('<rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/>');
+const SILENT = "data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=";
+
+function setPlayUI(playing, text = "") {
+  const q = id => $(id);
+  if (q("#pa-status")) q("#pa-status").textContent = text;
+  if (q("#pa-stop")) q("#pa-stop").hidden = !playing;
+  if (q("#pa-go")) q("#pa-go").hidden = playing;
+  if (!playing) document.querySelectorAll(".now").forEach(n => n.classList.remove("now"));
+}
+function markNow(id) {
+  document.querySelectorAll(".now").forEach(n => n.classList.remove("now"));
+  const n = document.querySelector(`[data-item="${id}"]`); if (!n) return;
+  n.classList.add("now");
+  n.scrollIntoView({ block: "center", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+}
+function stopPlay() {
+  if (!playRun) return;
+  const r = playRun; playRun = null; r.stop = true; clearTimeout(r.timer);
+  const a = $("#pa-audio"); if (a) { a.onerror = null; a.pause(); }
+  r.resolve?.(); setPlayUI(false, "Stopped.");
+}
+async function playAll(startId) {
+  stopPlay();
+  const audio = $("#pa-audio");
+  audio.src = SILENT; audio.play().catch(() => {});      // unlock audio inside the tap (iOS Safari needs this)
+  const items = summary.items, first = startId ? items.findIndex(i => i.id === startId) : 0;
+  const todo = items.slice(first).filter(i => i.path);
+  if (!todo.length) throw new Error("There are no recorded sections to play yet.");
+  const signed = must(await db.storage.from("recordings").createSignedUrls(todo.map(i => i.path), 3600));
+  const url = Object.fromEntries(signed.map(u => [u.path, u.signedUrl]));
+  const run = playRun = { stop: false };
+  setPlayUI(true, "Starting…");
+  try {
+    for (const it of items.slice(first)) {
+      if (run.stop) break;
+      markNow(it.id);
+      if (it.kind === "pause") {
+        $("#pa-status").textContent = `Pause (${it.pause_ms / 1000} s)`;
+        await new Promise(res => { run.resolve = res; run.timer = setTimeout(res, it.pause_ms); });
+      } else if (it.path) {
+        $("#pa-status").textContent = `Playing: ${it.title}`;
+        audio.src = url[it.path];
+        await new Promise((res, rej) => { run.resolve = res; audio.onended = res; audio.onerror = () => rej(new Error(`Couldn't play "${it.title}".`)); audio.play().catch(rej); });
+      }
+    }
+  } finally {
+    if (playRun === run) { playRun = null; setPlayUI(false, "Finished."); }
+  }
+}
+
+const renumber = rows => Promise.all(rows.map((r, k) => r.position === k ? null : db.from("sections").update({ position: k }).eq("id", r.id).then(must)));
+async function moveItem(id, dir, onlySections) {
+  const rows = must(await db.from("sections").select("id,position,kind").eq("project_id", currentProject).order("position").order("id"));
+  const i = rows.findIndex(r => r.id === id); if (i < 0) return;
+  let j = i + dir; while (onlySections && rows[j] && rows[j].kind !== "section") j += dir;   // pauses keep their place
+  if (j < 0 || j >= rows.length) return;
+  [rows[i], rows[j]] = [rows[j], rows[i]];
+  await renumber(rows); await renderProject(currentProject);
+}
+async function insertPause(afterId) {
+  const rows = must(await db.from("sections").select("id,position").eq("project_id", currentProject).order("position").order("id"));
+  const i = afterId === "start" ? -1 : rows.findIndex(r => r.id === afterId);
+  await Promise.all(rows.map((r, k) => { const np = k <= i ? k : k + 1; return r.position === np ? null : db.from("sections").update({ position: np }).eq("id", r.id).then(must); }));
+  must(await db.from("sections").insert({ project_id: currentProject, kind: "pause", title: "Pause", body: "", pause_ms: 2000, position: i + 1 }));
+  await renderProject(currentProject);
+}
+
 async function nextPos(pid) {
   const r = must(await db.from("sections").select("position").eq("project_id", pid).order("position", { ascending: false }).limit(1));
   return r.length ? r[0].position + 1 : 0;
@@ -91,26 +163,28 @@ async function drawInvites(id) {
 }
 
 async function renderProject(id) {
-  if (currentProject !== id) { mineOnly = null; statusTab = "todo"; }
+  if (currentProject !== id) { mineOnly = null; statusTab = "todo"; summaryEdit = false; }
+  stopPlay();
   currentProject = id; setUrl(id);
   const uid = (await db.auth.getUser()).data.user.id;
   const [p, members, sections, takes] = await Promise.all([
     db.from("projects").select("id,name").eq("id", id).single().then(must),
     db.from("members").select("id,user_id,role,display_name,color").eq("project_id", id).then(must),
-    db.from("sections").select("id,position,title,body,assignee_id").eq("project_id", id).order("position").order("id").then(must),
+    db.from("sections").select("id,position,title,body,assignee_id,kind,pause_ms").eq("project_id", id).order("position").order("id").then(must),
     db.from("recordings").select("section_id,storage_path,duration_ms,uploader_id").eq("project_id", id).eq("is_current", true).then(must),
   ]);
   const me = members.find(m => m.user_id === uid), owner = me?.role === "owner";
   if (mineOnly === null) mineOnly = !owner;
   const byId = Object.fromEntries(members.map(m => [m.id, m]));
   const take = Object.fromEntries(takes.map(t => [t.section_id, t]));
-  const done = sections.filter(s => take[s.id]).length;
-  const pool = mineOnly ? sections.filter(s => s.assignee_id === me?.id) : sections;
+  const real = sections.filter(s => s.kind === "section");
+  const done = real.filter(s => take[s.id]).length;
+  const pool = mineOnly ? real.filter(s => s.assignee_id === me?.id) : real;
   const nDone = pool.filter(s => take[s.id]).length, nTodo = pool.length - nDone;
   const shown = pool.filter(s => statusTab === "done" ? take[s.id] : !take[s.id]);
 
   const card = s => {
-    const a = byId[s.assignee_id], t = take[s.id], canRec = owner || a?.user_id === uid, i = sections.indexOf(s);
+    const a = byId[s.assignee_id], t = take[s.id], canRec = owner || a?.user_id === uid, i = real.indexOf(s);
     return `<article class="panel sec" data-sec="${s.id}" style="--c:${a?.color || "#d5dbd9"}">
     <div class="row"><h3>${esc(s.title)}</h3><span class="tag ${t ? "done" : ""}">${t ? "Recorded" : "Not recorded"}</span></div>
     <p class="muted">${a ? `<span class="dot" style="--c:${a.color}"></span>${esc(a.display_name)}` : "Not assigned"}</p>
@@ -123,12 +197,32 @@ async function renderProject(id) {
       <label>Title<input name="title" value="${esc(s.title)}" maxlength="100" required></label>
       <label>Script text<textarea name="body" rows="6" maxlength="20000">${esc(s.body)}</textarea></label>
       <div class="actions"><button class="primary">Save changes</button>
-      <button type="button" data-act="up" ${i === 0 ? "disabled" : ""}>Move up</button><button type="button" data-act="down" ${i === sections.length - 1 ? "disabled" : ""}>Move down</button>
+      <button type="button" data-act="up" ${i === 0 ? "disabled" : ""}>Move up</button><button type="button" data-act="down" ${i === real.length - 1 ? "disabled" : ""}>Move down</button>
       <button type="button" class="link" data-act="delsec">Delete section</button></div></form></details>` : ""}</article>`;
   };
 
+  summary = { items: sections.map(s => s.kind === "pause" ? { id: s.id, kind: "pause", pause_ms: s.pause_ms } : { id: s.id, kind: "section", title: s.title, path: take[s.id]?.storage_path || null }) };
+  const addBtn = after => owner && summaryEdit ? `<div class="sum-add"><button class="link" data-act="addpause" data-after="${after}">＋ Add pause here</button></div>` : "";
+  const summaryHTML = () => `<div class="panel"><div class="row"><h3>Whole script</h3><span class="muted">${done} of ${real.length} recorded</span></div>
+    <div class="actions"><button class="primary" id="pa-go" data-act="playall">▶ Play all recorded</button><button id="pa-stop" data-act="stopplay" hidden>■ Stop</button>
+    ${owner ? `<button data-act="sumedit" aria-pressed="${summaryEdit}">Edit pauses</button>` : ""}</div>
+    <p id="pa-status" class="muted" role="status"></p><audio id="pa-audio" hidden></audio></div>
+    <div class="panel summary">${addBtn("start")}${sections.map(s => {
+      if (s.kind === "pause") return `<div class="sum-pause" data-item="${s.id}">${ICON_PAUSE}<span>Pause</span>${owner && summaryEdit
+        ? `<label class="inl">seconds <input type="number" min="0.1" max="60" step="0.1" value="${s.pause_ms / 1000}" data-pause="${s.id}"></label>
+           <button class="link" data-act="pup" data-id="${s.id}">Move up</button><button class="link" data-act="pdown" data-id="${s.id}">Move down</button><button class="link" data-act="delpause" data-id="${s.id}">Remove</button>`
+        : `<span>${s.pause_ms / 1000} s</span>`}</div>${addBtn(s.id)}`;
+      const a = byId[s.assignee_id], t = take[s.id];
+      return `<div class="sum-item" data-item="${s.id}" style="--c:${a?.color || "#d5dbd9"}">
+        <div class="row"><span class="sum-title"><span class="ico ${t ? "done" : "pending"}">${t ? ICON_DONE : ICON_PENDING}<span class="sr">${t ? "Recorded" : "Pending"}</span></span> <strong>${esc(s.title)}</strong></span>
+        <span class="muted">${a ? `<span class="dot" style="--c:${a.color}"></span>${esc(a.display_name)}` : "Unassigned"}</span></div>
+        ${s.body ? `<div class="script">${esc(s.body)}</div>` : ""}
+        ${t ? `<button class="link" data-act="playfrom" data-id="${s.id}">Play from here</button>` : ""}</div>${addBtn(s.id)}`;
+    }).join("")}</div>`;
+  const inSummary = statusTab === "summary" && real.length > 0;
+
   view.innerHTML = `<button class="link" data-act="home">‹ All projects</button>
-  <h2>${esc(p.name)}</h2><p class="muted">${done} of ${sections.length} sections recorded</p>
+  <h2>${esc(p.name)}</h2><p class="muted">${done} of ${real.length} sections recorded</p>
   <div class="panel"><h3>People</h3><ul>${members.map(m => `<li><span class="dot" style="--c:${m.color}"></span>${esc(m.display_name)} <span class="muted">${m.role}</span>
     ${owner && m.role === "cast" ? `<button class="link" data-act="remove" data-id="${m.id}" data-name="${esc(m.display_name)}">Remove</button>` : ""}
     ${m.user_id === uid && m.role === "cast" ? `<button class="link" data-act="leave" data-id="${m.id}">Leave project</button>` : ""}</li>`).join("")}</ul>
@@ -145,11 +239,11 @@ async function renderProject(id) {
     <input type="file" accept=".txt,text/plain">
     <p class="muted">Put the cursor where a new section should start and tap Insert split. Sections are cut at lines containing only ---</p>
     <div class="actions"><button type="button" data-act="splitmark">Insert split</button><button class="primary">Create sections</button></div></form></div>` : ""}
-  ${sections.length && me ? `<div class="actions" role="group" aria-label="Which sections to show">
+  ${real.length && me ? `<div class="actions" role="group" aria-label="View">
+    <button data-act="tab" data-v="todo" aria-pressed="${statusTab === "todo"}">To record (${nTodo})</button><button data-act="tab" data-v="done" aria-pressed="${statusTab === "done"}">Completed (${nDone})</button><button data-act="tab" data-v="summary" aria-pressed="${inSummary}">Summary</button></div>` : ""}
+  ${inSummary ? summaryHTML() : `${real.length && me ? `<div class="actions" role="group" aria-label="Which sections to show">
     <button data-act="filter" data-v="mine" aria-pressed="${mineOnly}">My sections</button><button data-act="filter" data-v="all" aria-pressed="${!mineOnly}">All sections</button></div>` : ""}
-  ${pool.length ? `<div class="actions" role="group" aria-label="Section status">
-    <button data-act="tab" data-v="todo" aria-pressed="${statusTab === "todo"}">To record (${nTodo})</button><button data-act="tab" data-v="done" aria-pressed="${statusTab === "done"}">Completed (${nDone})</button></div>` : ""}
-  ${shown.map(card).join("") || `<p class="muted">${!pool.length ? (mineOnly ? "No sections are assigned to you yet." : "No sections yet.") : statusTab === "done" ? "No completed sections yet." : "Everything here is recorded."}</p>`}
+  ${shown.map(card).join("") || `<p class="muted">${!pool.length ? (mineOnly ? "No sections are assigned to you yet." : "No sections yet.") : statusTab === "done" ? "No completed sections yet." : "Everything here is recorded."}</p>`}`}
   ${owner ? `<div class="panel"><h3>Add a section</h3><form data-form="section"><label for="st">Title</label><input id="st" name="title" maxlength="100" required>
   <div class="actions"><button class="primary">Add section</button></div></form></div>
   <div class="panel danger"><h3>Delete this project</h3><p class="muted">Permanently deletes the sections and every recording, for everyone. This can't be undone.</p>
@@ -206,6 +300,15 @@ view.addEventListener("change", e => {
     const file = e.target.files[0]; if (!file) return;
     return guard(async () => { if (file.size > 200000) throw new Error("That file is too large for a script (200 KB max)."); $("#script").value = await file.text(); });
   }
+  if (e.target.dataset.pause) {
+    const v = parseFloat(e.target.value), id = e.target.dataset.pause;
+    return guard(async () => {
+      if (!(v >= 0.1 && v <= 60)) throw new Error("A pause can be 0.1 to 60 seconds.");
+      must(await db.from("sections").update({ pause_ms: Math.round(v * 1000) }).eq("id", id).select("id"));
+      const it = summary.items.find(i => i.id === id); if (it) it.pause_ms = Math.round(v * 1000);
+      say("Pause saved.");
+    });
+  }
   const sid = e.target.dataset.assign; if (!sid) return;
   guard(async () => { must(await db.from("sections").update({ assignee_id: e.target.value || null }).eq("id", sid)); await renderProject(currentProject); });
 });
@@ -235,12 +338,19 @@ document.addEventListener("click", e => {
     }
     else if (act === "revoke") { must(await db.rpc("revoke_invite", { p_id: b.dataset.id })); await drawInvites(currentProject); }
     else if (act === "tab") { statusTab = b.dataset.v; await renderProject(currentProject); }
+    else if (act === "playall") await playAll();
+    else if (act === "playfrom") await playAll(b.dataset.id);
+    else if (act === "stopplay") stopPlay();
+    else if (act === "sumedit") { summaryEdit = !summaryEdit; await renderProject(currentProject); }
+    else if (act === "addpause") await insertPause(b.dataset.after);
+    else if (act === "pup" || act === "pdown") await moveItem(b.dataset.id, act === "pup" ? -1 : 1, false);
+    else if (act === "delpause") { must(await db.from("sections").delete().eq("id", b.dataset.id).select("id")); await renderProject(currentProject); }
     else if (act === "filter") { mineOnly = b.dataset.v === "mine"; await renderProject(currentProject); }
     else if (act === "splitmark") {
       const t = $("#script"), i = t.selectionStart ?? t.value.length;
       t.value = t.value.slice(0, i).replace(/[ \t]+$/, "") + "\n---\n" + t.value.slice(i).replace(/^\s+/, ""); t.focus();
     }
-    else if (act === "up" || act === "down") await moveSection(sec, act === "up" ? -1 : 1);
+    else if (act === "up" || act === "down") await moveItem(sec, act === "up" ? -1 : 1, true);
     else if (act === "delsec") {
       if (!confirm("Delete this section and all of its recordings? This can't be undone.")) return;
       await removeTakes(sec, true); must(await db.from("sections").delete().eq("id", sec));
@@ -274,14 +384,6 @@ async function removeTakes(sectionId, allowEmpty = false) {
   must(await db.from("recordings").delete().in("id", rows.map(r => r.id)));
 }
 async function deleteTakes(sectionId) { await removeTakes(sectionId); await renderProject(currentProject); say("Take deleted."); }
-async function moveSection(sid, dir) {
-  const rows = must(await db.from("sections").select("id,position").eq("project_id", currentProject).order("position").order("id"));
-  const i = rows.findIndex(r => r.id === sid), j = i + dir; if (i < 0 || j < 0 || j >= rows.length) return;
-  [rows[i], rows[j]] = [rows[j], rows[i]];
-  await Promise.all(rows.map((r, k) => r.position === k ? null : db.from("sections").update({ position: k }).eq("id", r.id).then(must)));
-  await renderProject(currentProject);
-}
-
 async function deleteProject(id) {
   cancelRec();
   const takes = must(await db.from("recordings").select("storage_path").eq("project_id", id));   // includes old takes

@@ -37,7 +37,10 @@ create table public.sections (
   title text not null check (char_length(title) between 1 and 100),
   body text not null default '' check (char_length(body) <= 20000),
   assignee_id uuid references public.members(id) on delete set null,  -- one person per section
-  backing_track_id uuid references public.backing_tracks(id) on delete set null
+  backing_track_id uuid references public.backing_tracks(id) on delete set null,
+  kind text not null default 'section' check (kind in ('section','pause')),   -- more kinds can be added later
+  pause_ms int check (pause_ms is null or pause_ms between 100 and 60000),
+  constraint pause_has_length check (kind <> 'pause' or pause_ms is not null)
 );
 
 create table public.recordings (
@@ -84,7 +87,7 @@ language sql security definer stable set search_path = '' as $$
   select exists (
     select 1 from public.sections s
     left join public.members m on m.id = s.assignee_id
-    where s.id = sid and (public.is_owner(s.project_id) or m.user_id = auth.uid())
+    where s.id = sid and s.kind = 'section' and (public.is_owner(s.project_id) or m.user_id = auth.uid())
   );
 $$;
 
