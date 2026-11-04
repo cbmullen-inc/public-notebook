@@ -46,3 +46,44 @@ Notes:
 - The password is stored securely (hashed); the command never reveals existing passwords, since nobody can read them.
 - Possible caveat: the Authentication → Users page may also offer a direct "reset password" option in the user's menu. Newer dashboards change often, so I haven't relied on it. The SQL method above doesn't depend on it.
 - The app has no "change my password" screen yet, so the temporary password stays until you reset it again. I can add a change-password screen next if you'd like.
+
+## Removing projects, people and test accounts
+
+**Delete a project (in the app, owner only):** open the project, scroll to **Delete this project**, type its name, and confirm. This deletes the sections, members, invite codes and every recording file, including old takes.
+
+**Remove a person from a project:** open the project; the owner sees **Remove** beside each cast member, and cast members see **Leave project** beside their own name. Their saved takes stay in the project. Their account stays too (see below).
+
+**Delete test accounts completely.** Accounts can't be deleted from inside the app; you do it from the dashboard. Deleting an account also deletes every project it owns, its memberships, and its takes, so check the list first. Audio files are *not* removed automatically by this route, so clear them first.
+
+One-time setup (skip if you started from the updated `schema.sql`): run `supabase/migration-002-user-cleanup.sql` in the SQL Editor. Without it, deleting an account that ever recorded fails with a foreign key error.
+
+1. **See what you have.** SQL Editor → New query → Run:
+
+   ```sql
+   select u.email, count(distinct p.id) as projects, count(distinct r.id) as takes
+   from auth.users u
+   left join public.projects p on p.owner_id = u.id
+   left join public.recordings r on r.uploader_id = u.id
+   where u.email like '%@users.example.com'
+   group by u.email order by u.email;
+   ```
+   Note which usernames are test accounts. Anything you want to keep must not be on your delete list.
+
+2. **Delete their audio files.** First find the project IDs:
+
+   ```sql
+   select id, name, owner_id from public.projects;
+   ```
+   Then in the dashboard: **Storage** → **recordings** bucket. Each folder is named after a project ID. Tick the folders for the projects you're deleting and delete them. Do the same in the **backing** bucket if it has folders. If everything is test data, delete all folders.
+
+3. **Delete the accounts.** New query, edit the list to the test emails (username + `@users.example.com`), Run:
+
+   ```sql
+   delete from auth.users
+   where email in ('test1@users.example.com', 'test2@users.example.com')
+   returning email;
+   ```
+   The result lists each deleted account. This can't be undone.
+   (Authentication → Users → the row's menu → Delete user does the same for one account, but run step 2 first either way.)
+
+4. **Check.** Re-run the query from step 1; the deleted usernames should be gone.

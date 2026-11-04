@@ -44,7 +44,7 @@ create table public.recordings (
   id uuid primary key default gen_random_uuid(),
   section_id uuid not null references public.sections(id) on delete cascade,
   project_id uuid not null references public.projects(id) on delete cascade,
-  uploader_id uuid not null references auth.users(id),
+  uploader_id uuid not null references auth.users(id) on delete cascade,
   storage_path text not null unique,
   mime_type text not null,
   duration_ms int not null check (duration_ms between 1 and 180000),

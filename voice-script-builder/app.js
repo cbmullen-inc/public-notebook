@@ -74,7 +74,9 @@ async function renderProject(id) {
   const done = sections.filter(s => take[s.id]).length;
   view.innerHTML = `<button class="link" data-act="home">‹ All projects</button>
   <h2>${esc(p.name)}</h2><p class="muted">${done} of ${sections.length} sections recorded</p>
-  <div class="panel"><h3>People</h3><ul>${members.map(m => `<li><span class="dot" style="--c:${m.color}"></span>${esc(m.display_name)} <span class="muted">${m.role}</span></li>`).join("")}</ul>
+  <div class="panel"><h3>People</h3><ul>${members.map(m => `<li><span class="dot" style="--c:${m.color}"></span>${esc(m.display_name)} <span class="muted">${m.role}</span>
+    ${owner && m.role === "cast" ? `<button class="link" data-act="remove" data-id="${m.id}" data-name="${esc(m.display_name)}">Remove</button>` : ""}
+    ${m.user_id === uid && m.role === "cast" ? `<button class="link" data-act="leave" data-id="${m.id}">Leave project</button>` : ""}</li>`).join("")}</ul>
   ${owner ? `<div class="actions"><button data-act="invite" data-id="${id}">Create invite code</button></div><p id="invite-out"></p>` : ""}</div>
   ${sections.map(s => {
     const a = byId[s.assignee_id], t = take[s.id], canRec = owner || a?.user_id === uid;
@@ -82,11 +84,15 @@ async function renderProject(id) {
     <div class="row"><h3>${esc(s.title)}</h3><span class="tag ${t ? "done" : ""}">${t ? "Recorded" : "Not recorded"}</span></div>
     ${owner ? `<label>Assigned to<select data-assign="${s.id}"><option value="">Nobody</option>${members.map(m => `<option value="${m.id}" ${m.id === s.assignee_id ? "selected" : ""}>${esc(m.display_name)}</option>`).join("")}</select></label>`
             : `<p class="muted">Assigned to ${a ? esc(a.display_name) : "nobody"}</p>`}
-    ${t ? `<div class="take"><button data-act="play" data-path="${esc(t.storage_path)}">Play current take (${clock(t.duration_ms)})</button><audio controls hidden></audio></div>` : ""}
+    ${t ? `<div class="take"><button data-act="play" data-path="${esc(t.storage_path)}">Play current take (${clock(t.duration_ms)})</button>
+      ${owner || t.uploader_id === uid ? `<button class="link" data-act="deltake">Delete take</button>` : ""}<audio controls hidden></audio></div>` : ""}
     ${canRec ? `<div data-rec data-has="${t ? 1 : 0}">${idleHTML(!!t)}</div>` : ""}</article>`;
   }).join("") || `<p class="muted">No sections yet.</p>`}
   ${owner ? `<div class="panel"><h3>Add a section</h3><form data-form="section"><label for="st">Title</label><input id="st" name="title" maxlength="100" required>
-  <div class="actions"><button class="primary">Add section</button></div></form></div>` : ""}`;
+  <div class="actions"><button class="primary">Add section</button></div></form></div>` : ""}
+  ${owner ? `<div class="panel danger"><h3>Delete this project</h3><p class="muted">Permanently deletes the sections and every recording, for everyone. This can't be undone.</p>
+  <form data-form="delproject" data-name="${esc(p.name)}"><label for="dc">Type the project name to confirm</label><input id="dc" name="confirm" autocomplete="off" required>
+  <div class="actions"><button class="rec">Delete project</button></div></form></div>` : ""}`;
 }
 
 // ---------- Actions ----------
@@ -110,6 +116,9 @@ view.addEventListener("submit", e => {
     } else if (f.dataset.form === "join") {
       currentProject = must(await db.rpc("redeem_invite", { p_code: d.code, p_name: d.name }));
       await renderProject(currentProject);
+    } else if (f.dataset.form === "delproject") {
+      if (d.confirm.trim() !== f.dataset.name) throw new Error("That doesn't match the project name. Nothing was deleted.");
+      await deleteProject(currentProject);
     } else if (f.dataset.form === "section") {
       const { count } = await db.from("sections").select("id", { count: "exact", head: true }).eq("project_id", currentProject);
       must(await db.from("sections").insert({ project_id: currentProject, title: d.title, position: count ?? 0 }));
@@ -132,6 +141,13 @@ document.addEventListener("click", e => {
       i.type = show ? "text" : "password"; b.innerHTML = show ? EYE_OFF : EYE;
       b.setAttribute("aria-pressed", show); b.setAttribute("aria-label", show ? "Hide password" : "Show password");
     }
+    else if (act === "remove" || act === "leave") {
+      const msg = act === "leave" ? "Leave this project? Your saved takes stay in it unless the owner deletes them." : `Remove ${b.dataset.name} from this project? Their saved takes stay.`;
+      if (!confirm(msg)) return;
+      const r = must(await db.from("members").delete().eq("id", b.dataset.id).select("id"));
+      if (!r.length) throw new Error("Couldn't remove that person.");
+      if (act === "leave") { currentProject = null; await renderHome(); say("You left the project."); } else await renderProject(currentProject);
+    }
     else if (act === "signout") { cancelRec(); await db.auth.signOut(); }
     else if (act === "open") await renderProject(b.dataset.id);
     else if (act === "home") { cancelRec(); currentProject = null; await renderHome(); }
@@ -140,12 +156,43 @@ document.addEventListener("click", e => {
       const url = must(await db.storage.from("recordings").createSignedUrl(b.dataset.path, 300)).signedUrl;
       const a = b.parentElement.querySelector("audio"); a.src = url; a.hidden = false; await a.play();
     }
+    else if (act === "deltake") {
+      if (!confirm("Delete this take? The section goes back to Not recorded. This can't be undone.")) return;
+      await deleteTakes(sec);
+    }
     else if (act === "record") await startRec(sec);
     else if (act === "stop") stopRec();
     else if (act === "discard") { cancelRec(); drawIdle(sec); }
     else if (act === "save") await saveRec();
   });
 });
+
+// ---------- Deleting ----------
+async function deleteTakes(sectionId) {
+  // Removes the current take and any older takes you're allowed to delete (owner: all; cast: their own).
+  const uid = (await db.auth.getUser()).data.user.id;
+  let rows = must(await db.from("recordings").select("id,storage_path,uploader_id").eq("section_id", sectionId));
+  const owner = must(await db.rpc("is_owner", { pid: currentProject }));
+  if (!owner) rows = rows.filter(r => r.uploader_id === uid);
+  if (!rows.length) throw new Error("There's nothing here you can delete.");
+  const paths = rows.map(r => r.storage_path);
+  const gone = must(await db.storage.from("recordings").remove(paths));
+  if (gone.length < paths.length) throw new Error("Couldn't delete all of the audio, so the take was kept. Try again.");
+  must(await db.from("recordings").delete().in("id", rows.map(r => r.id)));
+  await renderProject(currentProject); say("Take deleted.");
+}
+
+async function deleteProject(id) {
+  cancelRec();
+  const takes = must(await db.from("recordings").select("storage_path").eq("project_id", id));   // includes old takes
+  const backs = must(await db.from("backing_tracks").select("storage_path").eq("project_id", id));
+  for (const [bucket, rows] of [["recordings", takes], ["backing", backs]]) {
+    const paths = rows.map(r => r.storage_path);
+    for (let i = 0; i < paths.length; i += 100) must(await db.storage.from(bucket).remove(paths.slice(i, i + 100)));
+  }
+  must(await db.from("projects").delete().eq("id", id));   // sections, members, recordings, invites cascade
+  currentProject = null; await renderHome(); say("Project deleted.");
+}
 
 // ---------- Recording ----------
 const idleHTML = has => `<div class="actions"><button class="rec" data-act="record">${has ? "Record a new take" : "Record"}</button></div>
