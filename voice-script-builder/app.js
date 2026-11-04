@@ -21,16 +21,35 @@ const must = r => { if (r.error) throw r.error; return r.data; };
 const clock = ms => { const s = Math.floor(ms / 1000); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`; };
 
 // ---------- Routing ----------
+// The open project lives in the URL hash (#p-<id>) so refresh, back and bookmarks keep your place.
+const HASH_RE = /^#p-([0-9a-f-]{36})$/i;
+function setUrl(id) {
+  const want = id ? `#p-${id}` : "";
+  if (location.hash !== want) history.pushState(null, "", location.pathname + location.search + want);
+}
+window.addEventListener("popstate", () => {
+  cancelRec();
+  const m = location.hash.match(HASH_RE);
+  currentProject = m ? m[1].toLowerCase() : null;
+  guard(route);
+});
+
 async function route() {
   const { data: { session } } = await db.auth.getSession();
   $("#who").innerHTML = session ? `${esc((session.user.email || "").split("@")[0])} <button class="link" data-act="signout" style="color:#fff">Sign out</button>` : "";
   if (!session) return renderAuth();
-  return currentProject ? renderProject(currentProject) : renderHome();
+  const m = location.hash.match(HASH_RE);
+  if (!currentProject && m) currentProject = m[1].toLowerCase();
+  if (currentProject) {
+    try { return await renderProject(currentProject); }
+    catch (e) { console.error(e); currentProject = null; say("Couldn't open that project. It may have been deleted, or you may not be a member.", true); }
+  }
+  return renderHome();
 }
 db.auth.onAuthStateChange((ev, session) => {
   const uid = session?.user?.id ?? null;
   if (uid === lastUid) return;           // ignore token refreshes so a recording is never interrupted
-  lastUid = uid; if (!uid) currentProject = null;
+  lastUid = uid; if (!uid) { currentProject = null; setUrl(null); }
   guard(route);
 });
 
@@ -49,6 +68,7 @@ function renderAuth() {
 }
 
 async function renderHome() {
+  currentProject = null; setUrl(null);
   const projects = must(await db.from("projects").select("id,name").order("created_at"));
   view.innerHTML = `<h2>Your projects</h2>
   ${projects.length ? `<div class="panel"><ul>${projects.map(p => `<li><button class="link" data-act="open" data-id="${p.id}">${esc(p.name)}</button></li>`).join("")}</ul></div>` : `<p class="muted">No projects yet. Create one or join with an invite code.</p>`}
@@ -72,7 +92,7 @@ async function drawInvites(id) {
 
 async function renderProject(id) {
   if (currentProject !== id) { mineOnly = null; statusTab = "todo"; }
-  currentProject = id;
+  currentProject = id; setUrl(id);
   const uid = (await db.auth.getUser()).data.user.id;
   const [p, members, sections, takes] = await Promise.all([
     db.from("projects").select("id,name").eq("id", id).single().then(must),
