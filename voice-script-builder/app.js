@@ -239,7 +239,7 @@ function toggleAssignmentChoice(card) {
   const id = card.dataset.assignmentChoice, selected = !selectedAssignmentSections.has(id);
   if (selected) selectedAssignmentSections.add(id); else selectedAssignmentSections.delete(id);
   card.classList.toggle("selected", selected);
-  card.setAttribute("aria-checked", selected);
+  card.setAttribute("aria-pressed", selected);
   const button = $("[data-act=applyassign]");
   if (button) {
     button.disabled = !selectedAssignmentSections.size;
@@ -273,6 +273,7 @@ async function renderProject(id, sectionId = null) {
   ]);
   const me = members.find(m => m.user_id === uid), owner = me?.role === "owner";
   const castMembers = members.filter(m => m.role === "cast");
+  const assignableMembers = members.filter(m => m.role === "owner" || m.role === "cast");
   const byId = Object.fromEntries(members.map(m => [m.id, m]));
   const take = Object.fromEntries(takes.map(t => [t.section_id, t]));
   const real = sections.filter(s => s.kind === "section");
@@ -303,10 +304,10 @@ async function renderProject(id, sectionId = null) {
     const a = byId[s.assignee_id], t = take[s.id], canRec = owner || a?.user_id === uid, i = real.indexOf(s);
     if (assignMode) {
       const selected = selectedAssignmentSections.has(s.id);
-      return `<article id="section-${s.id}" class="sum-item assign-choice ${selected ? "selected" : ""}" data-assignment-choice="${s.id}" role="checkbox" aria-checked="${selected}" tabindex="0" style="--c:${a?.color || "#d5dbd9"}">
-        <div class="row"><span class="sum-title"><span class="ico ${t ? "done" : "pending"}">${t ? ICON_DONE : ICON_PENDING}<span class="sr">${t ? "Recorded" : "Pending"}</span></span> <strong>${esc(s.title)}</strong></span>
-        <span class="muted">${a ? `<span class="dot" style="--c:${a.color}"></span>${esc(a.display_name)}` : "Unassigned"}</span></div>
-        ${s.body ? `<div class="script">${esc(s.body)}</div>` : ""}</article>`;
+      return `<button type="button" id="section-${s.id}" class="sum-item assign-choice ${selected ? "selected" : ""}" data-assignment-choice="${s.id}" aria-pressed="${selected}" style="--c:${a?.color || "#d5dbd9"}">
+        <span class="row"><span class="sum-title"><span class="ico ${t ? "done" : "pending"}">${t ? ICON_DONE : ICON_PENDING}<span class="sr">${t ? "Recorded" : "Pending"}</span></span> <strong>${esc(s.title)}</strong></span>
+        <span class="muted">${a ? `<span class="dot" style="--c:${a.color}"></span>${esc(a.display_name)}` : "Unassigned"}</span></span>
+        ${s.body ? `<span class="script">${esc(s.body)}</span>` : ""}</button>`;
     }
     return `<article id="section-${s.id}" class="sum-item" data-sec="${s.id}" data-item="${s.id}" style="--c:${a?.color || "#d5dbd9"}">
       <div class="row"><span class="sum-title"><span class="ico ${t ? "done" : "pending"}">${t ? ICON_DONE : ICON_PENDING}<span class="sr">${t ? "Recorded" : "Pending"}</span></span> <strong>${esc(s.title)}</strong></span>
@@ -327,10 +328,10 @@ async function renderProject(id, sectionId = null) {
   view.innerHTML = `${assignMode ? `<button class="link" data-act="cancelassign">Cancel assignment</button>` : `<button class="link" data-act="home">‹ All projects</button>`}
   <div class="row"><h2>${esc(p.name)}</h2>${assignMode ? "" : `<div class="actions"><a class="button-link" href="#p-${id}/scripts" data-act="scripts">Scripts</a><button id="people-btn" data-act="people" aria-expanded="${peopleOpen}" aria-controls="drawer">People (${members.length})</button></div>`}</div>
   <p class="muted">${done} of ${real.length} sections recorded</p>
-  ${owner && castMembers.length && real.length ? `<div class="panel assignment-tools">
+  ${owner && assignableMembers.length && real.length ? `<div class="panel assignment-tools">
     <h3>${assignMode ? "Select sections to assign" : "Assign sections"}</h3>
     ${assignMode ? `<p class="muted">Select section panels for <strong>${esc(byId[assignmentMember]?.display_name || "")}</strong>. Press Enter or Space to toggle a focused panel. You can change pages; your selection will stay.</p>` : ""}
-    <label for="assign-member">Cast member</label><select id="assign-member"><option value="">Choose a cast member</option>${castMembers.map(m => `<option value="${m.id}" ${m.id === assignmentMember ? "selected" : ""}>${esc(m.display_name)}</option>`).join("")}</select>
+    <label for="assign-member">Cast member</label><select id="assign-member"><option value="">Choose a cast member</option>${assignableMembers.map(m => `<option value="${m.id}" ${m.id === assignmentMember ? "selected" : ""}>${esc(m.display_name)}${m.role === "owner" ? " (owner)" : ""}</option>`).join("")}</select>
     ${assignMode
       ? `<div class="actions"><button type="button" data-act="cancelassign">Cancel</button><button type="button" class="primary" data-act="applyassign" ${selectedAssignmentSections.size ? "" : "disabled"}>Assign ${selectedAssignmentSections.size} section${selectedAssignmentSections.size === 1 ? "" : "s"}</button></div>`
       : `<div class="actions"><button type="button" class="primary" data-act="startassign" ${assignmentMember ? "" : "disabled"}>Select sections</button></div>`}
@@ -495,18 +496,9 @@ view.addEventListener("change", e => {
   }
 });
 
-document.addEventListener("keydown", e => {
-  if (!assignMode || !["Enter", " "].includes(e.key)) return;
-  const choice = e.target.closest("[data-assignment-choice]");
-  if (!choice) return;
-  e.preventDefault();
-  toggleAssignmentChoice(choice);
-});
-
 document.addEventListener("click", e => {
   const choice = e.target.closest("[data-assignment-choice]");
   if (choice && assignMode) {
-    e.preventDefault();
     toggleAssignmentChoice(choice);
     return;
   }

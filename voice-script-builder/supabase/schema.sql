@@ -288,7 +288,7 @@ declare matched int; assigned int;
 begin
   if not public.is_owner(p_project) then raise exception 'Only the project owner can assign sections'; end if;
   if not exists (
-    select 1 from public.members where id = p_member and project_id = p_project and role = 'cast'
+    select 1 from public.members where id = p_member and project_id = p_project and role in ('owner', 'cast')
   ) then raise exception 'Choose a cast member in this project'; end if;
   if p_sections is null or cardinality(p_sections) = 0 or exists (
     select 1 from unnest(p_sections) as selected(section_id) where section_id is null
