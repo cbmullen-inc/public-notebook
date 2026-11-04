@@ -152,6 +152,10 @@ async function insertPause(afterId) {
   await renderProject(currentProject);
 }
 
+async function sectionCount(pid) {   // real sections only, so pauses don't affect numbering
+  const { count, error } = await db.from("sections").select("id", { count: "exact", head: true }).eq("project_id", pid).eq("kind", "section");
+  if (error) throw error; return count ?? 0;
+}
 async function nextPos(pid) {
   const r = must(await db.from("sections").select("position").eq("project_id", pid).order("position", { ascending: false }).limit(1));
   return r.length ? r[0].position + 1 : 0;
@@ -244,7 +248,8 @@ async function renderProject(id) {
   ${inSummary ? summaryHTML() : `${real.length && me ? `<div class="actions" role="group" aria-label="Which sections to show">
     <button data-act="filter" data-v="mine" aria-pressed="${mineOnly}">My sections</button><button data-act="filter" data-v="all" aria-pressed="${!mineOnly}">All sections</button></div>` : ""}
   ${shown.map(card).join("") || `<p class="muted">${!pool.length ? (mineOnly ? "No sections are assigned to you yet." : "No sections yet.") : statusTab === "done" ? "No completed sections yet." : "Everything here is recorded."}</p>`}`}
-  ${owner ? `<div class="panel"><h3>Add a section</h3><form data-form="section"><label for="st">Title</label><input id="st" name="title" maxlength="100" required>
+  ${owner ? `<div class="panel"><h3>Add a section</h3><form data-form="section"><label for="st">Title (optional)</label><input id="st" name="title" maxlength="100" placeholder="Section name">
+  <label for="sb">Script text</label><textarea id="sb" name="body" rows="4" maxlength="20000" required></textarea>
   <div class="actions"><button class="primary">Add section</button></div></form></div>
   <div class="panel danger"><h3>Delete this project</h3><p class="muted">Permanently deletes the sections and every recording, for everyone. This can't be undone.</p>
   <form data-form="delproject" data-name="${esc(p.name)}"><label for="dc">Type the project name to confirm</label><input id="dc" name="confirm" autocomplete="off" required>
@@ -279,8 +284,8 @@ view.addEventListener("submit", e => {
     } else if (f.dataset.form === "import") {
       const parts = d.text.split(/^[ \t]*---[ \t]*$/m).map(x => x.trim()).filter(Boolean);
       if (!parts.length) throw new Error("Paste or load some script text first.");
-      const pos = await nextPos(currentProject);
-      must(await db.from("sections").insert(parts.map((body, i) => ({ project_id: currentProject, position: pos + i, title: `Section ${pos + i + 1}`, body }))));
+      const pos = await nextPos(currentProject), n = await sectionCount(currentProject);
+      must(await db.from("sections").insert(parts.map((body, i) => ({ project_id: currentProject, position: pos + i, title: `Section ${n + i + 1}`, body }))));
       await renderProject(currentProject); say(`${parts.length} section${parts.length > 1 ? "s" : ""} created. Rename them under Edit section.`);
     } else if (f.dataset.form === "editsec") {
       must(await db.from("sections").update({ title: d.title.trim(), body: d.body }).eq("id", f.dataset.id).select("id"));
@@ -289,7 +294,8 @@ view.addEventListener("submit", e => {
       must(await db.from("members").update({ display_name: d.name.trim(), color: d.color }).eq("id", f.dataset.id).select("id"));
       await renderProject(currentProject); say("Saved.");
     } else if (f.dataset.form === "section") {
-      must(await db.from("sections").insert({ project_id: currentProject, title: d.title.trim(), position: await nextPos(currentProject) }));
+      const n = await sectionCount(currentProject);
+      must(await db.from("sections").insert({ project_id: currentProject, position: await nextPos(currentProject), title: d.title.trim() || `Section ${n + 1}`, body: d.body.trim() }));
       await renderProject(currentProject);
     }
   });
