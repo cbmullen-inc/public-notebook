@@ -474,6 +474,9 @@ view.addEventListener("change", e => {
       selectedAssignmentSections = new Set(projectSections.filter(s => s.assignee_id === assignmentMember).map(s => s.id));
       page = 0;
       guard(() => renderProject(currentProject));
+    } else {
+      const button = $("[data-act=startassign]");
+      if (button) button.disabled = !assignmentMember;
     }
     return;
   }
