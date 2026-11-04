@@ -242,6 +242,18 @@ revoke execute on function public.create_invite(uuid, int), public.list_invites(
 grant execute on function public.create_invite(uuid, int), public.list_invites(uuid), public.revoke_invite(uuid),
   public.redeem_invite(text, text), public.save_take(uuid, text, text, int, int) to authenticated;
 
+create or replace function public.update_section_text(p_section uuid, p_body text) returns void
+language plpgsql security definer set search_path = '' as $$
+begin
+  if not public.can_record(p_section) then raise exception 'You cannot edit this section'; end if;
+  if char_length(p_body) > 20000 then raise exception 'That text is too long'; end if;
+  update public.sections set body = p_body where id = p_section;
+  update public.recordings set is_current = false where section_id = p_section and is_current;
+end $$;
+
+revoke execute on function public.update_section_text(uuid, text) from public, anon;
+grant execute on function public.update_section_text(uuid, text) to authenticated;
+
 -- ---------- Private storage ----------
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types) values
   ('recordings', 'recordings', false, 5242880,
