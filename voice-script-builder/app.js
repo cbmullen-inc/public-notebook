@@ -35,12 +35,15 @@ db.auth.onAuthStateChange((ev, session) => {
 });
 
 // ---------- Screens ----------
+const EYE = `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>`;
+const EYE_OFF = `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.9 17.9A10.9 10.9 0 0 1 12 19C5 19 1 12 1 12a18.5 18.5 0 0 1 5.1-5.9M9.9 5.1A10.9 10.9 0 0 1 12 5c7 0 11 7 11 7a18.5 18.5 0 0 1-2.2 3.2M1 1l22 22"/></svg>`;
 function renderAuth() {
   view.innerHTML = `<div class="panel"><h2>Sign in</h2>
   <form data-form="auth"><label for="user">Username</label>
   <input id="user" name="user" autocomplete="username" autocapitalize="none" spellcheck="false" minlength="3" maxlength="20" pattern="[A-Za-z0-9_]+" required>
   <p class="muted">Letters, numbers and underscores.</p>
-  <label for="pw">Password (8+ characters)</label><input id="pw" name="pw" type="password" minlength="8" autocomplete="current-password" required>
+  <label for="pw">Password (8+ characters)</label><div class="pw"><input id="pw" name="pw" type="password" minlength="8" autocomplete="current-password" required>
+  <button type="button" class="eye" data-act="togglepw" aria-label="Show password" aria-pressed="false">${EYE}</button></div>
   <div class="actions"><button class="primary" name="mode" value="signin">Sign in</button><button name="mode" value="signup">Create account</button></div></form>
   <p class="muted">Forgot your password? Ask the project owner to reset it.</p></div>`;
 }
@@ -124,7 +127,12 @@ document.addEventListener("click", e => {
   const b = e.target.closest("[data-act]"); if (!b) return;
   const act = b.dataset.act, sec = b.closest("[data-sec]")?.dataset.sec;
   guard(async () => {
-    if (act === "signout") { cancelRec(); await db.auth.signOut(); }
+    if (act === "togglepw") {
+      const i = b.parentElement.querySelector("input"), show = i.type === "password";
+      i.type = show ? "text" : "password"; b.innerHTML = show ? EYE_OFF : EYE;
+      b.setAttribute("aria-pressed", show); b.setAttribute("aria-label", show ? "Hide password" : "Show password");
+    }
+    else if (act === "signout") { cancelRec(); await db.auth.signOut(); }
     else if (act === "open") await renderProject(b.dataset.id);
     else if (act === "home") { cancelRec(); currentProject = null; await renderHome(); }
     else if (act === "invite") { const c = must(await db.rpc("create_invite", { p_project: b.dataset.id })); $("#invite-out").innerHTML = `Share this code directly with one person (single use, valid 7 days):<br><span class="code">${esc(c)}</span>`; }
