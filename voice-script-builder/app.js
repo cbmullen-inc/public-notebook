@@ -81,6 +81,8 @@ async function renderHome() {
 }
 
 let castFilter = null, statusFilter = "all", page = 0, summaryEdit = false, peopleOpen = false, summary = { items: [] }, playRun = null;
+let assignMode = false, assignmentMember = "", selectedAssignmentSections = new Set();
+let projectSections = [];
 const svg = inner => `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${inner}</svg>`;
 const ICON_DONE = svg('<circle cx="12" cy="12" r="10"/><path d="M8 12.5l3 3 5-6"/>');
 const ICON_PENDING = svg('<circle cx="12" cy="12" r="10"/><path d="M12 7v5l3 2"/>');
@@ -233,6 +235,17 @@ function setPeople(open) {
 document.addEventListener("keydown", e => { if (e.key === "Escape" && peopleOpen) setPeople(false); });
 
 function busy() { if (rec) throw new Error("Finish or discard your recording first."); }
+function toggleAssignmentChoice(card) {
+  const id = card.dataset.assignmentChoice, selected = !selectedAssignmentSections.has(id);
+  if (selected) selectedAssignmentSections.add(id); else selectedAssignmentSections.delete(id);
+  card.classList.toggle("selected", selected);
+  card.setAttribute("aria-checked", selected);
+  const button = $("[data-act=applyassign]");
+  if (button) {
+    button.disabled = !selectedAssignmentSections.size;
+    button.textContent = `Assign ${selectedAssignmentSections.size} section${selectedAssignmentSections.size === 1 ? "" : "s"}`;
+  }
+}
 
 async function nextPos(pid) {
   const r = must(await db.from("sections").select("position").eq("project_id", pid).order("position", { ascending: false }).limit(1));
@@ -245,7 +258,10 @@ async function drawInvites(id) {
 }
 
 async function renderProject(id, sectionId = null) {
-  if (currentProject !== id) { castFilter = null; statusFilter = "all"; page = 0; summaryEdit = false; peopleOpen = false; }
+  if (currentProject !== id) {
+    castFilter = null; statusFilter = "all"; page = 0; summaryEdit = false; peopleOpen = false;
+    assignMode = false; assignmentMember = ""; selectedAssignmentSections = new Set();
+  }
   stopPlay();
   currentProject = id; setUrl(id, sectionId ? `section-${sectionId}` : null);
   const uid = (await db.auth.getUser()).data.user.id;
@@ -260,6 +276,7 @@ async function renderProject(id, sectionId = null) {
   const byId = Object.fromEntries(members.map(m => [m.id, m]));
   const take = Object.fromEntries(takes.map(t => [t.section_id, t]));
   const real = sections.filter(s => s.kind === "section");
+  projectSections = real;
   const done = real.filter(s => take[s.id]).length;
   summary = { items: sections.map(s => s.kind === "pause" ? { id: s.id, kind: "pause", pause_ms: s.pause_ms } : { id: s.id, kind: "section", title: s.title, path: take[s.id]?.storage_path || null, mime: take[s.id]?.mime_type }) };
 
@@ -270,20 +287,27 @@ async function renderProject(id, sectionId = null) {
   if (castFilter === null) castFilter = owner ? "all" : (me?.id || "all");
   if (castFilter !== "all" && castFilter !== "none" && !byId[castFilter]) castFilter = "all";
   const filtering = castFilter !== "all" || statusFilter !== "all";
-  const list = !filtering ? sections : real.filter(s =>
+  const list = assignMode ? real : !filtering ? sections : real.filter(s =>
     (castFilter === "all" || (castFilter === "none" ? !s.assignee_id : s.assignee_id === castFilter)) &&
     (statusFilter === "all" || (statusFilter === "pending" ? !take[s.id] : !!take[s.id])));
   const PAGE = 10, pages = Math.max(1, Math.ceil(list.length / PAGE));
   page = Math.min(page, pages - 1);
   const pageItems = list.slice(page * PAGE, page * PAGE + PAGE);
 
-  const addBtn = after => owner && summaryEdit && !filtering ? `<div class="sum-add"><button class="link" data-act="addpause" data-after="${after}">＋ Add pause here</button></div>` : "";
+  const addBtn = after => !assignMode && owner && summaryEdit && !filtering ? `<div class="sum-add"><button class="link" data-act="addpause" data-after="${after}">＋ Add pause here</button></div>` : "";
   const itemHTML = s => {
     if (s.kind === "pause") return `<div class="sum-pause" data-item="${s.id}">${ICON_PAUSE}<span>Pause</span>${owner && summaryEdit
       ? `<label class="inl">seconds <input type="number" min="0.1" max="60" step="0.1" value="${s.pause_ms / 1000}" data-pause="${s.id}"></label>
          <button class="link" data-act="pup" data-id="${s.id}">Move up</button><button class="link" data-act="pdown" data-id="${s.id}">Move down</button><button class="link" data-act="delpause" data-id="${s.id}">Remove</button>`
       : `<span>${s.pause_ms / 1000} s</span>`}</div>${addBtn(s.id)}`;
     const a = byId[s.assignee_id], t = take[s.id], canRec = owner || a?.user_id === uid, i = real.indexOf(s);
+    if (assignMode) {
+      const selected = selectedAssignmentSections.has(s.id);
+      return `<article id="section-${s.id}" class="sum-item assign-choice ${selected ? "selected" : ""}" data-assignment-choice="${s.id}" role="checkbox" aria-checked="${selected}" tabindex="0" style="--c:${a?.color || "#d5dbd9"}">
+        <div class="row"><span class="sum-title"><span class="ico ${t ? "done" : "pending"}">${t ? ICON_DONE : ICON_PENDING}<span class="sr">${t ? "Recorded" : "Pending"}</span></span> <strong>${esc(s.title)}</strong></span>
+        <span class="muted">${a ? `<span class="dot" style="--c:${a.color}"></span>${esc(a.display_name)}` : "Unassigned"}</span></div>
+        ${s.body ? `<div class="script">${esc(s.body)}</div>` : ""}</article>`;
+    }
     return `<article id="section-${s.id}" class="sum-item" data-sec="${s.id}" data-item="${s.id}" style="--c:${a?.color || "#d5dbd9"}">
       <div class="row"><span class="sum-title"><span class="ico ${t ? "done" : "pending"}">${t ? ICON_DONE : ICON_PENDING}<span class="sr">${t ? "Recorded" : "Pending"}</span></span> <strong>${esc(s.title)}</strong></span>
       <span class="muted">${a ? `<span class="dot" style="--c:${a.color}"></span>${esc(a.display_name)}` : "Unassigned"}</span></div>
@@ -300,18 +324,18 @@ async function renderProject(id, sectionId = null) {
         <button type="button" class="link" data-act="delsec">Delete section</button></div></form></details>` : ""}</article>${addBtn(s.id)}`;
   };
 
-  view.innerHTML = `<button class="link" data-act="home">‹ All projects</button>
-  <div class="row"><h2>${esc(p.name)}</h2><div class="actions"><a class="button-link" href="#p-${id}/scripts" data-act="scripts">Scripts</a><button id="people-btn" data-act="people" aria-expanded="${peopleOpen}" aria-controls="drawer">People (${members.length})</button></div></div>
+  view.innerHTML = `${assignMode ? `<button class="link" data-act="cancelassign">Cancel assignment</button>` : `<button class="link" data-act="home">‹ All projects</button>`}
+  <div class="row"><h2>${esc(p.name)}</h2>${assignMode ? "" : `<div class="actions"><a class="button-link" href="#p-${id}/scripts" data-act="scripts">Scripts</a><button id="people-btn" data-act="people" aria-expanded="${peopleOpen}" aria-controls="drawer">People (${members.length})</button></div>`}</div>
   <p class="muted">${done} of ${real.length} sections recorded</p>
-  ${owner && castMembers.length && real.length ? `<details class="panel edit"><summary>Assign sections to a cast member</summary>
-    <form data-form="assignsections">
-      <label for="assign-member">Cast member</label><select id="assign-member" name="member" required><option value="">Choose a cast member</option>${castMembers.map(m => `<option value="${m.id}">${esc(m.display_name)}</option>`).join("")}</select>
-      <p class="muted">Choose a member to select their current sections. Applying assigns checked sections; unselected sections stay unchanged.</p>
-      <div class="actions"><button type="button" class="link" data-act="selectsections" data-selected="all" disabled>Select all</button><button type="button" class="link" data-act="selectsections" data-selected="none" disabled>Clear selection</button></div>
-      <div class="section-choices">${real.map(s => `<label class="section-choice"><input type="checkbox" name="sections" value="${s.id}" data-assignment-section data-assignee="${s.assignee_id || ""}" disabled><span><strong>${esc(s.title)}</strong><small>Currently: ${esc(byId[s.assignee_id]?.display_name || "Unassigned")}</small></span></label>`).join("")}</div>
-      <div class="actions"><button class="primary">Apply assignment</button></div>
-    </form></details>` : ""}
-  <div class="drawer-back ${peopleOpen ? "open" : ""}" data-act="people-close"></div>
+  ${owner && castMembers.length && real.length ? `<div class="panel assignment-tools">
+    <h3>${assignMode ? "Select sections to assign" : "Assign sections"}</h3>
+    ${assignMode ? `<p class="muted">Select section panels for <strong>${esc(byId[assignmentMember]?.display_name || "")}</strong>. Press Enter or Space to toggle a focused panel. You can change pages; your selection will stay.</p>` : ""}
+    <label for="assign-member">Cast member</label><select id="assign-member"><option value="">Choose a cast member</option>${castMembers.map(m => `<option value="${m.id}" ${m.id === assignmentMember ? "selected" : ""}>${esc(m.display_name)}</option>`).join("")}</select>
+    ${assignMode
+      ? `<div class="actions"><button type="button" data-act="cancelassign">Cancel</button><button type="button" class="primary" data-act="applyassign" ${selectedAssignmentSections.size ? "" : "disabled"}>Assign ${selectedAssignmentSections.size} section${selectedAssignmentSections.size === 1 ? "" : "s"}</button></div>`
+      : `<div class="actions"><button type="button" class="primary" data-act="startassign" ${assignmentMember ? "" : "disabled"}>Select sections</button></div>`}
+  </div>` : ""}
+  ${assignMode ? "" : `<div class="drawer-back ${peopleOpen ? "open" : ""}" data-act="people-close"></div>
   <aside id="drawer" class="drawer ${peopleOpen ? "open" : ""}" aria-label="People" ${peopleOpen ? "" : "inert"}>
   <div class="row"><h3>People</h3><button data-act="people-close" aria-label="Close people panel">✕</button></div><ul>${members.map(m => `<li><span class="dot" style="--c:${m.color}"></span>${esc(m.display_name)} <span class="muted">${m.role}</span>
     ${owner && m.role === "cast" ? `<button class="link" data-act="remove" data-id="${m.id}" data-name="${esc(m.display_name)}">Remove</button>` : ""}
@@ -323,21 +347,21 @@ async function renderProject(id, sectionId = null) {
   ${owner ? `<details class="edit"><summary>Invite codes</summary>
     <label>Code is valid for<select id="inv-hours"><option value="24">1 day</option><option value="168" selected>7 days</option><option value="720">30 days</option></select></label>
     <div class="actions"><button data-act="invite" data-id="${id}">Create invite code</button></div><p id="invite-out"></p>
-    <p class="muted">Codes can't be shown again after you leave this screen. Revoke any you no longer need.</p><ul id="invite-list"></ul></details>` : ""}</aside>
-  <div class="panel"><div class="actions"><button class="primary" id="pa-go" data-act="playall">▶ Play all recorded</button><button id="download-all" data-act="downloadall" data-project-name="${esc(p.name)}" ${done ? "" : "disabled"}>Download recorded sections (.zip)</button><button id="pa-stop" data-act="stopplay" hidden>■ Stop</button>
+    <p class="muted">Codes can't be shown again after you leave this screen. Revoke any you no longer need.</p><ul id="invite-list"></ul></details>` : ""}</aside>`}
+  ${assignMode ? "" : `<div class="panel"><div class="actions"><button class="primary" id="pa-go" data-act="playall">▶ Play all recorded</button><button id="download-all" data-act="downloadall" data-project-name="${esc(p.name)}" ${done ? "" : "disabled"}>Download recorded sections (.zip)</button><button id="pa-stop" data-act="stopplay" hidden>■ Stop</button>
     ${owner ? `<button data-act="sumedit" aria-pressed="${summaryEdit}">Edit pauses</button>` : ""}</div>
     ${done ? `<p class="muted">Downloads the current take for each recorded section in project order.</p>` : ""}
     <p id="pa-status" class="muted" role="status"></p><audio id="pa-audio" hidden></audio>
     ${real.length ? `<div class="filters">
-      <label>Cast<select data-filter="cast"><option value="all">Everyone</option>${members.map(m => `<option value="${m.id}" ${castFilter === m.id ? "selected" : ""}>${esc(m.display_name)}</option>`).join("")}<option value="none" ${castFilter === "none" ? "selected" : ""}>Unassigned</option></select></label>
+      <label>Cast<select data-filter="cast"><option value="all">Everyone</option>${castMembers.map(m => `<option value="${m.id}" ${castFilter === m.id ? "selected" : ""}>${esc(m.display_name)}</option>`).join("")}<option value="none" ${castFilter === "none" ? "selected" : ""}>Unassigned</option></select></label>
       <label>Status<select data-filter="status"><option value="all">All</option><option value="pending" ${statusFilter === "pending" ? "selected" : ""}>Pending recording</option><option value="recorded" ${statusFilter === "recorded" ? "selected" : ""}>Recorded</option></select></label></div>` : ""}
-    ${owner && summaryEdit && filtering ? `<p class="muted">Clear the filters to add or move pauses.</p>` : ""}</div>
+    ${owner && summaryEdit && filtering ? `<p class="muted">Clear the filters to add or move pauses.</p>` : ""}</div>`}
   ${page === 0 ? addBtn("start") : ""}
   ${pageItems.map(itemHTML).join("") || `<p class="muted">${real.length ? "No sections match these filters." : "No sections yet."}</p>`}
   ${pages > 1 ? `<div class="pager"><button data-act="page" data-v="-1" ${page === 0 ? "disabled" : ""}>‹ Previous</button><span class="muted">Page ${page + 1} of ${pages}</span><button data-act="page" data-v="1" ${page >= pages - 1 ? "disabled" : ""}>Next ›</button></div>` : ""}
-  ${owner ? `<details class="panel edit"><summary>Project settings</summary><div class="danger-box"><h3>Delete this project</h3><p class="muted">Permanently deletes the sections and every recording, for everyone. This can't be undone.</p>
+  ${assignMode ? "" : `${owner ? `<details class="panel edit"><summary>Project settings</summary><div class="danger-box"><h3>Delete this project</h3><p class="muted">Permanently deletes the sections and every recording, for everyone. This can't be undone.</p>
     <form data-form="delproject" data-name="${esc(p.name)}"><label for="dc">Type the project name to confirm</label><input id="dc" name="confirm" autocomplete="off" required>
-    <div class="actions"><button class="rec">Delete project</button></div></form></div></details>` : ""}`;
+    <div class="actions"><button class="rec">Delete project</button></div></form></div></details>` : ""}`}`;
   if (owner) await drawInvites(id);
   if (sectionId) document.getElementById(`section-${sectionId}`)?.scrollIntoView();
 }
@@ -406,15 +430,6 @@ view.addEventListener("submit", e => {
         p_source_text: d.text, p_sections: parts,
       }));
       await renderScripts(currentProject); say(`${parts.length} section${parts.length > 1 ? "s" : ""} created and saved.`);
-    } else if (f.dataset.form === "assignsections") {
-      busy();
-      const selected = new FormData(f).getAll("sections");
-      if (!d.member) throw new Error("Choose a cast member first.");
-      if (!selected.length) throw new Error("Select at least one section.");
-      const count = must(await db.rpc("assign_sections", {
-        p_project: currentProject, p_member: d.member, p_sections: selected,
-      }));
-      await renderProject(currentProject); say(`${count} section${count === 1 ? "" : "s"} assigned.`);
     } else if (f.dataset.form === "editsec") {
       if (rec) throw new Error("Finish or discard your recording first.");
       const id = f.dataset.id, newBody = d.body.trim();
@@ -453,12 +468,12 @@ view.addEventListener("change", e => {
     });
   }
   if (e.target.id === "assign-member") {
-    const form = e.target.closest("form");
-    form.querySelectorAll("[data-assignment-section]").forEach(input => {
-      input.disabled = !e.target.value;
-      input.checked = !!e.target.value && input.dataset.assignee === e.target.value;
-    });
-    form.querySelectorAll("[data-act=selectsections]").forEach(button => { button.disabled = !e.target.value; });
+    assignmentMember = e.target.value;
+    if (assignMode) {
+      selectedAssignmentSections = new Set(projectSections.filter(s => s.assignee_id === assignmentMember).map(s => s.id));
+      page = 0;
+      guard(() => renderProject(currentProject));
+    }
     return;
   }
   if (e.target.dataset.filter) {
@@ -480,7 +495,21 @@ view.addEventListener("change", e => {
   }
 });
 
+document.addEventListener("keydown", e => {
+  if (!assignMode || !["Enter", " "].includes(e.key)) return;
+  const choice = e.target.closest("[data-assignment-choice]");
+  if (!choice) return;
+  e.preventDefault();
+  toggleAssignmentChoice(choice);
+});
+
 document.addEventListener("click", e => {
+  const choice = e.target.closest("[data-assignment-choice]");
+  if (choice && assignMode) {
+    e.preventDefault();
+    toggleAssignmentChoice(choice);
+    return;
+  }
   const b = e.target.closest("[data-act]"); if (!b) return;
   const act = b.dataset.act, sec = b.closest("[data-sec]")?.dataset.sec;
   if (act === "scripts" || act === "open-project" || act === "open-section") {
@@ -514,15 +543,34 @@ document.addEventListener("click", e => {
     else if (act === "scripts") { busy(); await renderScripts(currentProject); }
     else if (act === "open-project") await renderProject(currentProject);
     else if (act === "open-section") await renderProject(currentProject, b.hash.match(/section-([0-9a-f-]{36})$/i)[1].toLowerCase());
+    else if (act === "startassign") {
+      if (!assignmentMember) throw new Error("Choose a cast member first.");
+      busy(); assignMode = true; castFilter = "all"; statusFilter = "all"; page = 0;
+      selectedAssignmentSections = new Set(projectSections.filter(s => s.assignee_id === assignmentMember).map(s => s.id));
+      await renderProject(currentProject);
+    }
+    else if (act === "cancelassign") {
+      assignMode = false; selectedAssignmentSections.clear();
+      await renderProject(currentProject);
+    }
+    else if (act === "applyassign") {
+      const selected = [...selectedAssignmentSections];
+      if (!assignmentMember || !selected.length) throw new Error("Choose a cast member and at least one section.");
+      b.disabled = true;
+      let count;
+      try {
+        count = must(await db.rpc("assign_sections", {
+          p_project: currentProject, p_member: assignmentMember, p_sections: selected,
+        }));
+      } finally { if (b.isConnected) b.disabled = false; }
+      assignMode = false; selectedAssignmentSections.clear();
+      await renderProject(currentProject); say(`${count} section${count === 1 ? "" : "s"} assigned.`);
+    }
     else if (act === "playall") await playAll();
     else if (act === "downloadall") {
       b.disabled = true;
       try { await downloadAllTakes(b.dataset.projectName); }
       finally { if (b.isConnected) b.disabled = false; }
-    }
-    else if (act === "selectsections") {
-      const form = b.closest("form");
-      form.querySelectorAll("[data-assignment-section]").forEach(input => { input.checked = b.dataset.selected === "all"; });
     }
     else if (act === "playfrom") await playAll(b.dataset.id);
     else if (act === "stopplay") stopPlay();
