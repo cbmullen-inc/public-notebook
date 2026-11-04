@@ -1,5 +1,6 @@
 "use strict";
-const db = supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_ANON_KEY);
+// Keep only the root address, in case a path like /rest/v1 was pasted into config.js.
+const db = supabase.createClient(new URL(CONFIG.SUPABASE_URL.trim()).origin, CONFIG.SUPABASE_ANON_KEY.trim());
 const MAX_SECONDS = 120, MAX_BYTES = 5 * 1024 * 1024;
 const MIMES = ["audio/webm;codecs=opus", "audio/mp4", "audio/webm", "audio/ogg;codecs=opus"];
 const $ = (s, el = document) => el.querySelector(s);
