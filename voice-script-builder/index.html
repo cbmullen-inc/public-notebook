@@ -4,6 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Voice Script Builder</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="theme-color" content="#1d2528">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Voice Script Builder">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -13,5 +20,16 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="config.js"></script>
 <script src="app.js"></script>
+<script>
+if ("serviceWorker" in navigator) window.addEventListener("load", () => {
+  navigator.serviceWorker.register("sw.js").catch(error => {
+    console.error("Could not register the app service worker.", error);
+    const note = document.querySelector("#note");
+    note.textContent = "App installation support couldn't be initialized. Reload to try again.";
+    note.classList.add("bad");
+    note.hidden = false;
+  });
+});
+</script>
 </body>
 </html>
