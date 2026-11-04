@@ -59,7 +59,7 @@ async function renderHome() {
   <div class="actions"><button class="primary">Join project</button></div></form></div>`;
 }
 
-let mineOnly = null;
+let mineOnly = null, statusTab = "todo";
 async function nextPos(pid) {
   const r = must(await db.from("sections").select("position").eq("project_id", pid).order("position", { ascending: false }).limit(1));
   return r.length ? r[0].position + 1 : 0;
@@ -71,7 +71,7 @@ async function drawInvites(id) {
 }
 
 async function renderProject(id) {
-  if (currentProject !== id) mineOnly = null;
+  if (currentProject !== id) { mineOnly = null; statusTab = "todo"; }
   currentProject = id;
   const uid = (await db.auth.getUser()).data.user.id;
   const [p, members, sections, takes] = await Promise.all([
@@ -85,7 +85,9 @@ async function renderProject(id) {
   const byId = Object.fromEntries(members.map(m => [m.id, m]));
   const take = Object.fromEntries(takes.map(t => [t.section_id, t]));
   const done = sections.filter(s => take[s.id]).length;
-  const shown = mineOnly ? sections.filter(s => s.assignee_id === me?.id) : sections;
+  const pool = mineOnly ? sections.filter(s => s.assignee_id === me?.id) : sections;
+  const nDone = pool.filter(s => take[s.id]).length, nTodo = pool.length - nDone;
+  const shown = pool.filter(s => statusTab === "done" ? take[s.id] : !take[s.id]);
 
   const card = s => {
     const a = byId[s.assignee_id], t = take[s.id], canRec = owner || a?.user_id === uid, i = sections.indexOf(s);
@@ -125,7 +127,9 @@ async function renderProject(id) {
     <div class="actions"><button type="button" data-act="splitmark">Insert split</button><button class="primary">Create sections</button></div></form></div>` : ""}
   ${sections.length && me ? `<div class="actions" role="group" aria-label="Which sections to show">
     <button data-act="filter" data-v="mine" aria-pressed="${mineOnly}">My sections</button><button data-act="filter" data-v="all" aria-pressed="${!mineOnly}">All sections</button></div>` : ""}
-  ${shown.map(card).join("") || `<p class="muted">${mineOnly ? "No sections are assigned to you yet." : "No sections yet."}</p>`}
+  ${pool.length ? `<div class="actions" role="group" aria-label="Section status">
+    <button data-act="tab" data-v="todo" aria-pressed="${statusTab === "todo"}">To record (${nTodo})</button><button data-act="tab" data-v="done" aria-pressed="${statusTab === "done"}">Completed (${nDone})</button></div>` : ""}
+  ${shown.map(card).join("") || `<p class="muted">${!pool.length ? (mineOnly ? "No sections are assigned to you yet." : "No sections yet.") : statusTab === "done" ? "No completed sections yet." : "Everything here is recorded."}</p>`}
   ${owner ? `<div class="panel"><h3>Add a section</h3><form data-form="section"><label for="st">Title</label><input id="st" name="title" maxlength="100" required>
   <div class="actions"><button class="primary">Add section</button></div></form></div>
   <div class="panel danger"><h3>Delete this project</h3><p class="muted">Permanently deletes the sections and every recording, for everyone. This can't be undone.</p>
@@ -210,6 +214,7 @@ document.addEventListener("click", e => {
       $("#invite-out").innerHTML = `Share this code directly with one person:<br><span class="code">${esc(c)}</span>`; await drawInvites(currentProject);
     }
     else if (act === "revoke") { must(await db.rpc("revoke_invite", { p_id: b.dataset.id })); await drawInvites(currentProject); }
+    else if (act === "tab") { statusTab = b.dataset.v; await renderProject(currentProject); }
     else if (act === "filter") { mineOnly = b.dataset.v === "mine"; await renderProject(currentProject); }
     else if (act === "splitmark") {
       const t = $("#script"), i = t.selectionStart ?? t.value.length;
@@ -344,7 +349,7 @@ async function saveRec() {
     btn.disabled = false; btn.textContent = "Save take";   // keep the local take so the user can retry; old take untouched
     throw new Error(`Couldn't save your take: ${e.message}. Your recording is still here; try again.`);
   }
-  cancelRec(); say("Take saved."); await renderProject(currentProject);
+  cancelRec(); await renderProject(currentProject); say("Take saved. Find it under Completed.");
 }
 
 window.addEventListener("offline", () => say("You're offline. Recording and saving need a connection.", true));
