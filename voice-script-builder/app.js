@@ -5,6 +5,13 @@ const MIMES = ["audio/webm;codecs=opus", "audio/mp4", "audio/webm", "audio/ogg;c
 const $ = (s, el = document) => el.querySelector(s);
 const view = $("#view"), note = $("#note");
 let currentProject = null, lastUid = null, rec = null;
+// Usernames are mapped to placeholder emails. example.com is reserved, so nothing can ever be delivered there.
+const EMAIL_DOMAIN = "users.example.com";
+function toEmail(u) {
+  u = String(u).trim().toLowerCase();
+  if (!/^[a-z0-9_]{3,20}$/.test(u)) throw new Error("Usernames are 3 to 20 letters, numbers or underscores.");
+  return `${u}@${EMAIL_DOMAIN}`;
+}
 
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 function say(msg, bad = false) { note.textContent = msg; note.className = bad ? "bad" : ""; note.hidden = !msg; }
@@ -15,7 +22,7 @@ const clock = ms => { const s = Math.floor(ms / 1000); return `${Math.floor(s / 
 // ---------- Routing ----------
 async function route() {
   const { data: { session } } = await db.auth.getSession();
-  $("#who").innerHTML = session ? `${esc(session.user.email)} <button class="link" data-act="signout" style="color:#fff">Sign out</button>` : "";
+  $("#who").innerHTML = session ? `${esc((session.user.email || "").split("@")[0])} <button class="link" data-act="signout" style="color:#fff">Sign out</button>` : "";
   if (!session) return renderAuth();
   return currentProject ? renderProject(currentProject) : renderHome();
 }
@@ -29,10 +36,12 @@ db.auth.onAuthStateChange((ev, session) => {
 // ---------- Screens ----------
 function renderAuth() {
   view.innerHTML = `<div class="panel"><h2>Sign in</h2>
-  <form data-form="auth"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required>
+  <form data-form="auth"><label for="user">Username</label>
+  <input id="user" name="user" autocomplete="username" autocapitalize="none" spellcheck="false" minlength="3" maxlength="20" pattern="[A-Za-z0-9_]+" required>
+  <p class="muted">Letters, numbers and underscores.</p>
   <label for="pw">Password (8+ characters)</label><input id="pw" name="pw" type="password" minlength="8" autocomplete="current-password" required>
-  <div class="actions"><button class="primary" name="mode" value="signin">Sign in</button><button name="mode" value="signup">Create account</button>
-  <button class="link" name="mode" value="reset" formnovalidate>Reset password</button></div></form></div>`;
+  <div class="actions"><button class="primary" name="mode" value="signin">Sign in</button><button name="mode" value="signup">Create account</button></div></form>
+  <p class="muted">Forgot your password? Ask the project owner to reset it.</p></div>`;
 }
 
 async function renderHome() {
@@ -82,10 +91,14 @@ view.addEventListener("submit", e => {
   const f = e.target, d = Object.fromEntries(new FormData(f)), mode = e.submitter?.value;
   guard(async () => {
     if (f.dataset.form === "auth") {
-      if (mode === "reset") { must(await db.auth.resetPasswordForEmail(d.email, { redirectTo: location.href.split("#")[0] })); return say("If that account exists, a reset email is on its way."); }
-      const r = mode === "signup" ? await db.auth.signUp({ email: d.email, password: d.pw }) : await db.auth.signInWithPassword({ email: d.email, password: d.pw });
-      if (r.error) throw r.error;
-      if (mode === "signup" && !r.data.session) say("Check your email to confirm your account, then sign in.");
+      const email = toEmail(d.user);
+      const r = mode === "signup" ? await db.auth.signUp({ email, password: d.pw }) : await db.auth.signInWithPassword({ email, password: d.pw });
+      if (r.error) {
+        if (/invalid login/i.test(r.error.message)) throw new Error("Username or password is incorrect.");
+        if (/already registered/i.test(r.error.message)) throw new Error("That username is taken. Pick another, or sign in.");
+        throw r.error;
+      }
+      if (mode === "signup" && !r.data.session) say("Account created, but Supabase is still asking for email confirmation. Turn off 'Confirm email' (see SETUP.md), then sign in.", true);
     } else if (f.dataset.form === "new") {
       const p = must(await db.from("projects").insert({ name: d.name }).select("id").single());
       must(await db.from("sections").insert({ project_id: p.id, title: "Test clip", position: 0 }));
