@@ -4,7 +4,7 @@
 2. **Turn off email confirmation** (the app uses usernames, not real emails):
    Authentication → Sign In / Providers (older dashboards: Providers) → **Email** → switch **Confirm email** off → Save.
    Leave "Allow new users to sign up" on.
-3. **SQL Editor:** paste and run `supabase/schema.sql` once. (Already ran an earlier version? Run `migration-002-user-cleanup.sql`, `migration-003-invites.sql` and `migration-004-pauses.sql` and `migration-005-edit-text.sql` instead, once each.) If it errors partway, tell me the message rather than re-running (tables aren't `if not exists`).
+3. **SQL Editor:** paste and run `supabase/schema.sql` once. (Already ran an earlier version? Run `migration-002-user-cleanup.sql` through `migration-006-script-library.sql` in order, once each.) If a migration errors partway, tell me the message rather than re-running it.
 4. **Keys:** in Project Settings → API:
    - `SUPABASE_URL` = the root address only, like `https://abcdefgh.supabase.co`. If the Data API page shows it with `/rest/v1` on the end, delete that part.
    - `SUPABASE_ANON_KEY` = the **Publishable key** (`sb_publishable_...`) from the API Keys page. Legacy projects may show an `anon` key instead; that works too.
@@ -15,6 +15,8 @@
    - A: Create invite code. Account B (second device): create an account, join with the code, play A's take.
    - Account C (not invited): confirm it sees no project and can't play the take.
    - Also try: deny mic permission, lose connection mid-upload, record past 2 minutes, record again and make the upload fail (the old take must survive).
+
+Imported scripts are saved in the project database. Open **Scripts** from a project to view them; each section links to its recording page, and text edits there appear in the linked script. Existing installs need `migration-006-script-library.sql`.
 
 Not wired into `deploy-site.yml` yet.
 
