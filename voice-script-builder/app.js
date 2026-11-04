@@ -355,10 +355,10 @@ async function renderScripts(id) {
   <p class="muted">Script sections show the current text; edits on the recording page appear here. The original import is kept for reference.</p>
   ${owner ? `<div class="panel"><h3>Import a script</h3><form data-form="import">
     <label for="script-title">Script name</label><input id="script-title" name="title" maxlength="100" value="Imported script" required>
+    <div class="actions"><button type="button" data-act="splitmark">Insert split</button><button class="primary">Save script and create sections</button></div>
     <label for="script">Paste your script, or load a .txt file<textarea id="script" name="text" rows="8" placeholder="Paste script here…"></textarea></label>
     <input type="hidden" name="source_name" value="Pasted text"><input type="file" accept=".txt,text/plain">
-    <p class="muted">Put the cursor where a new section should start and tap Insert split. Sections are cut at lines containing only ---</p>
-    <div class="actions"><button type="button" data-act="splitmark">Insert split</button><button class="primary">Save script and create sections</button></div></form></div>
+    <p class="muted">Sections are cut at lines containing only ---</p></form></div>
   <div class="panel"><h3>Add a section</h3><form data-form="section"><label for="st">Title (optional)</label><input id="st" name="title" maxlength="100" placeholder="Section name">
     <label for="sb">Script text</label><textarea id="sb" name="body" rows="4" maxlength="20000" required></textarea>
     <div class="actions"><button class="primary">Add section</button></div></form></div>` : ""}
