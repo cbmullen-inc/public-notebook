@@ -221,9 +221,14 @@ async function renderProject(id) {
       ${t ? `<div class="take"><button data-act="play" data-path="${esc(t.storage_path)}" data-total="${clock(t.duration_ms)}" data-label="Play take (${clock(t.duration_ms)})">Play take (${clock(t.duration_ms)})</button>
         ${owner || t.uploader_id === uid ? `<button class="link" data-act="deltake">Delete take</button>` : ""}<audio hidden></audio></div>` : ""}
       ${canRec ? `<div data-rec data-has="${t ? 1 : 0}">${idleHTML(!!t)}</div>` : ""}
+      ${canRec && !owner ? `<details class="edit"><summary>Edit text</summary><form data-form="edittext" data-id="${s.id}">
+        <label>Script text<textarea name="body" rows="6" maxlength="20000" required>${esc(s.body)}</textarea></label>
+        <p class="muted">Changing the text deletes your current take for this section.</p>
+        <div class="actions"><button class="primary">Save text</button></div></form></details>` : ""}
       ${owner ? `<details class="edit"><summary>Edit section</summary><form data-form="editsec" data-id="${s.id}">
         <label>Title<input name="title" value="${esc(s.title)}" maxlength="100" required></label>
         <label>Script text<textarea name="body" rows="6" maxlength="20000">${esc(s.body)}</textarea></label>
+        <p class="muted">Changing the script text deletes this section's current take.</p>
         <div class="actions"><button class="primary">Save changes</button>
         <button type="button" data-act="up" ${i === 0 ? "disabled" : ""}>Move up</button><button type="button" data-act="down" ${i === real.length - 1 ? "disabled" : ""}>Move down</button>
         <button type="button" class="link" data-act="delsec">Delete section</button></div></form></details>` : ""}</article>${addBtn(s.id)}`;
@@ -300,9 +305,22 @@ view.addEventListener("submit", e => {
       const pos = await nextPos(currentProject), n = await sectionCount(currentProject);
       must(await db.from("sections").insert(parts.map((body, i) => ({ project_id: currentProject, position: pos + i, title: `Section ${n + i + 1}`, body }))));
       await renderProject(currentProject); say(`${parts.length} section${parts.length > 1 ? "s" : ""} created. Rename them under Edit section.`);
-    } else if (f.dataset.form === "editsec") {
-      must(await db.from("sections").update({ title: d.title.trim(), body: d.body }).eq("id", f.dataset.id).select("id"));
-      await renderProject(currentProject); say("Section saved.");
+    } else if (f.dataset.form === "editsec" || f.dataset.form === "edittext") {
+      if (rec) throw new Error("Finish or discard your recording first.");
+      const id = f.dataset.id, newBody = d.body.trim();
+      const cur = must(await db.from("sections").select("title,body").eq("id", id).single());
+      const changed = newBody !== (cur.body || "").trim();
+      let had = false;
+      if (changed) {
+        had = must(await db.from("recordings").select("id").eq("section_id", id).eq("is_current", true)).length > 0;
+        if (had && !confirm("Changing the text will delete the current take for this section, and it will need to be recorded again. Continue?")) return;
+        await removeTakes(id, true);                                           // audio first; stops here if a file can't be deleted
+        must(await db.rpc("update_section_text", { p_section: id, p_body: newBody }));   // saves text and retires any take left over
+      }
+      if (f.dataset.form === "editsec" && d.title.trim() !== cur.title)
+        must(await db.from("sections").update({ title: d.title.trim() }).eq("id", id).select("id"));
+      await renderProject(currentProject);
+      say(changed ? (had ? "Text saved. The take was deleted, so this section needs recording again." : "Text saved.") : "Section saved.");
     } else if (f.dataset.form === "profile") {
       must(await db.from("members").update({ display_name: d.name.trim(), color: d.color }).eq("id", f.dataset.id).select("id"));
       await renderProject(currentProject); say("Saved.");
